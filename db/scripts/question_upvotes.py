@@ -165,12 +165,11 @@ questions = [
     [133,"2021-04-27 20:18:15"] 
                 ]
 
-prefix = "INSERT INTO public.\"questionupvote\"(id, user_id, question_id, date) VALUES("
-counter=1
+prefix = "INSERT INTO public.\"questionupvote\"(user_id, question_id, date) VALUES("
+
 for user_id in range(1, 52):
     questions_up = random.sample(questions, random.randrange(1,5))
     for question in questions_up:
         question_id = question[0]
         date = dateTimeGen(question[1])
-        f.write(f"{prefix}{str(counter)}, {str(user_id)}, {str(question_id)}, '{date}');\n")
-        counter+=1
+        f.write(f"{prefix}{str(user_id)}, {str(question_id)}, '{date}');\n")
