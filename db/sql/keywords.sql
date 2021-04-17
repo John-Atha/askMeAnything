@@ -22,3 +22,6 @@ INSERT INTO public."keyword"(name) VALUES('react-native');
 INSERT INTO public."keyword"(name) VALUES('vue');
 INSERT INTO public."keyword"(name) VALUES('flutter');
 INSERT INTO public."keyword"(name) VALUES('selenium');
+INSERT INTO public."keyword"(name) VALUES('ubuntu');
+INSERT INTO public."keyword"(name) VALUES('linux');
+INSERT INTO public."keyword"(name) VALUES('windows');

@@ -5,7 +5,8 @@ keys = ["Django", "Spring boot", "Express js", "Node js", "Laravel",
         "Python", "c++", "algorithms", "data structures", "sql", 
         "databases", "postgres", "heroku", "vscode", "webstorm"
         "web developing", "html", "css", "vanilla js", "react", 
-        "angular", "react-native", "vue", "flutter", "selenium"]
+        "angular", "react-native", "vue", "flutter", "selenium",
+        "ubuntu", "linux", "windows"]
 
 fileDir = os.path.dirname(os.path.realpath('__file__'))
 filename = os.path.join(fileDir, '../sql/keywords.sql')
