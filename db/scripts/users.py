@@ -4,6 +4,7 @@ import random
 import hashlib
 import string
 import os
+from datetime import datetime
 
 firstNames = ["John", "George", "Dora", "Thaleia", "Andrew", 
               "Thanos", "Antony", "Emily", "Nantia", "Penelope",
@@ -39,17 +40,23 @@ def hash(passw):
 def githubGen(firstName, lastName):
     return firstName+"-"+lastName[:random.randrange(2, 5)]    
 
-def dateGen():
-    year = str(random.randrange(1980, 2003))
-    month = str(random.randrange(1, 13))
-    day = str(random.randrange(1, 29))
-    if int(month)<10:
-        month="0"+month
-    if int(day)<10:
-        day = "0"+day    
-    return year+"-"+month+"-"+day
+def birthDateGen():
+    year = random.randrange(1980, 2003)
+    month = random.randrange(1, 13)
+    day = random.randrange(1, 29)
+    return str(datetime(year, month, day))[:-9]
 
-prefix = "INSERT INTO public.\"User\"(username, email, password, date_of_birth, github_username, first_name, last_name) VALUES("
+def dateGen():
+    year = random.randrange(2020, 2022)
+    if year==2020:
+        month = random.randrange(1, 13)
+        day = random.randrange(1, 29)
+    else:
+        month = random.randrange(1, 6)
+        day = random.randrange(1, 29)  
+    return str(datetime(year, month, day))[:-9]
+
+prefix = "INSERT INTO public.\"User\"(username, email, password, date_of_birth, github_username, first_name, last_name, member_since) VALUES("
 
 fileDir = os.path.dirname(os.path.realpath('__file__'))
 filename = os.path.join(fileDir, '../sql/users.sql')
@@ -68,8 +75,9 @@ for i in range(50):
     email = oneEmailGen(first)
     username = oneUsernameGen(first, last)
     github = githubGen(first, last)
+    birthDate = birthDateGen()
     date = dateGen()
-    out1 = f"{prefix}'{username}', '{email}', '{password}', '{date}', '{github}', '{first}', '{last}');\n"
-    out2 = f"{prefix}'{username}', '{email}', '{passwordHashed}', '{date}', '{github}', '{first}', '{last}');\n"
+    out1 = f"{prefix}'{username}', '{email}', '{password}', '{birthDate}', '{github}', '{first}', '{last}', '{date}');\n"
+    out2 = f"{prefix}'{username}', '{email}', '{passwordHashed}', '{birthDate}', '{github}', '{first}', '{last}', '{date}');\n"
     f.write(out1)
     f2.write(out2)

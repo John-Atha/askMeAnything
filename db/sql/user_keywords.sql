@@ -96,7 +96,3 @@ INSERT INTO public."user_keyword"(user_id, keyword_id) VALUES(48, 20);
 INSERT INTO public."user_keyword"(user_id, keyword_id) VALUES(48, 1);
 INSERT INTO public."user_keyword"(user_id, keyword_id) VALUES(49, 2);
 INSERT INTO public."user_keyword"(user_id, keyword_id) VALUES(49, 3);
-INSERT INTO public."user_keyword"(user_id, keyword_id) VALUES(50, 4);
-INSERT INTO public."user_keyword"(user_id, keyword_id) VALUES(50, 14);
-INSERT INTO public."user_keyword"(user_id, keyword_id) VALUES(51, 25);
-INSERT INTO public."user_keyword"(user_id, keyword_id) VALUES(51, 24);
