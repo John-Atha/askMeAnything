@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 
 import LoginRegister from './LoginRegister/LoginRegister';
+import Home from './MainPages/Home';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,7 +20,10 @@ ReactDOM.render(
           <LoginRegister case="register" />
         </Route>
         <Route path ="/" exact>
-          <App />
+          <Home case="general" />
+        </Route>
+        <Route path="/my" exact>
+          <Home case="my" />
         </Route>
       </Switch>
 
