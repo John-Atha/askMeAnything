@@ -1,0 +1,137 @@
+/*------- general css ---------*/
+html, body {
+    min-width: 350px !important;
+    position: relative !important;
+    min-height: 100vh !important;
+    --color2: rgb(240, 217, 173);
+    background-color: var(--color2) !important;
+}
+#root {
+    --color2: rgb(244, 191, 93);
+}
+.blur {
+    background: inherit;
+    box-shadow: 0 8px 32px 0 var(--colorback);
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+}
+
+@media only screen and (max-width: 500px) {
+    .main-title-container {
+        width: 100vw;
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 500px) {
+    .main-title-container {
+        width: 70vw;
+        margin-left: 15vw;
+    }
+}
+
+/*--------- quick margins-paddings ----------*/
+.center-content {
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.margin {
+    margin: 2%;
+}
+.margin-top {
+    margin-top: 10%;
+}
+.margin-top-small {
+    margin-top: 4%;
+}
+.margin-top-smaller {
+    margin-top: 2%;
+}
+.margin-left {
+    margin-left: 2% !important;
+}
+.margin-right {
+    margin-right: 40px !important;
+}
+.margin-right-small {
+    margin-right: 20px !important;
+}
+.padding-bottom {
+    padding-bottom: 4%;
+}
+.center-text {
+    text-align: center;
+}
+
+/*-------- messages categories -------*/
+.error-message {
+    color: rgb(255, 112, 112) !important;
+}
+.success-message {
+    color: green !important;
+}
+
+/*-------- flex ------------ */
+.flex-item {
+    flex-grow: 1;
+    height: min-content;
+    width: 300px !important;
+}
+.flex-item-big {
+    flex-grow: 1;
+    height: min-content;
+    width: 400px !important;
+}
+.flex-item-small {
+    flex-grow: 1;
+    height: min-content;
+    width: 100px !important;
+}
+.flex-item-smaller {
+    flex-grow: 1;
+    height: min-content;
+    width: 50px !important;
+}
+.flex-item-expand {
+    flex-basis: 100%;
+    height: min-content;
+}
+.flex-layout {
+    display: flex;
+    flex-flow: row wrap;
+}
+.break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+/*-------- button-as-link -------*/
+.button-as-link {
+    background-color: inherit;
+    padding: 0%;
+    border: none;
+}
+.button-as-link:hover {
+    text-decoration: underline;
+    color: var(--lettersColor2);
+}
+
+/*--- textarea ----*/
+textarea {
+    border: 1px solid;
+    border-radius: 6px;
+}
+.with-whitespace {
+    white-space: pre-wrap;
+    position: relative; 
+}
+
+/* title */
+.main-title-container {
+    color: rgb(63, 63, 63);
+    border: 1px solid grey;
+    border-radius: 7px;
+    padding: 20px;
+}
