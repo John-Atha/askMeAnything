@@ -5,7 +5,14 @@
     }
 }
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 500px) and (max-width: 700px) {
+    .login-box, .register-box {
+        width: 70vw;
+        margin-left: 15vw;
+    }
+}
+
+@media only screen and (min-width: 700px) {
     .login-box, .register-box {
         width: 50vw;
         margin-left: 25vw;
@@ -30,5 +37,5 @@ input {
 
 input:focus, input:hover {
     outline: none;
-    border: 1px solid white;
+    border: 1px solid lightgrey;
 }

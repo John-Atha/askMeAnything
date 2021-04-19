@@ -1,6 +1,5 @@
 /*------- general css ---------*/
 html, body {
-    min-width: 350px !important;
     position: relative !important;
     min-height: 100vh !important;
     --color2: rgb(240, 217, 173);
@@ -131,7 +130,7 @@ textarea {
 /* title */
 .main-title-container {
     color: rgb(63, 63, 63);
-    border: 1px solid grey;
-    border-radius: 7px;
-    padding: 20px;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    padding: 15px;
 }
