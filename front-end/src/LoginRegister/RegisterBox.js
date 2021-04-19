@@ -72,12 +72,8 @@ function RegisterBox() {
     return(
         <div className="register-box margin-top-small center-content">
             <h5>Register</h5>
-            <div className="error-message">
-                {error}
-            </div>
-            <div className="success-message">
-                {success}
-            </div>
+            <div className="error-message">{error}</div>
+            <div className="success-message">{success}</div>
             <form onSubmit={handleSubmit}>
                 <input placeholder="Enter your username..." className="margin-top-smaller" value={username} typ="text" onChange={(event) => handleUsername(event.target.value)} />
                 <div className="break"></div>
@@ -85,12 +81,13 @@ function RegisterBox() {
                 <div className="break"></div>
                 <input placeholder="Re-type your password..." className="margin-top-smaller" value={confirmation} type="password" onChange={handlePass} />
                 <div className="break"></div>
-                <Button type="submit" className="margin-top-small" variant="outline-dark" onClick={handleSubmit}>Submit</Button>
+                <Button type="submit" className="margin" variant="outline-primary" onClick={handleSubmit}>Submit</Button>
+                <Button className="margin" variant="outline-danger" onClick={()=>{setUsername("");setPassword("");setConfirmation("");setSuccess(null);setError(null)}}>Clear</Button>
+    
+            
             </form>
             <div className="margin-top-small">
-                <div>
-                    Already have an account?
-                </div>
+                <div>Already have an account?</div>
                 <a href="/login">Login</a>
             </div>
 

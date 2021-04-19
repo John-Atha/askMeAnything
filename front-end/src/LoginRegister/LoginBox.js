@@ -43,23 +43,17 @@ function LoginBox() {
     return(
         <div className="login-box margin-top-small center-content">
             <h5>Login</h5>
-            <div className="error-message">
-                {error}
-            </div>
-            <div className="success-message">
-                {success}
-            </div>
+            <div className="error-message">{error}</div>
+            <div className="success-message">{success}</div>
             <form onSubmit={handleSubmit}>
                 <input placeholder="Enter your username..." className="margin-top-smaller" value={username} typ="text" onChange={(event) => handleUsername(event.target.value)} />
                 <div className="break"></div>
                 <input placeholder="Enter your password..." className="margin-top-smaller" value={password} type="password" onChange={(event) => {setPassword(event.target.value); setError(null); setSuccess(null);}} />
                 <div className="break"></div>
-                <Button type="submit" className="margin-top-small" variant="outline-dark" onClick={handleSubmit}>Submit</Button>
+                <Button type="submit" className="margin-top-small" variant="outline-primary" onClick={handleSubmit}>Submit</Button>
             </form>
             <div className="register-message margin-top-small">
-                <div>
-                    First time here?
-                </div>
+                <div>First time here?</div>
                 <a href="/register">Create an account</a>
             </div>
         </div>
