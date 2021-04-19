@@ -2,11 +2,11 @@
 html, body {
     position: relative !important;
     min-height: 100vh !important;
-    --color2: rgb(240, 217, 173);
+    --color2: rgb(255, 244, 223);
     background-color: var(--color2) !important;
 }
 #root {
-    --color2: rgb(244, 191, 93);
+    --color3: rgb(245, 212, 151);
 }
 .blur {
     background: inherit;
@@ -20,12 +20,18 @@ html, body {
         width: 100vw;
         margin-left: 0;
     }
+    .bordered {
+        margin: 5px;
+    }
 }
 
 @media only screen and (min-width: 500px) {
     .main-title-container {
         width: 70vw;
         margin-left: 15vw;
+    }
+    .bordered {
+        margin: 20px;
     }
 }
 
@@ -37,7 +43,7 @@ html, body {
     text-align: center;
 }
 .margin {
-    margin: 4%;
+    margin: 20px;
 }
 .margin-top {
     margin-top: 10%;
@@ -62,6 +68,9 @@ html, body {
 }
 .center-text {
     text-align: center;
+}
+.padding {
+    padding: 10px 20px;
 }
 
 /*-------- messages categories -------*/
@@ -132,5 +141,15 @@ textarea {
     color: rgb(63, 63, 63);
     border-top: 1px solid grey;
     border-bottom: 1px solid grey;
-    padding: 15px;
+    padding: 10px;
+}
+.title-fixed {
+    width: 50vw !important;
+}
+
+.bordered {
+    border: 1px solid grey;
+    border-radius: 6px;
+    background-color: var(--color3);
+    min-width: min-content !important;
 }

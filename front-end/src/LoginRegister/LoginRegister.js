@@ -12,7 +12,7 @@ function LoginRegister(props) {
     
     return(
         <div className="login-register-page center-content">
-            <Title />
+            <Title position="login-register" />
             {props.case==="login" &&
                 <LoginBox />
             }
