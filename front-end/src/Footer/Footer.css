@@ -1,0 +1,8 @@
+@media only screen and (min-width: 765px) {
+    .footer-link {
+        justify-items: center;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}

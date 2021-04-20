@@ -1,14 +1,11 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Button from 'react-bootstrap/Button';
 
 import './MyNavbar.css';
 import '../generalStyles.css';
 
 function MyNavbar() {
-
     return(
         <Navbar variant="light" expand="md">
             <Navbar.Brand href="#home">AskMeAnything</Navbar.Brand>

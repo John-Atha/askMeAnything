@@ -4,6 +4,7 @@ import '../generalStyles.css';
 import './styles.css';
 
 import MyNavbar from '../Navbar/MyNavbar';
+import Footer from '../Footer/Footer';
 import MainHome from './MainHome';
 import MyHome from './MyHome';
 
@@ -23,6 +24,7 @@ function Home(props) {
             {props.case==="my" && 
                 <MyHome />            
             }
+            <Footer />
         </div>
     )
 }
