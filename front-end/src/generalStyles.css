@@ -6,7 +6,8 @@ html, body {
     background-color: var(--color2) !important;
 }
 #root {
-    --color3: rgb(245, 212, 151);
+    --colorNav: rgb(245, 212, 151);
+    --color3: rgba(237, 219, 166, 0.653);
 }
 .blur {
     background: inherit;
@@ -17,22 +18,26 @@ html, body {
 
 @media only screen and (max-width: 500px) {
     .main-title-container {
-        width: 100vw;
+        width: 100%;
         margin-left: 0;
     }
-    .bordered {
-        margin: 5px;
-    }
+    .main-page {
+        margin: 0px;
+    }    
 }
 
 @media only screen and (min-width: 500px) {
     .main-title-container {
-        width: 70vw;
-        margin-left: 15vw;
+        width: 70%;
+        margin-left: 15%;
     }
-    .bordered {
-        margin: 20px;
-    }
+    .main-page {
+        margin: 0px 10px;
+    }    
+}
+
+hr {
+    margin: 5px;
 }
 
 /*--------- quick margins-paddings ----------*/
@@ -54,12 +59,12 @@ html, body {
 .margin-top-smaller {
     margin-top: 2%;
 }
-.margin-left {
-    margin-left: 2% !important;
-}
 .margin-right {
     margin-right: 40px !important;
 }
+.margin-left {
+    margin-left: 2% !important;
+}    
 .margin-right-small {
     margin-right: 20px !important;
 }
@@ -142,14 +147,5 @@ textarea {
     border-top: 1px solid grey;
     border-bottom: 1px solid grey;
     padding: 10px;
-}
-.title-fixed {
-    width: 50vw !important;
-}
-
-.bordered {
-    border: 1px solid grey;
-    border-radius: 6px;
     background-color: var(--color3);
-    min-width: min-content !important;
 }

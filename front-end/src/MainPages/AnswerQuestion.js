@@ -16,7 +16,7 @@ function AnswerQuestion() {
                 Wanna help others?<br></br>
                 Just try answering a question and contributing to our community.
                 </Card.Text>
-                <Button variant="primary">Post Answer</Button>
+                <Button variant="primary">Find a question to answer</Button>
             </Card.Body>
         </Card>    
     )

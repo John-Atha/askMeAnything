@@ -7,7 +7,7 @@ import KeywordQuestions from './KeywordQuestions';
 
 function MainHome() {
     return(
-        <div className="flex-layout">
+        <div className="flex-layout main-page">
             <AskQuestion />
             <AnswerQuestion />
             <PeriodQuestions />

@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React} from 'react';
 
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -10,7 +10,7 @@ function Footer() {
         <Navbar variant="light" 
                 bg="light"
                 expand="md"
-                fixed="bottom">
+                fixed="bottom" >
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">

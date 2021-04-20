@@ -8,7 +8,7 @@ import MyContributions from './MyContributions';
 
 function MyHome() {
     return(
-        <div className="flex-layout">
+        <div className="flex-layout main-page">
             <AskQuestion />
             <AnswerQuestion />
             <MyQuestions />
