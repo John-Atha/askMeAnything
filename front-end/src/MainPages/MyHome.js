@@ -1,9 +1,18 @@
 import React from 'react';
 
+import AnswerQuestion from './AnswerQuestion';
+import AskQuestion from './AskQuestion';
+import MyQuestions from './MyQuestions';
+import KeywordQuestions from './KeywordQuestions';
+import MyContributions from './MyContributions';
+
 function MyHome() {
     return(
-        <div>
-            I am my home container
+        <div className="flex-layout">
+            <AskQuestion />
+            <AnswerQuestion />
+            <MyQuestions />
+            <MyContributions />
         </div>
     )
 }

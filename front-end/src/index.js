@@ -26,7 +26,6 @@ ReactDOM.render(
           <Home case="my" />
         </Route>
       </Switch>
-
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
