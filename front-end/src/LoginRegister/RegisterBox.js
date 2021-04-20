@@ -28,6 +28,7 @@ function RegisterBox() {
             if (password===confirmation) {
                 setSuccess("Registered successfully");
                 setError(null);
+                window.location.href="/";
             }
             else {
                 setSuccess(null);

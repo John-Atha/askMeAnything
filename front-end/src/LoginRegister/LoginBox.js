@@ -27,6 +27,7 @@ function LoginBox() {
             if (username==="atha" && password==="12345") {
                 setSuccess("Logged in successfully");
                 setError(null);
+                window.location.href="/";
             }
             else {
                 setSuccess(null);

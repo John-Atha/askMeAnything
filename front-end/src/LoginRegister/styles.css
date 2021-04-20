@@ -39,6 +39,10 @@ input {
     width: 70%;
     text-align: center;
 }
-input:focus, input:hover {
+input:focus {
     outline: none;
+}
+input:hover {
+    border-color: black;
+    color: black;
 }
