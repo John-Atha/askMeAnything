@@ -9,13 +9,14 @@ function PeriodQuestions() {
     return(
         <Card style={{ width: '300px' }} className="margin">
             <Card.Img className="card-image" variant="top" src={period_photo} />
-            <Card.Body>
-                <Card.Title>Analytics per period</Card.Title>
+            <Card.Body style={{'marginTop': '50px'}}>
+                <Card.Title>Questions per period</Card.Title>
                 <Card.Text>
                 Want to see the content organised in a more practical way?<br></br>
                 This category suits you.
                 </Card.Text>
-                <Button variant="primary">See analytics</Button>
+                <Button variant="primary" style={{'margin': '2px'}}>See analytics</Button>
+                <Button variant="primary" style={{'margin': '2px'}}>See statistics</Button>
             </Card.Body>
         </Card>
     )
