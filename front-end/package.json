@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
     "bootstrap": "^4.6.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
     "react-dom": "^17.0.2",
@@ -21,6 +22,13 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "plugins": [
+      "react-hooks"
+    ],
+    "rules": {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
+    },
     "extends": [
       "react-app",
       "react-app/jest"
