@@ -1,0 +1,10 @@
+.one-question-container {
+    background-color: var(--color3);
+    padding: 10px;
+    border-radius: 7px;
+    margin-bottom: 5px;
+}
+.question-title {
+    font-size: x-large;
+    font-weight: bold;
+}
