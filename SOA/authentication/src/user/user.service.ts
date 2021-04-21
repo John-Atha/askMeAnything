@@ -1,7 +1,7 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
+  NotFoundException, UnauthorizedException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -43,22 +43,30 @@ export class UserService {
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: number, updateUserDto: UpdateUserDto, req_user: User): Promise<User> {
     return this.manager.transaction(async (manager) => {
       const user = await manager.findOne(User, id);
       if (!user) {
         throw new NotFoundException(`User ${id} not found.`);
+      }
+      else if (user.id!==req_user.id || user.username!==req_user.username) {
+        throw new UnauthorizedException();
       }
       manager.merge(User, user, updateUserDto);
       return manager.save(user);
     });
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number, req_user: User): Promise<void> {
     return this.manager.transaction(async (manager) => {
       const user = await manager.findOne(User, id);
+      console.log(user);
+      console.log(req_user);
       if (!user) {
         throw new NotFoundException(`User ${id} not found.`);
+      }
+      else if (user.id!==req_user.id || user.username!==req_user.username) {
+        throw new UnauthorizedException();
       }
       await manager.delete(User, id);
     });
