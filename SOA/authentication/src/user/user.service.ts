@@ -20,15 +20,15 @@ export class UserService {
   async findAll(params): Promise<User[]> {
     let res = await this.manager.find(User);
     const start = parseInt(params.start) - 1 || 0;
-    const end = parseInt(params.end) ||  ( parseInt(params.end)===0 ? 0 : res.length );
+    const end =
+      parseInt(params.end) || (parseInt(params.end) === 0 ? 0 : res.length);
     console.log(`params:`);
     console.log(params);
     console.log(`start: ${start}`);
     console.log(`end: ${end}`);
     if (start > end || start <= -1 || end === 0) {
       throw new BadRequestException('Invalid parameters');
-    }
-    else {
+    } else {
       res = res.slice(start, end);
       //console.log(res);
       return res;

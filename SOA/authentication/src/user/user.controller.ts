@@ -42,3 +42,14 @@ export class UserController {
     return this.userService.remove(+id);
   }
 }
+
+/*
+@Controller('login')
+export class LoginController {
+  constructor(private readonly userService: UserService) {}
+
+  @Post('')
+  login(@Body() credentials) {
+    return this.userService.login(credentials);
+  }
+}*/
