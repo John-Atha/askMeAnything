@@ -13,8 +13,14 @@ import { EntityManager } from 'typeorm';
 export class UserService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto): Promise<any> {
+    if (createUserDto.password === createUserDto.confirmation) {
+      const user = await this.manager.create(User, createUserDto);
+      return this.manager.save(user);
+    }
+    else {
+      throw new BadRequestException("Passwords don't match.");
+    }
   }
 
   async findAll(params): Promise<User[]> {

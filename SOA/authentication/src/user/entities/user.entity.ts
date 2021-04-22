@@ -34,10 +34,10 @@ export class User {
   @Column({ nullable: true })
   github_username: string;
 
-  @Column()
+  @Column({ nullable: true })
   first_name: string;
 
-  @Column()
+  @Column({ nullable: true })
   last_name: string;
 
   @CreateDateColumn()
