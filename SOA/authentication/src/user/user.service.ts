@@ -22,10 +22,10 @@ export class UserService {
       if (allowed) {
         const user = await this.manager.create(User, createUserDto);
         const manager = this.manager;
-        bcrypt.hash(user.password, saltRounds, function (err, hash) {
-          user.password = hash;
-          return manager.save(user);
-        });
+        const hash = bcrypt.hashSync(user.password, saltRounds);
+        user.password = hash;
+        const { password, ...safe_user } = await manager.save(user);
+        return safe_user;
       }
       else {
         throw new BadRequestException(`Username/email already exist.`)
@@ -50,20 +50,25 @@ export class UserService {
     }
     else {
       res = res.slice(start, end);
-      //console.log(res);
-      return res;
+      const safe_res = [];
+      for (let i = 0; i < res.length; i++) {
+        const { password, ...safe_user } = res[i];
+        safe_res.push(safe_user);
+      }
+      return safe_res;
     }
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: number): Promise<any> {
     const user = await this.manager.findOne(User, id);
     if (!user) {
       throw new NotFoundException(`User ${id} not found.`);
     }
-    return user;
+    const { password, ...safe_user } = user;
+    return safe_user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto, req_user: User): Promise<User> {
+  async update(id: number, updateUserDto: UpdateUserDto, req_user: User): Promise<any> {
     return this.manager.transaction(async (manager) => {
       const user = await manager.findOne(User, id);
       if (!user) {
@@ -75,8 +80,9 @@ export class UserService {
       else {
         const valid = this.validUpdate(user.id, updateUserDto.username, updateUserDto.email)
         if (valid) {
-          manager.merge(User, user, updateUserDto);
-          return manager.save(user);
+          const newUser = await manager.merge(User, user, updateUserDto);
+          const { password, ...safe_user } = await manager.save(newUser);
+          return safe_user;
         }
         else {
           throw new BadRequestException(`Username/email already exist.`);
