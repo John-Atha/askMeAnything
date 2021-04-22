@@ -9,12 +9,12 @@ import {
   Query,
   UseGuards,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('users')
 export class UserController {
@@ -31,30 +31,19 @@ export class UserController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findOne(id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Request() req, @Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto, req.user);
+  update(@Request() req, @Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto, req.user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Request() req, @Param('id') id: string) {
-    return this.userService.remove(+id, req.user);
+  remove(@Request() req, @Param('id', ParseIntPipe) id: number) {
+    return this.userService.remove(id, req.user);
   }
 }
-
-/*
-@Controller('login')
-export class LoginController {
-  constructor(private readonly userService: UserService) {}
-
-  @Post('')
-  login(@Body() credentials) {
-    return this.userService.login(credentials);
-  }
-}*/

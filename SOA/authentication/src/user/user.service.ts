@@ -15,8 +15,14 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto): Promise<any> {
     if (createUserDto.password === createUserDto.confirmation) {
-      const user = await this.manager.create(User, createUserDto);
-      return this.manager.save(user);
+      const allowed = await this.validRegister(createUserDto.username, createUserDto.email);
+      if (allowed) {
+        const user = await this.manager.create(User, createUserDto);
+        return this.manager.save(user);
+      }
+      else {
+        throw new BadRequestException(`Username/email already exist.`)
+      }
     }
     else {
       throw new BadRequestException("Passwords don't match.");
@@ -34,7 +40,8 @@ export class UserService {
     console.log(`end: ${end}`);
     if (start > end || start <= -1 || end === 0) {
       throw new BadRequestException('Invalid parameters');
-    } else {
+    }
+    else {
       res = res.slice(start, end);
       //console.log(res);
       return res;
@@ -58,8 +65,16 @@ export class UserService {
       else if (user.id!==req_user.id || user.username!==req_user.username) {
         throw new UnauthorizedException();
       }
-      manager.merge(User, user, updateUserDto);
-      return manager.save(user);
+      else {
+        const valid = this.validUpdate(user.id, updateUserDto.username, updateUserDto.email)
+        if (valid) {
+          manager.merge(User, user, updateUserDto);
+          return manager.save(user);
+        }
+        else {
+          throw new BadRequestException(`Username/email already exist.`);
+        }
+      }
     });
   }
 
@@ -76,5 +91,27 @@ export class UserService {
       }
       await manager.delete(User, id);
     });
+  }
+
+  async validRegister(username: string, email: string): Promise<boolean> {
+    const res = await this.manager.find(User);
+    let answer = true;
+    res.forEach((user) => {
+      if (user['username'] == username || user['email'] === email) {
+        answer = false;
+      }
+    });
+    return answer;
+  }
+
+  async validUpdate(id: number, username: string, email:string): Promise<boolean> {
+    const res = await this.manager.find(User);
+    let answer = true;
+    res.forEach((user) => {
+      if (user['id']!==id && (user['username']===username || user['email']===email)) {
+        answer = false;
+      }
+    });
+    return answer;
   }
 }
