@@ -4,6 +4,12 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { User } from '../user/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
+//const md5 = require('md5');
+//const MD5 = require('crypto-js/md5');
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 
 @Injectable()
 export class AuthService {
@@ -15,11 +21,14 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.manager.findOne(User, { username: username });
-    if (user && user.password === pass) {
+    const match = await bcrypt.compare(pass, user ? user.password : '');
+    if (match) {
       const { password, ...result } = user;
       return result;
     }
-    return null;
+    else {
+      return null;
+    }
   }
 
   async login(user: any) {

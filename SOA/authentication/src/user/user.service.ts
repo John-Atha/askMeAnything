@@ -9,6 +9,9 @@ import { User } from './entities/user.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 @Injectable()
 export class UserService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
@@ -18,7 +21,11 @@ export class UserService {
       const allowed = await this.validRegister(createUserDto.username, createUserDto.email);
       if (allowed) {
         const user = await this.manager.create(User, createUserDto);
-        return this.manager.save(user);
+        const manager = this.manager;
+        bcrypt.hash(user.password, saltRounds, function (err, hash) {
+          user.password = hash;
+          return manager.save(user);
+        });
       }
       else {
         throw new BadRequestException(`Username/email already exist.`)
