@@ -96,14 +96,14 @@ export class UserService {
   }
 
   async validRegister(username: string, email: string): Promise<boolean> {
-    const res1 = await this.manager.find(User, { username: username });
-    const res2 = await this.manager.find(User, { email: email });
+    const res1 = await this.manager.findOne(User, { username: username });
+    const res2 = await this.manager.findOne(User, { email: email });
     return !res1 && !res2;
   }
 
   async validUpdate(id: number, username: string, email:string): Promise<boolean> {
-    const res1 = await this.manager.find(User, { username: username });
-    const res2 = await this.manager.find(User, { email: email });
+    const res1 = await this.manager.findOne(User, { username: username });
+    const res2 = await this.manager.findOne(User, { email: email });
     return (
       (!res1 || (res1 && res1['id'] === id)) &&
       (!res2 || (res2 && res2['id'] === id))
