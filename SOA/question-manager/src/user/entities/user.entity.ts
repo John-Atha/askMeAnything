@@ -2,8 +2,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Question } from '../../question/entities/question.entity';
 
 @Entity()
 export class User {
@@ -42,4 +44,7 @@ export class User {
 
   @CreateDateColumn()
   member_since: Date;
+
+  @OneToMany((type) => Question, (question) => question.owner)
+  questions: Question[];
 }
