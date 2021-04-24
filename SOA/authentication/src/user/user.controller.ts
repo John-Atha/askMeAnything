@@ -46,4 +46,10 @@ export class UserController {
   remove(@Request() req, @Param('id', ParseIntPipe) id: number) {
     return this.userService.remove(id, req.user);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('logged')
+  identify(@Request() req) {
+    return this.userService.identify(req.user);
+  }
 }

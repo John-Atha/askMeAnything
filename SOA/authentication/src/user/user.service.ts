@@ -127,4 +127,8 @@ export class UserService {
     });
     return answer;
   }
+
+  identify(req_user: User) {
+    return req_user;
+  }
 }
