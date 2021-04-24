@@ -9,7 +9,7 @@ import {
   Request,
   Query,
   UseInterceptors,
-  ClassSerializerInterceptor,
+  ClassSerializerInterceptor, ParseIntPipe,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
@@ -31,22 +31,22 @@ export class QuestionController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.questionService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.questionService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Request() req, @Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
-    return this.questionService.update(req, +id, updateQuestionDto);
+  update(@Request() req, @Param('id', ParseIntPipe) id: number, @Body() updateQuestionDto: UpdateQuestionDto) {
+    return this.questionService.update(req, id, updateQuestionDto);
   }
 
   @Delete(':id')
-  remove(@Request() req, @Param('id') id: string) {
-    return this.questionService.remove(req, +id);
+  remove(@Request() req, @Param('id', ParseIntPipe) id: number) {
+    return this.questionService.remove(req, id);
   }
 
   @Get('users/:id')
-  findByUser(@Query() reqParams, @Param('id') id: string) {
-    return this.questionService.findByUser(+id, reqParams);
+  findByUser(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
+    return this.questionService.findByUser(id, reqParams);
   }
 }
