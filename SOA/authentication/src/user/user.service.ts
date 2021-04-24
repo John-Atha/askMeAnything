@@ -40,6 +40,9 @@ export class UserService {
     if (!res.length) {
       return res;
     }
+    if (params.start > res.length) {
+      return [];
+    }
     const start = parseInt(params.start) - 1 || 0;
     const end =
       parseInt(params.end) || (parseInt(params.end) === 0 ? 0 : res.length);

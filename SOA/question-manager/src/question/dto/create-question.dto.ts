@@ -5,8 +5,6 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { ObjectWithId } from '../../validation';
-import { Type } from 'class-transformer';
 
 export class CreateQuestionDto {
   @MinLength(4)
@@ -21,8 +19,4 @@ export class CreateQuestionDto {
   @IsDefined()
   @IsString()
   readonly text: string;
-
-  @IsDefined()
-  @Type(() => ObjectWithId)
-  readonly owner: ObjectWithId;
 }
