@@ -20,6 +20,10 @@ export class QuestionService {
 
   async create(req, createQuestionDto: CreateQuestionDto): Promise<Question> {
     const user_id = this.verify(req);
+    const allowed = await this.validateCreate(createQuestionDto.title);
+    if (!allowed) {
+      throw new BadRequestException('Title already exists.');
+    }
     return this.manager.transaction(async (manager) => {
       const owner = await manager.findOne(User, user_id);
       if (!owner) {
@@ -49,8 +53,12 @@ export class QuestionService {
     return question;
   }
 
-  update(req, id: number, updateQuestionDto: UpdateQuestionDto): Promise<any> {
+  async update(req, id: number, updateQuestionDto: UpdateQuestionDto): Promise<any> {
     const user_id = this.verify(req);
+    const allowed = await this.validateUpdate(id, updateQuestionDto.title);
+    if (!allowed) {
+      throw new BadRequestException('Title already exists.');
+    }
     return this.manager.transaction(async (manager) => {
       const question = await manager.findOne(Question, id, {
         relations: ['owner'],
@@ -68,7 +76,7 @@ export class QuestionService {
     });
   }
 
-  remove(req, id: number): Promise<void> {
+  async remove(req, id: number): Promise<void> {
     const user_id = this.verify(req);
     return this.manager.transaction(async (manager) => {
       const question = await manager.findOne(Question, id, { relations: ['owner'] });
@@ -126,5 +134,15 @@ export class QuestionService {
       throw new UnauthorizedException();
     }
     return decoded['sub'];
+  }
+
+  async validateCreate(title: string): Promise<boolean> {
+    const res = await this.manager.find(Question, { title: title });
+    return !res;
+  }
+
+  async validateUpdate(id: number, title: string): Promise<boolean> {
+    const res = await this.manager.findOne(Question, { title: title });
+    return !res || (res && res['id'] === id);
   }
 }
