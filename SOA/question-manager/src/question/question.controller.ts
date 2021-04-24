@@ -1,9 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 
-@Controller('question')
+@Controller('questions')
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
@@ -13,8 +22,8 @@ export class QuestionController {
   }
 
   @Get()
-  findAll() {
-    return this.questionService.findAll();
+  findAll(@Query() reqParams) {
+    return this.questionService.findAll(reqParams);
   }
 
   @Get(':id')
@@ -30,5 +39,10 @@ export class QuestionController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.questionService.remove(+id);
+  }
+
+  @Get('users/:id')
+  findByUser(@Query() reqParams, @Param('id') id: string) {
+    return this.questionService.findByUser(+id, reqParams);
   }
 }

@@ -1,6 +1,6 @@
 import { IsNumber } from 'class-validator';
 
 export class ObjectWithId {
-    @IsNumber()
-    readonly id: number;
+  @IsNumber()
+  readonly id: number;
 }
