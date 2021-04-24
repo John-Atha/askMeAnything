@@ -4,26 +4,25 @@ import {
   IsString,
   MaxLength,
   MinLength,
-  ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 import { ObjectWithId } from '../../validation';
-import { User } from '../../user/entities/user.entity';
+import { Type } from 'class-transformer';
 
 export class CreateQuestionDto {
   @MinLength(4)
   @MaxLength(40)
   @IsString()
+  @IsDefined()
   @IsNotEmpty()
   readonly title: string;
 
   @MaxLength(1000)
   @IsNotEmpty()
+  @IsDefined()
   @IsString()
   readonly text: string;
 
   @IsDefined()
-  @ValidateNested()
   @Type(() => ObjectWithId)
   readonly owner: ObjectWithId;
 }

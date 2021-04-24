@@ -6,19 +6,23 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
   Query,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 
 @Controller('questions')
+@UseInterceptors(ClassSerializerInterceptor)
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Post()
-  create(@Body() createQuestionDto: CreateQuestionDto) {
-    return this.questionService.create(createQuestionDto);
+  create(@Request() req, @Body() createQuestionDto: CreateQuestionDto) {
+    return this.questionService.create(req, createQuestionDto);
   }
 
   @Get()
