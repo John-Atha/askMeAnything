@@ -111,13 +111,14 @@ export class QuestionService {
     return this.withCountQuestionsUpvotes(res);
   }
 
-  async findAnswers(id: number, params): Promise<Answer[]> {
+  async findQuestionsAnswers(id: number, params): Promise<Answer[]> {
     const question = await this.manager.findOne(Question, id);
     if (!question) {
       throw new NotFoundException(`Question ${id} not found.`);
     }
-    const res = await this.manager.find(Answer, { question: question });
-    return this.paginate(res, params);
+    let res = await this.manager.find(Answer, { question: question });
+    res = this.paginate(res, params);
+    return this.withCountAnswersUpvotes(res);
   }
 
   async withCountQuestionsUpvotes(questions): Promise<any> {
@@ -128,6 +129,16 @@ export class QuestionService {
       questions[i]['upvotes'] = await parseInt(count[0]['count']);
     }
     return questions;
+  }
+
+  async withCountAnswersUpvotes(answers): Promise<any> {
+    for (let i = 0; i < answers.length; i++) {
+      const count = await this.manager.query(
+        `SELECT COUNT(*) FROM public."answer_upvote" WHERE public."answer_upvote"."answerId"=${answers[i].id}`,
+      );
+      answers[i]['upvotes'] = await parseInt(count[0]['count']);
+    };
+    return answers;
   }
 
   async findUpvotes(id: number, params): Promise<QuestionUpvote> {

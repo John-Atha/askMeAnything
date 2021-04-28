@@ -52,7 +52,7 @@ export class QuestionController {
 
   @Get(':id/answers')
   Answers(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
-    return this.questionService.findAnswers(id, reqParams);
+    return this.questionService.findQuestionsAnswers(id, reqParams);
   }
 
   @Get(':id/upvotes')
