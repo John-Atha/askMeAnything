@@ -9,6 +9,7 @@ import { Question } from '../../question/entities/question.entity';
 import { Answer } from '../../answer/entities/answer.entity';
 import { QuestionUpvote } from '../../question-upvote/entities/question-upvote.entity';
 import { Exclude } from 'class-transformer';
+import {AnswerUpvote} from "../../answer-upvote/entities/answer-upvote.entity";
 
 @Entity()
 export class User {
@@ -64,4 +65,7 @@ export class User {
 
   @OneToMany((type) => QuestionUpvote, (upvote) => upvote.owner)
   question_upvotes: QuestionUpvote[];
+
+  @OneToMany((type) => AnswerUpvote, (upvote) => upvote.owner)
+  answer_upvotes: AnswerUpvote[];
 }

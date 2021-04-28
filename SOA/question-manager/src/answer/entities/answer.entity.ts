@@ -2,12 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
+  ManyToOne, OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Question } from '../../question/entities/question.entity';
+import {AnswerUpvote} from "../../answer-upvote/entities/answer-upvote.entity";
 
 @Entity()
 export class Answer {
@@ -34,4 +35,7 @@ export class Answer {
     onDelete: 'CASCADE',
   })
   question: Question;
+
+  @OneToMany((type) => AnswerUpvote, (upvote) => upvote.answer)
+  upvotes: AnswerUpvote;
 }
