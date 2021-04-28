@@ -7,9 +7,10 @@ import { QuestionModule } from './question/question.module';
 import { AnswerModule } from './answer/answer.module';
 import { QuestionUpvoteModule } from './question-upvote/question-upvote.module';
 import { AnswerUpvoteModule } from './answer-upvote/answer-upvote.module';
+import { KeywordModule } from './keyword/keyword.module';
 
 @Module({
-  imports: [UserModule, TypeOrmModule.forRoot(), QuestionModule, AnswerModule, QuestionUpvoteModule, AnswerUpvoteModule],
+  imports: [UserModule, TypeOrmModule.forRoot(), QuestionModule, AnswerModule, QuestionUpvoteModule, AnswerUpvoteModule, KeywordModule],
   controllers: [AppController],
   providers: [AppService],
 })

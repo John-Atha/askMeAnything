@@ -1,7 +1,7 @@
 import {
   Column,
   CreateDateColumn,
-  Entity,
+  Entity, JoinTable, ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -10,6 +10,7 @@ import {
 import { User } from '../../user/entities/user.entity';
 import { Answer } from 'src/answer/entities/answer.entity';
 import { QuestionUpvote } from '../../question-upvote/entities/question-upvote.entity';
+import { Keyword } from '../../keyword/entities/keyword.entity';
 
 @Entity()
 export class Question {
@@ -39,4 +40,10 @@ export class Question {
 
   @OneToMany((type) => QuestionUpvote, (upvote) => upvote.question)
   upvotes: QuestionUpvote[];
+
+  @ManyToMany((type) => Keyword, (keyword) => keyword.questions, {
+    cascade: true,
+  })
+  @JoinTable()
+  keywords: Keyword[];
 }
