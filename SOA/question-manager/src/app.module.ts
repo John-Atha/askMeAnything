@@ -5,9 +5,10 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { QuestionModule } from './question/question.module';
 import { AnswerModule } from './answer/answer.module';
+import { QuestionUpvoteModule } from './question-upvote/question-upvote.module';
 
 @Module({
-  imports: [UserModule, TypeOrmModule.forRoot(), QuestionModule, AnswerModule],
+  imports: [UserModule, TypeOrmModule.forRoot(), QuestionModule, AnswerModule, QuestionUpvoteModule],
   controllers: [AppController],
   providers: [AppService],
 })

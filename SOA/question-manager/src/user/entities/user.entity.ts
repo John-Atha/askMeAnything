@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Question } from '../../question/entities/question.entity';
 import { Answer } from '../../answer/entities/answer.entity';
+import { QuestionUpvote } from '../../question-upvote/entities/question-upvote.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -53,4 +54,7 @@ export class User {
 
   @OneToMany((type) => Answer, (answer) => answer.owner)
   answers: Answer[];
+
+  @OneToMany((type) => QuestionUpvote, (upvote) => upvote.owner)
+  question_upvotes: QuestionUpvote[];
 }

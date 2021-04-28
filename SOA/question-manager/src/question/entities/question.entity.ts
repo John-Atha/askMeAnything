@@ -1,4 +1,3 @@
-import { Answer } from 'src/answer/entities/answer.entity';
 import {
   Column,
   CreateDateColumn,
@@ -9,6 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
+import { Answer } from 'src/answer/entities/answer.entity';
+import { QuestionUpvote } from '../../question-upvote/entities/question-upvote.entity';
 
 @Entity()
 export class Question {
@@ -35,4 +36,7 @@ export class Question {
 
   @OneToMany((type) => Answer, (answer) => answer.question)
   answers: Answer[];
+
+  @OneToMany((type) => QuestionUpvote, (upvote) => upvote.question)
+  upvotes: QuestionUpvote[];
 }
