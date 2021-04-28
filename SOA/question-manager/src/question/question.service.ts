@@ -39,18 +39,22 @@ export class QuestionService {
     });
   }
 
-  async findAll(params): Promise<Question[]> {
-    const res = await this.manager.find(Question, { relations: ['owner'] });
-    return this.paginate(res, params);
+  async findAll(params): Promise<any> {
+    let res = [];
+    res = await this.manager.find(Question, { relations: ['owner', 'upvotes'] });
+    res = this.paginate(res, params);
+    return this.withCountQuestionsUpvotes(res);
   }
 
-  async findOne(id: number): Promise<Question> {
-    const question = await this.manager.findOne(Question, id, {
-      relations: ['owner'],
+  async findOne(id: number): Promise<any> {
+    let question = null;
+    question = await this.manager.findOne(Question, id, {
+      relations: ['owner', 'upvotes'],
     });
     if (!question) {
       throw new NotFoundException(`Question '${id}' not found.`);
     }
+    question['upvotes'] = question['upvotes'].length;
     return question;
   }
 
@@ -93,12 +97,14 @@ export class QuestionService {
     });
   }
 
-  async findByUser(id: number, params): Promise<Question[]> {
-    let res = await this.manager.find(Question, { relations: ['owner'] });
+  async findByUser(id: number, params): Promise<any> {
+    let res = [];
+    res = await this.manager.find(Question, { relations: ['owner', 'upvotes'] });
     res = res.filter((question) => {
       return question.owner.id === id;
     });
-    return this.paginate(res, params);
+    res = this.paginate(res, params);
+    return this.withCountQuestionsUpvotes(res);
   }
 
   async findAnswers(id: number, params): Promise<Answer[]> {
@@ -108,6 +114,13 @@ export class QuestionService {
     }
     const res = await this.manager.find(Answer, { question: question });
     return this.paginate(res, params);
+  }
+
+  withCountQuestionsUpvotes(questions): any {
+    for (let i = 0; i < questions.length; i++) {
+      questions[i]['upvotes'] = questions[i]['upvotes'].length;
+    }
+    return questions;
   }
 
   validateParams(params): void {
