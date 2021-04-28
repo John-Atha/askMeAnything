@@ -41,7 +41,7 @@ export class QuestionService {
 
   async findAll(params): Promise<any> {
     let res = [];
-    res = await this.manager.find(Question, { relations: ['owner', 'upvotes'] });
+    res = await this.manager.find(Question, { relations: ['owner'] });
     res = this.paginate(res, params);
     return this.withCountQuestionsUpvotes(res);
   }
@@ -54,7 +54,10 @@ export class QuestionService {
     if (!question) {
       throw new NotFoundException(`Question '${id}' not found.`);
     }
-    question['upvotes'] = question['upvotes'].length;
+    const count = await this.manager.query(
+      `SELECT COUNT(*) FROM public."question_upvote" WHERE public."question_upvote"."questionId"=${id}`,
+    );
+    question['upvotes'] = await parseInt(count[0]['count']);
     return question;
   }
 
@@ -116,9 +119,12 @@ export class QuestionService {
     return this.paginate(res, params);
   }
 
-  withCountQuestionsUpvotes(questions): any {
+  async withCountQuestionsUpvotes(questions): Promise<any> {
     for (let i = 0; i < questions.length; i++) {
-      questions[i]['upvotes'] = questions[i]['upvotes'].length;
+      const count = await this.manager.query(
+        `SELECT COUNT(*) FROM public."question_upvote" WHERE public."question_upvote"."questionId"=${questions[i].id}`,
+      );
+      questions[i]['upvotes'] = await parseInt(count[0]['count']);
     }
     return questions;
   }

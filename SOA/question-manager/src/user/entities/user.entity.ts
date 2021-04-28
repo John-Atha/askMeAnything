@@ -25,27 +25,34 @@ export class User {
   @Column()
   password: string;
 
+  @Exclude()
   @Column({ nullable: true })
   date_of_birth: Date;
 
   @Column({ default: 0 })
   points: number;
 
+  @Exclude()
   @Column({ nullable: true })
   bio: string;
 
+  @Exclude()
   @Column({ nullable: true })
   site_url: string;
 
+  @Exclude()
   @Column({ nullable: true })
   github_username: string;
 
+  @Exclude()
   @Column({ nullable: true })
   first_name: string;
 
+  @Exclude()
   @Column({ nullable: true })
   last_name: string;
 
+  @Exclude()
   @CreateDateColumn()
   member_since: Date;
 
