@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Question } from '../../question/entities/question.entity';
+import { Answer } from '../../answer/entities/answer.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -49,4 +50,7 @@ export class User {
 
   @OneToMany((type) => Question, (question) => question.owner)
   questions: Question[];
+
+  @OneToMany((type) => Answer, (answer) => answer.owner)
+  answers: Answer[];
 }

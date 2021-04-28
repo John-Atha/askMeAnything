@@ -1,22 +1,18 @@
-import { Answer } from 'src/answer/entities/answer.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
+import { Question } from '../../question/entities/question.entity';
 
 @Entity()
-export class Question {
+export class Answer {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ unique: true })
-  title: string;
 
   @Column()
   text: string;
@@ -27,12 +23,15 @@ export class Question {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => User, (user) => user.questions, {
+  @ManyToOne(() => User, (user) => user.answers, {
     nullable: false,
     onDelete: 'CASCADE',
   })
   owner: User;
 
-  @OneToMany((type) => Answer, (answer) => answer.question)
-  answers: Answer[];
+  @ManyToOne(() => Question, (question) => question.answers, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
+  question: Question;
 }
