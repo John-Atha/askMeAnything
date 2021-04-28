@@ -14,6 +14,7 @@ const jwt = require('jsonwebtoken');
 import { jwtConstants } from '../constants';
 import { User } from '../user/entities/user.entity';
 import { Answer } from '../answer/entities/answer.entity';
+import {QuestionUpvote} from "../question-upvote/entities/question-upvote.entity";
 
 @Injectable()
 export class QuestionService {
@@ -127,6 +128,18 @@ export class QuestionService {
       questions[i]['upvotes'] = await parseInt(count[0]['count']);
     }
     return questions;
+  }
+
+  async findUpvotes(id: number, params): Promise<QuestionUpvote> {
+    const question = await this.manager.findOne(Question, id);
+    if (!question) {
+      throw new NotFoundException(`Question ${id} not found.`);
+    }
+    let res = await this.manager.find(QuestionUpvote, { relations: ['owner', 'question'] });
+    res = res.filter((upvote) => {
+      return upvote.question.id === question.id;
+    });
+    return this.paginate(res, params);
   }
 
   validateParams(params): void {

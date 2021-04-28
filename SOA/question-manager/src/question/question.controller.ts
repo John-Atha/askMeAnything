@@ -54,4 +54,9 @@ export class QuestionController {
   Answers(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
     return this.questionService.findAnswers(id, reqParams);
   }
+
+  @Get(':id/upvotes')
+  Upvotes(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
+    return this.questionService.findUpvotes(id, reqParams);
+  }
 }
