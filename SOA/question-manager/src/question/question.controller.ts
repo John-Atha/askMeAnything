@@ -49,4 +49,9 @@ export class QuestionController {
   findByUser(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
     return this.questionService.findByUser(id, reqParams);
   }
+
+  @Get(':id/answers')
+  Answers(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
+    return this.questionService.findAnswers(id, reqParams);
+  }
 }

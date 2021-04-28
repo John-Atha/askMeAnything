@@ -13,6 +13,7 @@ import { EntityManager } from 'typeorm';
 const jwt = require('jsonwebtoken');
 import { jwtConstants } from '../constants';
 import { User } from '../user/entities/user.entity';
+import { Answer } from '../answer/entities/answer.entity';
 
 @Injectable()
 export class QuestionService {
@@ -53,7 +54,7 @@ export class QuestionService {
     return question;
   }
 
-  async update(req, id: number, updateQuestionDto: UpdateQuestionDto): Promise<any> {
+  async update(req, id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
     const user_id = this.verify(req);
     const allowed = await this.validateUpdate(id, updateQuestionDto.title);
     if (!allowed) {
@@ -92,7 +93,7 @@ export class QuestionService {
     });
   }
 
-  async findByUser(id: number, params): Promise<any> {
+  async findByUser(id: number, params): Promise<Question[]> {
     let res = await this.manager.find(Question, { relations: ['owner'] });
     res = res.filter((question) => {
       return question.owner.id === id;
@@ -100,7 +101,30 @@ export class QuestionService {
     return this.paginate(res, params);
   }
 
-  paginate(res, params): Question[] {
+  async findAnswers(id: number, params): Promise<Answer[]> {
+    const question = await this.manager.findOne(Question, id);
+    if (!question) {
+      throw new NotFoundException(`Question ${id} not found.`);
+    }
+    const res = await this.manager.find(Answer, { question: question });
+    return this.paginate(res, params);
+  }
+
+  validateParams(params): void {
+    if (params.start !== undefined) {
+      if (!parseInt(params.start)) {
+        throw new BadRequestException(`Invalid start parameter.`);
+      }
+    }
+    if (params.end !== undefined) {
+      if (!parseInt(params.end)) {
+        throw new BadRequestException(`Invalid end parameter.`);
+      }
+    }
+  }
+
+  paginate(res, params): any {
+    this.validateParams(params);
     if (!res.length) {
       return res;
     }
