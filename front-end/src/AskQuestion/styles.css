@@ -1,0 +1,14 @@
+.bordered-input {
+    background-color: white;
+    border-radius: 7px;
+    border: 1px solid grey;
+    width: 90%;
+    min-width: 200px;
+}
+.question-specs-title {
+    font-weight: bold;
+    margin-bottom: 0 !important;
+}
+.question-specs-explanation {
+    margin-bottom: 5px;
+}
