@@ -163,26 +163,63 @@ export class QuestionService {
   }
 
   async attachKeyword(req, question_id: number, keyword_id: number) {
-    const user_id = this.verify(req);
-    const user = await this.manager.findOne(User, user_id);
-    const question = await this.manager.findOne(Question, question_id, { relations: ['owner', 'keywords'] });
-    if (!question) {
-      throw new NotFoundException(`Question '${question_id} not found.`);
-    }
-    if (question.owner.id !== user.id) {
-      console.log(question.owner);
-      console.log(user);
-      throw new BadRequestException(`Only the question's owner can modify it.`);
-    }
-    const keyword = await this.manager.findOne(Keyword, keyword_id);
-    if (!keyword) {
-      throw new NotFoundException(`Keyword '${keyword_id} not found.`);
-    }
-    const old_keywords = question.keywords;
     return this.manager.transaction(async (manager) => {
+      const user_id = this.verify(req);
+      const user = await manager.findOne(User, user_id);
+      const question = await manager.findOne(Question, question_id, { relations: ['owner', 'keywords'] });
+      if (!question) {
+        throw new NotFoundException(`Question '${question_id} not found.`);
+      }
+      if (question.owner.id !== user.id) {
+        console.log(question.owner);
+        console.log(user);
+        throw new BadRequestException(`Only the question's owner can modify it.`);
+      }
+      const keyword = await manager.findOne(Keyword, keyword_id);
+      if (!keyword) {
+        throw new NotFoundException(`Keyword '${keyword_id} not found.`);
+      }
+      const old_keywords = question.keywords;
       old_keywords.push(keyword);
       question.keywords = old_keywords;
-      return this.manager.save(question);
+      return manager.save(question);
+    });
+  }
+
+  async detachKeyword(req, question_id: number, keyword_id: number) {
+    return this.manager.transaction(async (manager) => {
+      const user_id = this.verify(req);
+      const user = await manager.findOne(User, user_id);
+      const question = await manager.findOne(Question, question_id, { relations: ['owner', 'keywords'] });
+      if (!question) {
+        throw new NotFoundException(`Question ${question_id} not found.`);
+      }
+      if (question.owner.id !== user.id) {
+        throw new BadRequestException(`Only the question's owner can modify it.`);
+      }
+      const keyword = await manager.findOne(Keyword, keyword_id);
+      const keywordsIds = [];
+      question.keywords.forEach((word) => {
+        keywordsIds.push(word.id);
+      });
+      let index = -1;
+      for (let i = 0; i < question.keywords.length; i++) {
+        if (question.keywords[i].id === keyword.id) {
+          index = i;
+          break;
+        }
+      }
+      if (index !== -1) {
+        question.keywords = question.keywords
+          .slice(0, index)
+          .concat(question.keywords.slice(index + 1, question.keywords.length));
+        return this.manager.save(question);
+      }
+      else {
+        throw new BadRequestException(
+          `Keyword '${keyword_id}' not in question '${question_id}'`,
+        );
+      }
     });
   }
 

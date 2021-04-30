@@ -78,4 +78,13 @@ export class QuestionController {
   ) {
     return this.questionService.attachKeyword(req, quest_id, key_id);
   }
+
+  @Delete(':quest_id/keywords/:key_id')
+  DetachKeyword(
+    @Request() req,
+    @Param('quest_id', ParseIntPipe) quest_id: number,
+    @Param('key_id', ParseIntPipe) key_id: number,
+  ) {
+    return this.questionService.detachKeyword(req, quest_id, key_id);
+  }
 }
