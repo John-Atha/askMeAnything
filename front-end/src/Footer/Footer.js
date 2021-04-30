@@ -10,7 +10,7 @@ function Footer() {
         <Navbar variant="light" 
                 bg="light"
                 expand="md"
-                fixed="bottom" >
+                fixed="bottom">
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">

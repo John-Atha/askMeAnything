@@ -1,7 +1,7 @@
 import React from "react";
-import './generalStyles.css'
+import '../generalStyles.css'
 
-function Title(props) {
+function Title() {
     return(
         <h3 className={"main-title-container margin-top-small"}>
             Ask me Anything

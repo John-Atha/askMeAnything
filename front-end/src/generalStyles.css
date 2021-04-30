@@ -23,6 +23,9 @@ html, body {
     }
     .main-page {
         margin: 0px;
+    }
+    .container-width {
+        width: 100%;
     }    
 }
 
@@ -33,7 +36,11 @@ html, body {
     }
     .main-page {
         margin: 0px 10px;
-    }    
+    }
+    .container-width {
+        width: 90%;
+        margin-left: 5%;
+    }      
 }
 
 hr {
@@ -51,25 +58,25 @@ hr {
     margin: 20px;
 }
 .margin-top {
-    margin-top: 10%;
+    margin-top: 30px;
 }
 .margin-top-small {
-    margin-top: 4%;
+    margin-top: 20px;
 }
 .margin-top-smaller {
-    margin-top: 2%;
+    margin-top: 10px;
 }
 .margin-right {
     margin-right: 40px !important;
 }
 .margin-left {
-    margin-left: 2% !important;
+    margin-left: 5px !important;
 }    
 .margin-right-small {
     margin-right: 20px !important;
 }
 .padding-bottom {
-    padding-bottom: 4%;
+    padding-bottom: 10px;
 }
 .center-text {
     text-align: center;
@@ -135,6 +142,9 @@ hr {
 textarea {
     border: 1px solid;
     border-radius: 6px;
+}
+textarea:focus {
+    outline: none;
 }
 .with-whitespace {
     white-space: pre-wrap;
