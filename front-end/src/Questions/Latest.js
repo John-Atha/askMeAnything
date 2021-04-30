@@ -1,33 +1,34 @@
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import OneQuestion from './OneQuestion';
+import Button from 'react-bootstrap/Button';
+import { getQuestions } from '../api';
 
 function Latest() {
-    const [questions, setQuestions] = useState([
-        {
-            "owner": {
-                "name": "John",
-            },
-            "title": "Insert in Django",
-            "date": "2020-02-03 10:00:00",
-            "text": "How do I insert data in Django?",
-        },
-        {
-            "owner": {
-                "name": "John",
-            },
-            "title": "Insert in Django",
-            "date": "2020-02-03 10:00:00",
-            "text": "How do I insert data in Django?",
-        },
-        {
-            "owner": {
-                "name": "John",
-            },
-            "title": "Insert in Django",
-            "date": "2020-02-03 10:00:00",
-            "text": "How do I insert data in Django?",
-        },
-    ])
+    const [questions, setQuestions] = useState([]);
+    const [start, setStart] = useState(1);
+    const [end, setEnd] = useState(10);
+    const [noData, setNoData] = useState(false);
+
+    useEffect(()=> {
+        console.log(`I am asking from ${start} to ${end}`);
+        getQuestions(start, end)
+        .then(response => {
+            console.log(response);
+            if (response.data.length) {
+                setQuestions(questions.concat(response.data));
+                setNoData(false);
+            }
+            else {
+                setNoData(true);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            setNoData(true);
+        })
+    }, [start, end])
+
+
     return(
         <div className="margin-top-smaller main-page" style={{'paddingBottom': '100px'}}>
             <h5>Latest Questions</h5>            
@@ -35,13 +36,20 @@ function Latest() {
                 return(
                     <OneQuestion key={index}
                                  owner={value.owner}
-                                 date={value.date}
+                                 date={value.updated_at}
                                  title={value.title}
-                                 text={value.text} />
+                                 text={value.text}
+                                 upvotes={value.upvotes} />
                 )
             })}
-            {!questions.length && 
-                <div className="margin-top-smaller error-message">Sorry, no questions found.</div>
+            {!noData && 
+                <Button variant="outline-primary"
+                        onClick={()=>{setStart(start+10);setEnd(end+10)}}>
+                            See more
+                </Button>
+            }
+            {noData && 
+                <div className="margin-top-smaller error-message">Sorry, no more questions found.</div>
             }
         </div>
     )

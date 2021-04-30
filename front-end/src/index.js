@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import LoginRegister from './LoginRegister/LoginRegister';
 import Home from './MainPages/Home';
+import AskSkeleton from './AskQuestion/AskSkeleton';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,6 +25,9 @@ ReactDOM.render(
         </Route>
         <Route path="/my" exact>
           <Home case="my" />
+        </Route>
+        <Route path="/ask" exact>
+          <AskSkeleton />
         </Route>
       </Switch>
     </BrowserRouter>
