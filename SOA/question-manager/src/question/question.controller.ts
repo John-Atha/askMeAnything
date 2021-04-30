@@ -9,7 +9,8 @@ import {
   Request,
   Query,
   UseInterceptors,
-  ClassSerializerInterceptor, ParseIntPipe,
+  ClassSerializerInterceptor,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
@@ -36,7 +37,11 @@ export class QuestionController {
   }
 
   @Patch(':id')
-  update(@Request() req, @Param('id', ParseIntPipe) id: number, @Body() updateQuestionDto: UpdateQuestionDto) {
+  update(
+    @Request() req,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateQuestionDto: UpdateQuestionDto,
+  ) {
     return this.questionService.update(req, id, updateQuestionDto);
   }
 
@@ -58,5 +63,19 @@ export class QuestionController {
   @Get(':id/upvotes')
   Upvotes(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
     return this.questionService.findUpvotes(id, reqParams);
+  }
+
+  @Get(':id/keywords')
+  Keywords(@Param('id', ParseIntPipe) id: number) {
+    return this.questionService.findKeywords(id);
+  }
+
+  @Post(':quest_id/keywords/:key_id')
+  AttachKeyword(
+    @Request() req,
+    @Param('quest_id', ParseIntPipe) quest_id: number,
+    @Param('key_id', ParseIntPipe) key_id: number,
+  ) {
+    return this.questionService.attachKeyword(req, quest_id, key_id);
   }
 }

@@ -14,6 +14,8 @@ import { jwtConstants } from '../constants';
 import { User } from '../user/entities/user.entity';
 import { Answer } from '../answer/entities/answer.entity';
 import {QuestionUpvote} from "../question-upvote/entities/question-upvote.entity";
+import {Keyword} from "../keyword/entities/keyword.entity";
+import {query} from "express";
 
 @Injectable()
 export class QuestionService {
@@ -152,6 +154,38 @@ export class QuestionService {
     return this.paginate(res, params);
   }
 
+  async findKeywords(id: number): Promise<Keyword[]> {
+    const question = await this.manager.findOne(Question, id, { relations: ['keywords'] });
+    if (!question) {
+      throw new NotFoundException(`Question '${id}' not found.`);
+    }
+    return question['keywords'];
+  }
+
+  async attachKeyword(req, question_id: number, keyword_id: number) {
+    const user_id = this.verify(req);
+    const user = await this.manager.findOne(User, user_id);
+    const question = await this.manager.findOne(Question, question_id, { relations: ['owner', 'keywords'] });
+    if (!question) {
+      throw new NotFoundException(`Question '${question_id} not found.`);
+    }
+    if (question.owner.id !== user.id) {
+      console.log(question.owner);
+      console.log(user);
+      throw new BadRequestException(`Only the question's owner can modify it.`);
+    }
+    const keyword = await this.manager.findOne(Keyword, keyword_id);
+    if (!keyword) {
+      throw new NotFoundException(`Keyword '${keyword_id} not found.`);
+    }
+    const old_keywords = question.keywords;
+    return this.manager.transaction(async (manager) => {
+      old_keywords.push(keyword);
+      question.keywords = old_keywords;
+      return this.manager.save(question);
+    });
+  }
+
   validateParams(params): void {
     if (params.start !== undefined) {
       if (!parseInt(params.start)) {
@@ -204,7 +238,7 @@ export class QuestionService {
 
   async validateCreate(title: string): Promise<boolean> {
     const res = await this.manager.find(Question, { title: title });
-    return !res;
+    return !res.length;
   }
 
   async validateUpdate(id: number, title: string): Promise<boolean> {
