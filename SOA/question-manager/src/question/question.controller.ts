@@ -65,6 +65,11 @@ export class QuestionController {
     return this.questionService.findUpvotes(id, reqParams);
   }
 
+  @Get(':id/upvoted')
+  Upvoted(@Request() req, @Param('id', ParseIntPipe) id: number) {
+    return this.questionService.isUpvoted(req, id);
+  }
+
   @Get(':id/keywords')
   Keywords(@Param('id', ParseIntPipe) id: number) {
     return this.questionService.findKeywords(id);

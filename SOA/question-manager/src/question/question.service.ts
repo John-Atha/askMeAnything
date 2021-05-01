@@ -223,6 +223,33 @@ export class QuestionService {
     });
   }
 
+  async isUpvoted(req, id: number): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      const user_id = this.verify(req);
+      const question = await manager.findOne(Question, id, { relations: ['upvotes', 'owner'] });
+      if (!question) {
+        throw new NotFoundException(`Question ${id} not found.`);
+      }
+      const upvotes = question.upvotes;
+      for (let i = 0; i < upvotes.length; i++) {
+        console.log(upvotes[i]);
+        const upvoteId = upvotes[i].id;
+        const upvote = await this.manager.findOne(QuestionUpvote, upvoteId, { relations: ['owner'] } );
+        if (upvote) {
+          if (upvote.owner.id === user_id) {
+            return {
+              upvoted: true,
+            };
+          }
+        }
+      }
+      console.log(upvotes);
+      return {
+        upvoted: false,
+      };
+    });
+  }
+
   validateParams(params): void {
     if (params.start !== undefined) {
       if (!parseInt(params.start)) {
