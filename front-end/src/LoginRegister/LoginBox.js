@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState } from 'react';
+import { Login } from '../api'; 
 import './styles.css'
 import '../generalStyles.css'
 import Button from 'react-bootstrap/Button';
@@ -24,15 +24,19 @@ function LoginBox() {
     const handleSubmit = (event) => {
         if (username.length && password.length) {
             console.log('submitted');
-            if (username==="atha" && password==="12345") {
-                setSuccess("Logged in successfully");
+            Login(username, password)
+            .then(response => {
                 setError(null);
-                window.location.href="/";
-            }
-            else {
+                localStorage.setItem('token', response.data.access_token);
+                setSuccess('Logged in successfully');
+                setTimeout(()=>{window.location.href='/';}, 300);
+            })
+            .catch(err => {
+                console.log(err);
                 setSuccess(null);
                 setError("Sorry, wrong credentials")
-            }
+            })
+
         }
         else {
             setError("Fill both fields");

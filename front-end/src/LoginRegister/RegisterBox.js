@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState } from 'react';
+import { Register, Login } from '../api';
 import './styles.css'
 import '../generalStyles.css'
 import Button from 'react-bootstrap/Button';
@@ -10,25 +10,52 @@ function RegisterBox() {
     const [confirmation, setConfirmation] = useState("");
     const [success, setSuccess] = useState(null);
     const [error, setError] = useState(null);
+    const [email, setEmail] = useState("");
 
     const handleUsername = (val) => {
-        if (val.length<16) {
+        if (val.length<21) {
             setUsername(val);
             setError(null);
             setSuccess(null);
+            if (val.length<4) setError("Username should be between 4 and 20 characters."); 
         }
         else {
-            setError("Username should be less than 15 characters");
+            setError("Username should be between 4 and 20 characters.");
             setSuccess(null);
         }
     }
     const handleSubmit = (event) => {
-        if (username.length && password.length) {
+        if (username.length<4) {
+            setError('Username should be between 4 and 20 characters.');
+            setSuccess(null);
+        }
+        else if (password.length<10 || confirmation.length<10) {
+            setError("Password should be between 10 and 30 characters.");
+            setSuccess(null);
+        }
+        else if (username.length && password.length) {
             console.log('submitted');
             if (password===confirmation) {
-                setSuccess("Registered successfully");
-                setError(null);
-                window.location.href="/";
+                Register(username, password, confirmation, email)
+                .then(response=> {
+                    Login(username, password)
+                    .then(response => {
+                        setSuccess("Registered successfully");
+                        setError(null);
+                        localStorage.setItem('token', response.data.access_token);
+                        setTimeout(()=>{window.location.href="/";}, 300);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        setSuccess(null);
+                        setError("Something went wrong, try logging in with the info you just inserted.");
+                    })
+                })
+                .catch(err => {
+                    console.log(err);
+                    setSuccess(null);
+                    setError("Sorry, username/email probably already exist.");
+                })
             }
             else {
                 setSuccess(null);
@@ -50,7 +77,13 @@ function RegisterBox() {
         setSuccess(null);    
     }
     const handlePass = (event) => {
-        if (event.target.name==="password"){
+        if (event.target.value.length<10) {
+            setError("Password should be between 10 and 30 characters.")
+            setSuccess(null); 
+            if (event.target.name==="password") setPassword(event.target.value);
+            else setConfirmation(event.target.value);       
+        }
+        else if (event.target.name==="password"){
             setPassword(event.target.value);
             if (event.target.value===confirmation) {
                 good_warning();   
@@ -77,6 +110,8 @@ function RegisterBox() {
             <div className="success-message">{success}</div>
             <form onSubmit={handleSubmit}>
                 <input placeholder="Enter your username..." className="margin-top-smaller" value={username} typ="text" onChange={(event) => handleUsername(event.target.value)} />
+                <div className="break"></div>
+                <input placeholder="Email" className="margin-top-smaller" value={email} type="text" onChange={(event)=>{setEmail(event.target.value)}} />
                 <div className="break"></div>
                 <input placeholder="Enter your password..." className="margin-top-smaller" name="password" value={password} type="password" onChange={handlePass} />
                 <div className="break"></div>
