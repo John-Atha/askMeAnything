@@ -8,7 +8,7 @@ import '../generalStyles.css';
 function MyNavbar() {
     return(
         <Navbar variant="light" expand="md">
-            <Navbar.Brand href="#home">AskMeAnything</Navbar.Brand>
+            <Navbar.Brand href="/">AskMeAnything</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">

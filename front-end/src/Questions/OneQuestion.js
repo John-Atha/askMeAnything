@@ -1,18 +1,20 @@
 import {React, useState} from 'react';
+import Answers from '../Answers/Answers';
+
 import './styles.css';
 import arrow1 from '../images/arrow1.png'
 
 function QuestionHeader(props) {
-    const [owner, setOwner] = useState(props.owner);
+    /*const [owner, setOwner] = useState(props.owner);
     const [date, setDate] = useState(props.date);
-    const [title, setTitle] = useState(props.title);
+    const [title, setTitle] = useState(props.title);*/
     return(
         <div>
-            <div className="question-title">{title[0].toUpperCase()+(title.slice(1))}</div>
+            <div className="question-title">{props.title[0].toUpperCase()+(props.title.slice(1))}</div>
             <div className="flex-layout">
                 <div className="with-whitespace">Asked by </div>
-                <a href="#">{owner.username}</a>
-                <div>, on {date.slice(0, date.length-14)}</div>
+                <a href="#">{props.owner.username}</a>
+                <div>, on {props.date.slice(0, props.date.length-14)}</div>
             </div>
         </div>
     )
@@ -27,29 +29,31 @@ function QuestionUpvotes(props) {
     )
 }
 function QuestionBody(props) {
-    const [text, setText] = useState(props.text);
-    const [upvotes, setUpvotes] = useState(props.upvotes);
+    //const [text, setText] = useState(props.text);
     return(
         <div style={{'marginTop': '15px'}}>
-            <div>{text}</div>
+            <div>{props.text}</div>
         </div>
     )
 }
 function OneQuestion(props) {
-    const [owner, setOwner] = useState(props.owner);
+    /*const [owner, setOwner] = useState(props.owner);
     const [date, setDate] = useState(props.date);
     const [title, setTitle] = useState(props.title);
     const [text, setText] = useState(props.text);
     const [upvotes, setUpvotes] = useState(props.upvotes);
+    const [id, setId] = useState(props.id);*/
 
     return(
         <div className="one-question-container flex-layout">
-            <QuestionUpvotes upvotes={upvotes} />
+            <QuestionUpvotes upvotes={props.upvotes} />
             <div>
-                <QuestionHeader owner={owner} date={date} title={title} />
+                <QuestionHeader owner={props.owner} date={props.date} title={props.title} />
                 <hr></hr>
-                <QuestionBody text={text} upvotes={upvotes} />
+                <QuestionBody text={props.text} />
             </div>
+            <div className="break"></div>
+            <Answers id={props.id} />
         </div>
     )
 }

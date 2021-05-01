@@ -35,6 +35,7 @@ function Latest() {
             {questions.map((value, index) => {
                 return(
                     <OneQuestion key={index}
+                                 id={value.id}
                                  owner={value.owner}
                                  date={value.updated_at}
                                  title={value.title}
