@@ -84,7 +84,7 @@ export class QuestionService {
     });
   }
 
-  async remove(req, id: number): Promise<void> {
+  async remove(req, id: number): Promise<any> {
     const user_id = verify(req);
     return this.manager.transaction(async (manager) => {
       const question = await manager.findOne(Question, id, { relations: ['owner'] });
@@ -96,7 +96,7 @@ export class QuestionService {
           "You cannot delete another user's question.",
         );
       }
-      await manager.delete(Question, id);
+      return manager.delete(Question, id);
     });
   }
 
@@ -115,7 +115,10 @@ export class QuestionService {
     if (!question) {
       throw new NotFoundException(`Question ${id} not found.`);
     }
-    let res = await this.manager.find(Answer, { question: question });
+    let res = await this.manager.find(Answer, { relations: ['owner', 'question'] });
+    res = res.filter((answer) => {
+      return answer.question.id === id;
+    })
     res = paginate(res, params);
     return this.withCountAnswersUpvotes(res);
   }
