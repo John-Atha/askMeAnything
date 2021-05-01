@@ -6,12 +6,16 @@ import {
   Patch,
   Param,
   Request,
-  Delete, ParseIntPipe,
+  Delete,
+  ParseIntPipe,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { QuestionUpvoteService } from './question-upvote.service';
 import { CreateQuestionUpvoteDto } from './dto/create-question-upvote.dto';
 
 @Controller('question-upvotes')
+@UseInterceptors(ClassSerializerInterceptor)
 export class QuestionUpvoteController {
   constructor(private readonly questionUpvoteService: QuestionUpvoteService) {}
 
