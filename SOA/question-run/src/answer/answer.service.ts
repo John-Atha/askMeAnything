@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -16,7 +17,7 @@ import { User } from '../user/entities/user.entity';
 export class AnswerService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
-  async create(req, createAnswerDto: CreateAnswerDto) {
+  async create(req, createAnswerDto: CreateAnswerDto): Promise<Answer> {
     return this.manager.transaction(async (manager) => {
       const user_id = verify(req);
       const owner = await manager.findOne(User, user_id);
@@ -38,11 +39,46 @@ export class AnswerService {
     });
   }
 
-  update(id: number, updateAnswerDto: UpdateAnswerDto) {
-    return `This action updates a #${id} answer`;
+  async update(req, id: number, updateAnswerDto: UpdateAnswerDto): Promise<Answer> {
+    return this.manager.transaction(async (manager) => {
+      const user_id = verify(req);
+      const user = await manager.findOne(User, user_id);
+      if (!user) {
+        throw new UnauthorizedException();
+      }
+      const answer = await manager.findOne(Answer, id, { relations: ['owner'] });
+      if (!answer) {
+        throw new NotFoundException(`Answer '${id}' not found.`);
+      }
+      if (user.id !== answer.owner.id) {
+        throw new BadRequestException(`You cannot update another user's answer.`);
+      }
+      const text = updateAnswerDto.text;
+      if (!text) {
+        return answer;
+      }
+      answer.text = text;
+      return manager.save(answer);
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} answer`;
+  async remove(req, id: number): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      const user_id = verify(req);
+      const user = await manager.findOne(User, user_id);
+      if (!user) {
+        throw new UnauthorizedException();
+      }
+      const answer = await manager.findOne(Answer, id, { relations: ['owner'] });
+      if (!answer) {
+        throw new NotFoundException(`Answer '${id} not found.`);
+      }
+      if (user.id !== answer.owner.id) {
+        throw new BadRequestException(
+          `You cannot delete another user's answer.`,
+        );
+      }
+      return manager.delete(Answer, id);
+    });
   }
 }
