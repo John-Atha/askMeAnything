@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { isLogged } from '../api';
+import { createNotification } from '../createNotification';
+
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
@@ -8,7 +11,13 @@ import question_photo from '../images/ilkka-karkkainen-yn8aHOdNLZo-unsplash.jpg'
 function AskQuestion() {
 
     const redirect = () => {
-        window.location.href="/ask";
+        isLogged()
+        .then(response => {
+            window.location.href="/ask";
+        })
+        .catch(err => {
+            createNotification('danger', 'Sorry,', 'You cannot ask a question without an account');
+        })
     }
 
     return(

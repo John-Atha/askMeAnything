@@ -5,6 +5,13 @@ const questManUrl = config.questManUrl;
 const questRunUrl = config.questRunUrl;
 const authUrl = config.authUrl;
 
+const token = localStorage.getItem('token');
+const buildAuthHeader = () => {
+    const headers = {
+        "Authorization": "Bearer "+token,
+    }
+    return headers;
+}
 export const Login = (username, password) => {
     const requestUrl = authUrl+"/login";
     const bodyFormData = new URLSearchParams();
@@ -53,4 +60,12 @@ export const getOneQuestion = (id) => {
 export const getQuestionKeywords = (id) => {
     const requestUrl = questManUrl+`/questions/${id}/keywords`;
     return axios.get(requestUrl);
+}
+
+export const isLogged = () => {
+    const headers = buildAuthHeader();
+    const requestUrl = authUrl+`/users/logged`;
+    return axios.post(requestUrl, {}, {
+        headers: headers,
+    });
 }

@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
+import ReactNotifications from 'react-notifications-component';
 
 import LoginRegister from './LoginRegister/LoginRegister';
 import Home from './MainPages/Home';
@@ -18,6 +19,7 @@ const FindAdd = () => {
 
 ReactDOM.render(
   <React.StrictMode>
+    <ReactNotifications />
     <BrowserRouter>
       <Switch>
         <Route path="/login" exact>

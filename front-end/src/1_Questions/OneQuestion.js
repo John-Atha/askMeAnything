@@ -1,10 +1,14 @@
 import {React, useState} from 'react';
 
+import { isLogged } from '../api';
+import { createNotification } from '../createNotification';
+
 import Answers from '../2_Answers/Answers';
 import QuestionHeader from './QuestionHeader';
 import QuestionBody from './QuestionBody';
 import QuestionUpvotes from './QuestionUpvotes';
 import QuestionKeywords from './QuestionKeywords';
+
 
 import './styles.css';
 import Button from 'react-bootstrap/Button';
@@ -16,6 +20,16 @@ function OneQuestion(props) {
     const [text, setText] = useState(props.text);
     const [upvotes, setUpvotes] = useState(props.upvotes);
     const [id, setId] = useState(props.id);*/
+
+    const answer = () => {
+        isLogged()
+        .then(response => {
+            window.location.href=`/answer/${props.id}`;
+        })
+        .catch(err => {
+            createNotification('danger', 'Sorry,', 'You cannot add an answer without an account');
+        })
+    }
 
     return(
         <div className="one-question-container flex-layout">
@@ -33,7 +47,7 @@ function OneQuestion(props) {
             <Button variant="outline-primary" 
                     className="margin-top-smaller"
                     style={{'position': 'absolute', 'right': '20px'}}
-                    onClick={()=> {window.location.href=`/answer/${props.id}`}}>
+                    onClick={answer}>
                     Answer
             </Button>
             }
