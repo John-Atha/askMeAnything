@@ -35,7 +35,6 @@ export const getQuestions = (start, end) => {
 }
 
 export const getQuestionAnswers = (id, start, end) => {
-    console.log(`I am asking answers from ${start} to ${end}.`)
     const requestUrl = questManUrl+`/questions/${id}/answers`;
     const params = {
         start: start,
@@ -44,4 +43,14 @@ export const getQuestionAnswers = (id, start, end) => {
     return axios.get(requestUrl, {
         params: params,
     });
+}
+
+export const getOneQuestion = (id) => {
+    const requestUrl = questManUrl+`/questions/${id}`;
+    return axios.get(requestUrl);
+}
+
+export const getQuestionKeywords = (id) => {
+    const requestUrl = questManUrl+`/questions/${id}/keywords`;
+    return axios.get(requestUrl);
 }

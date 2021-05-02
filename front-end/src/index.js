@@ -8,7 +8,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import LoginRegister from './LoginRegister/LoginRegister';
 import Home from './MainPages/Home';
-import AskSkeleton from './AskQuestion/AskSkeleton';
+import AskSkeleton from './1_AskQuestion/AskSkeleton';
+import AddSkeleton from './2_AddAnswer/AddSkeleton';
+
+const FindAdd = () => {
+  let {id} = useParams();
+  return <AddSkeleton id={id} />
+}
 
 ReactDOM.render(
   <React.StrictMode>
@@ -28,6 +34,9 @@ ReactDOM.render(
         </Route>
         <Route path="/ask" exact>
           <AskSkeleton />
+        </Route>
+        <Route path="/answer/:id" exact>
+          <FindAdd />
         </Route>
       </Switch>
     </BrowserRouter>
