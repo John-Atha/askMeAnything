@@ -34,7 +34,7 @@ function Answers (props) {
     
     if (answers.length) {
         return(
-            <div className="answers-container bordered-input margin-top-small">
+            <div className="answers-container bordered-input margin-top-smaller">
                 {answers.map((value, index) => {
                     return(
                         <OneAnswer key={index} 

@@ -12,3 +12,13 @@
     height: 50px;
     width: 50px;
 }
+.keyword-pill {
+    background-color: lightgrey;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 8px;
+}
+.keyword-pill:hover {
+    text-decoration: none;
+    transform: scale(1.1);
+}

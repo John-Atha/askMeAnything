@@ -28,7 +28,7 @@ function AnswerUpvotes(props) {
 function AnswerBody(props) {
     return(
         <div style={{'marginTop': '15px'}}>
-            <div>{props.text}</div>
+            <div className="with-whitespace">{props.text}</div>
         </div>
     )
 }

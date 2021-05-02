@@ -7,7 +7,7 @@ import MyNavbar from '../Navbar/MyNavbar';
 import Footer from '../Footer/Footer';
 import MainHome from './MainHome';
 import MyHome from './MyHome';
-import Latest from '../Questions/Latest';
+import Latest from '../1_Questions/Latest';
 
 function Home(props) {
     return(
