@@ -85,3 +85,9 @@ export const attachKeyword = (question_id, keyword_id) => {
     const requestUrl = questManUrl+`/questions/${question_id}/keywords/${keyword_id}`;
     return axios.post(requestUrl, {}, {headers});
 }
+
+export const createKeyword = (name) => {
+    const headers = buildAuthHeader();
+    const requestUrl = questManUrl+'/keywords';
+    return axios.post(requestUrl, {name}, {headers});
+}

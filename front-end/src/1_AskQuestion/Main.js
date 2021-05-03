@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
 
-import { isLogged, getAllKeywords, postQuestion, attachKeyword } from '../api';
+import { isLogged, getAllKeywords, postQuestion, attachKeyword, createKeyword } from '../api';
 import { createNotification } from '../createNotification';
 import './styles.css'
 import Button from 'react-bootstrap/Button';
@@ -15,6 +15,7 @@ function Main() {
     const [suggestionsErr, setSuggestionsErr] = useState(false);
     const [sugg, setSugg] = useState("");
     const [picked, setPicked] = useState([]);
+    const [newKeywords, setNewKeywords] = useState([]);
 
     const clear = () => {
         setTitle("");
@@ -23,7 +24,6 @@ function Main() {
         setPicked([]);
         setSugg("");
     }
-
     useEffect(()=> {
         getAllKeywords()
         .then(response => {
@@ -38,7 +38,6 @@ function Main() {
             setSuggestionsErr(true);
         })
     }, [])
-
     const add = (index) => {
         const obj = suggestions[index];
         console.log('Picked:')
@@ -51,14 +50,33 @@ function Main() {
         setTimeout(()=>{console.log(picked)}, 100);
     }
     const buttonAdd = () => {
+        console.log(suggestions);
         if (suggestions.length) {
-            add(0);
+            let found = false;
+            for (let i=0; i<suggestions.length; i++) {
+                if (match(suggestions[i].name)) {
+                    add(i);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                const newObj = {
+                    name: sugg,
+                    id: null,
+                    new: true,
+                }
+                setPicked(picked.concat(newObj));
+                setSugg("");                
+            }
         }
     }
     const removePicked = (index) => {
         const obj = picked[index];
         setPicked(picked.slice(0, index).concat(picked.slice(index+1, picked.length)));
-        setSuggestions(suggestions.concat(obj));
+        if (!obj.new) {
+            setSuggestions(suggestions.concat(obj));            
+        }
         //setTimeout(()=>{suggestionsReOrder()}, 300);
     }
     const suggestionsReOrder = () => {
@@ -70,7 +88,6 @@ function Main() {
         setSuggestions(copy.sort((a, b) => (a.name.charAt(0).toLowerCase()+a.name.slice(1)>b.name.charAt(0).toLowerCase()+b.name.slice(1)) ? 1 : -1));
         console.log(suggestions);
     }
-
     const submit = () => {
         isLogged()
         .then(response => {
@@ -85,14 +102,35 @@ function Main() {
                     console.log(response);
                     const id = response.data.id;
                     picked.forEach(obj => {
-                        const keyword_id = obj.id;
-                        attachKeyword(id, keyword_id)
-                        .then(response => {
-                            console.log(response);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        })
+                        if (obj.new) {
+                            createKeyword(obj.name)
+                            .then(response=> {
+                                const newId = response.data.id;
+                                attachKeyword(id, newId)
+                                .then(response => {
+                                    console.log(response);
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    createNotification('danger', 'Sorry,', `We could not attach keyword '${obj.name}'.`);
+                                })
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                createNotification('danger', 'Sorry,', `We could not create keyword '${obj.name}'.`);
+                            })
+                        }
+                        else {
+                            const keyword_id = obj.id;
+                            attachKeyword(id, keyword_id)
+                            .then(response => {
+                                console.log(response);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                createNotification('danger', 'Sorry,', `We could not attach keyword '${obj.name}'.`);
+                            })
+                        }
                     });
                     createNotification('success', 'Hello,', 'Question posted successfully.');
                 })
@@ -106,7 +144,6 @@ function Main() {
             createNotification('danger', 'Sorry,', 'You cannot ask a question without an account');
         })
     }
-
     const match = (s) => {
         if (sugg) {
             return( s.startsWith(sugg.charAt(0).toUpperCase()+sugg.slice(1)) ||
@@ -129,7 +166,7 @@ function Main() {
                 <div className="question-specs-explanation">Try to cover all the necessary details.</div>
                 <textarea style={{'height': '300px'}} className="bordered-input" name="text" value={text} onChange={(event)=>{setText(event.target.value)}} />
             </div>
-            <h5 className="question-specs-title container-width">Keywords</h5>
+            <h5 className="question-specs-title container-width margin-top-smaller">Keywords</h5>
             <div className="flex-layout container-width">
                 <div style={{'width': '50%', 'padding': '10px'}}>
                     <div className="margin-top-smaller flex-layout">
@@ -173,7 +210,7 @@ function Main() {
                             return(
                                 <div className="flex-layout">
                                     <button key={index}
-                                            href={`/keywords/${value.id}`} 
+                                            href={ value.id ? `/keywords/${value.id}` : '#' } 
                                             className="keyword-pill">
                                         {value.name}
                                     </button>
