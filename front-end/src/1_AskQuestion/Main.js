@@ -5,6 +5,7 @@ import { createNotification } from '../createNotification';
 import './styles.css'
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl'
+import Form from 'react-bootstrap/Form'
 
 function Main() {
 
@@ -15,7 +16,6 @@ function Main() {
     const [suggestionsErr, setSuggestionsErr] = useState(false);
     const [sugg, setSugg] = useState("");
     const [picked, setPicked] = useState([]);
-    const [newKeywords, setNewKeywords] = useState([]);
 
     const clear = () => {
         setTitle("");
@@ -168,7 +168,7 @@ function Main() {
             </div>
             <h5 className="question-specs-title container-width margin-top-smaller">Keywords</h5>
             <div className="flex-layout container-width">
-                <div style={{'width': '50%', 'padding': '10px'}}>
+                <Form style={{'width': '50%', 'padding': '10px'}} onSubmit={(event)=>{event.preventDefault();}}>
                     <div className="margin-top-smaller flex-layout">
                         <FormControl 
                             style={{'width': '250px'}}
@@ -178,7 +178,7 @@ function Main() {
                             className="mr-sm-2"
                             onChange={(event)=>{setSugg(event.target.value)}}        
                         />
-                        <Button variant='outline-dark' 
+                        <Button variant='outline-dark'
                                 onClick={buttonAdd}>
                             Add
                         </Button>
@@ -202,7 +202,7 @@ function Main() {
                         </div>
                 
                     }
-                </div>
+                </Form>
                 <div style={{'width': '50%'}}>
                     <h5 className="center-content">Picked keywords</h5>
                     <div className="flex-layout">
