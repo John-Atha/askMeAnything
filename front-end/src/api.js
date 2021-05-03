@@ -65,12 +65,23 @@ export const getQuestionKeywords = (id) => {
 export const isLogged = () => {
     const headers = buildAuthHeader();
     const requestUrl = authUrl+`/users/logged`;
-    return axios.post(requestUrl, {}, {
-        headers: headers,
-    });
+    return axios.post(requestUrl, {}, {headers});
 }
 
 export const getAllKeywords = () => {
     const requestUrl = questManUrl+`/keywords`;
     return axios.get(requestUrl);
+}
+
+export const postQuestion = (title, text) => {
+    const headers = buildAuthHeader();
+    const requestUrl = questManUrl+'/questions';
+    const body = { title, text };
+    return axios.post(requestUrl, body, {headers});
+}
+
+export const attachKeyword = (question_id, keyword_id) => {
+    const headers = buildAuthHeader();
+    const requestUrl = questManUrl+`/questions/${question_id}/keywords/${keyword_id}`;
+    return axios.post(requestUrl, {}, {headers});
 }

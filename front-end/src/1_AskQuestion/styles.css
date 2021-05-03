@@ -19,3 +19,15 @@
     overflow-y: scroll;
     width: 250px;
 }
+
+.remove-button {
+    font-size: 13px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    height: min-content;
+    width: min-content;
+    padding: 1px 7px;
+    margin-left: -12px;
+}
