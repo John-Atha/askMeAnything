@@ -28,7 +28,7 @@ function AddMain(props) {
             console.log(err);
             setQuestionError(true);
         })
-    })
+    }, [id])
 
     return(
         <div className="margin-top-small container-width" style={{'padding': '10px', 'marginBottom': '200px', 'position': 'relative'}}>

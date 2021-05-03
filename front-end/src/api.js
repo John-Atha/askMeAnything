@@ -91,3 +91,15 @@ export const createKeyword = (name) => {
     const requestUrl = questManUrl+'/keywords';
     return axios.post(requestUrl, {name}, {headers});
 }
+
+export const Answer = (text, questionId) => {
+    const headers = buildAuthHeader();
+    const body = {
+        text,
+        question: {
+            id: questionId,
+        },
+    };
+    const requestUrl = questRunUrl+'/answers';
+    return axios.post(requestUrl, body, {headers});
+}

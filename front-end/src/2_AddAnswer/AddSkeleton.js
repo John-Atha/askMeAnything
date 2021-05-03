@@ -8,7 +8,7 @@ function AddSkeleton(props) {
         <div className="all-page">
             <MyNavbar />
             <h5 className="margin-left margin-top-smaller">Answer question</h5>
-            <AddMain id={props.id}/>
+            <AddMain id={parseInt(props.id)}/>
             <Footer />
         </div>
     )
