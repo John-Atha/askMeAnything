@@ -69,3 +69,8 @@ export const isLogged = () => {
         headers: headers,
     });
 }
+
+export const getAllKeywords = () => {
+    const requestUrl = questManUrl+`/keywords`;
+    return axios.get(requestUrl);
+}

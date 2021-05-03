@@ -130,12 +130,15 @@ hr {
 /*-------- button-as-link -------*/
 .button-as-link {
     background-color: inherit;
-    padding: 0%;
+    padding: 2px;
     border: none;
+    width: 100%;
+    text-align: left;
 }
 .button-as-link:hover {
-    text-decoration: underline;
-    color: var(--lettersColor2);
+    text-decoration: none;
+    font-weight: bold;
+    background-color: var(--color2);
 }
 
 /*--- textarea ----*/

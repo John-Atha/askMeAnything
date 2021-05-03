@@ -12,3 +12,10 @@
 .question-specs-explanation {
     margin-bottom: 5px;
 }
+
+#suggestions-box {
+    border: 1px solid grey;
+    max-height: 200px;
+    overflow-y: scroll;
+    width: 250px;
+}

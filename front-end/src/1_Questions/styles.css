@@ -13,10 +13,11 @@
     width: 50px;
 }
 .keyword-pill {
-    background-color: lightgrey;
-    padding: 5px;
-    margin: 5px;
-    border-radius: 8px;
+    background-color: lightgrey !important;
+    padding: 5px !important;
+    margin: 5px !important;
+    border-radius: 8px !important;
+    border: none !important;
 }
 .keyword-pill:hover {
     text-decoration: none;
