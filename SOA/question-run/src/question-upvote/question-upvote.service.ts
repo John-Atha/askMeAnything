@@ -27,16 +27,18 @@ export class QuestionUpvoteService {
         throw new UnauthorizedException();
       }
       const question_id = createQuestionUpvoteDto.question.id;
-      const question = await manager.findOne(Question, question_id, {
-        relations: ['owner'],
-      });
+      const question = await manager.findOne(Question, question_id);
       if (!question) {
         throw new NotFoundException(`Question '${question_id}' not found.`);
       }
-      const upvote = await manager.create(
-        QuestionUpvote,
-        createQuestionUpvoteDto,
-      );
+      const allowed = await this.validateCreate(user.id, question_id);
+      if (!allowed) {
+        throw new BadRequestException(`You have already upvoted this question.`);
+      }
+      createQuestionUpvoteDto['owner'] = {
+        id: user.id,
+      };
+      const upvote = await manager.create(QuestionUpvote, createQuestionUpvoteDto);
       upvote.owner = user;
       upvote.question = question;
       return manager.save(upvote);
@@ -61,5 +63,12 @@ export class QuestionUpvoteService {
       }
       return manager.delete(QuestionUpvote, id);
     });
+  }
+
+  async validateCreate(user_id: number, question_id: number): Promise<boolean> {
+    const upvotes = await this.manager.query(
+      `SELECT * FROM public."question_upvote" WHERE public."question_upvote"."questionId"=${question_id} AND public."question_upvote"."ownerId"=${user_id}`,
+    );
+    return !upvotes.length;
   }
 }

@@ -29,6 +29,10 @@ export class AnswerUpvoteService {
       if (!answer) {
         throw new NotFoundException(`Answer '${answer_id}' not found.`);
       }
+      const allowed = await this.validateCreate(owner.id, answer_id);
+      if (!allowed) {
+        throw new BadRequestException(`You have already upvoted this answer.`);
+      }
       createAnswerUpvoteDto['owner'] = {
         id: owner.id,
       };
@@ -57,5 +61,12 @@ export class AnswerUpvoteService {
       }
       return manager.delete(AnswerUpvote, id);
     });
+  }
+
+  async validateCreate(user_id: number, answer_id: number): Promise<boolean> {
+    const upvotes = await this.manager.query(
+      `SELECT * FROM public."answer_upvote" WHERE public."answer_upvote"."answerId"=${answer_id} AND public."answer_upvote"."ownerId"=${user_id}`,
+    )
+    return !upvotes.length;
   }
 }
