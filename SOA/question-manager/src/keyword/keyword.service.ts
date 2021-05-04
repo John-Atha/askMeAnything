@@ -8,7 +8,6 @@ import { CreateKeywordDto } from './dto/create-keyword.dto';
 import { Keyword } from './entities/keyword.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { jwtConstants } from '../constants';
 import { paginate, verify } from '../../general-methods/methods';
 const jwt = require('jsonwebtoken');
 
