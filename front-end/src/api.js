@@ -126,3 +126,31 @@ export const questionUnUpvote = (upvoteId) => {
     const headers = buildAuthHeader();
     return axios.delete(requestUrl, {headers}); 
 }
+
+export const getOneAnswer = (answerId) => {
+    const requestUrl = questManUrl+`/answers/${answerId}`;
+    return axios.get(requestUrl);
+}
+
+export const answerIsUpvoted = (answerId) => {
+    const headers = buildAuthHeader();
+    const requestUrl = questManUrl+`/answers/${answerId}/upvoted`;
+    return axios.get(requestUrl, {headers});
+}
+
+export const answerUpvote = (answerId) => {
+    const requestUrl = questRunUrl+`/answer-upvotes`;
+    const headers = buildAuthHeader();
+    const body = {
+        answer: {
+            id: answerId,
+        },
+    };
+    return axios.post(requestUrl, body, {headers});
+}
+
+export const answerUnUpvote = (upvoteId) => {
+    const requestUrl = questRunUrl+`/answer-upvotes/${upvoteId}`;
+    const headers = buildAuthHeader();
+    return axios.delete(requestUrl, {headers});
+}
