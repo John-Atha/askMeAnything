@@ -42,6 +42,7 @@ export class QuestionService {
   async findAll(params): Promise<any> {
     let res = [];
     res = await this.manager.find(Question, { relations: ['owner'] });
+    res.sort((a, b) => (a.updated_at > b.updated_at) ? -1 : 1 );
     res = paginate(res, params);
     return this.withCountQuestionsUpvotes(res);
   }
@@ -57,7 +58,7 @@ export class QuestionService {
     const count = await this.manager.query(
       `SELECT COUNT(*) FROM public."question_upvote" WHERE public."question_upvote"."questionId"=${id}`,
     );
-    question['upvotes'] = await parseInt(count[0]['count']);
+    question['upvotesCount'] = await parseInt(count[0]['count']);
     return question;
   }
 
@@ -102,7 +103,7 @@ export class QuestionService {
 
   async findByUser(id: number, params): Promise<any> {
     let res = [];
-    res = await this.manager.find(Question, { relations: ['owner', 'upvotes'] });
+    res = await this.manager.find(Question, { relations: ['owner'] });
     res = res.filter((question) => {
       return question.owner.id === id;
     });
@@ -128,7 +129,7 @@ export class QuestionService {
       const count = await this.manager.query(
         `SELECT COUNT(*) FROM public."question_upvote" WHERE public."question_upvote"."questionId"=${questions[i].id}`,
       );
-      questions[i]['upvotes'] = await parseInt(count[0]['count']);
+      questions[i]['upvotesCount'] = await parseInt(count[0]['count']);
     }
     return questions;
   }
@@ -138,7 +139,7 @@ export class QuestionService {
       const count = await this.manager.query(
         `SELECT COUNT(*) FROM public."answer_upvote" WHERE public."answer_upvote"."answerId"=${answers[i].id}`,
       );
-      answers[i]['upvotes'] = await parseInt(count[0]['count']);
+      answers[i]['upvotesCount'] = await parseInt(count[0]['count']);
     };
     return answers;
   }
@@ -240,6 +241,7 @@ export class QuestionService {
           if (upvote.owner.id === user_id) {
             return {
               upvoted: true,
+              id: upvote.id,
             };
           }
         }
