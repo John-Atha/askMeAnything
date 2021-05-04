@@ -1,7 +1,14 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  UseInterceptors,
+} from '@nestjs/common';
 import { KeywordService } from './keyword.service';
 
-@Controller('keyword')
+@Controller('keywords')
+@UseInterceptors(ClassSerializerInterceptor)
 export class KeywordController {
   constructor(private readonly keywordService: KeywordService) {}
 
