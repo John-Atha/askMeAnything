@@ -37,5 +37,5 @@ export class Answer {
   question: Question;
 
   @OneToMany((type) => AnswerUpvote, (upvote) => upvote.answer)
-  upvotes: AnswerUpvote;
+  upvotes: AnswerUpvote[];
 }
