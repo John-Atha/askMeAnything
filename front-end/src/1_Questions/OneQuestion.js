@@ -20,20 +20,20 @@ function OneQuestion(props) {
     const [text, setText] = useState(props.text);
     const [upvotes, setUpvotes] = useState(props.upvotes);
     const [id, setId] = useState(props.id);*/
-
+   
+    
     const answer = () => {
-        isLogged()
-        .then(response => {
+        if (props.userId) {
             window.location.href=`/answer/${props.id}`;
-        })
-        .catch(err => {
+        }
+        else {
             createNotification('danger', 'Sorry,', 'You cannot add an answer without an account');
-        })
+        }
     }
 
     return(
         <div className="one-question-container flex-layout">
-            <QuestionUpvotes upvotes={props.upvotes} />
+            <QuestionUpvotes upvotes={props.upvotes} userId={props.userId} id={props.id} />
             <div>
                 <QuestionHeader owner={props.owner} date={props.date} title={props.title} />
                 <hr></hr>

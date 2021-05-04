@@ -1,4 +1,7 @@
 import {React, useState, useEffect} from 'react';
+
+import { isLogged } from '../api';
+
 import OneQuestion from './OneQuestion';
 import Button from 'react-bootstrap/Button';
 import { getQuestions } from '../api';
@@ -8,7 +11,20 @@ function Latest() {
     const [start, setStart] = useState(1);
     const [end, setEnd] = useState(10);
     const [noData, setNoData] = useState(false);
+    const [userId, setUserId] = useState(null);
 
+    useEffect(() => {
+        isLogged()
+        .then(response => {
+            console.log(response);
+            setUserId(response.data.id);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }, [])
+    
+    
     useEffect(()=> {
         console.log(`I am asking from ${start} to ${end}`);
         getQuestions(start, end)
@@ -41,7 +57,8 @@ function Latest() {
                                  title={value.title}
                                  text={value.text}
                                  upvotes={value.upvotes}
-                                 answerChoice={true} />
+                                 answerChoice={true}
+                                 userId={userId} />
                 )
             })}
             {!noData && 

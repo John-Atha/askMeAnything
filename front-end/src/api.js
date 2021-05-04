@@ -103,3 +103,26 @@ export const Answer = (text, questionId) => {
     const requestUrl = questRunUrl+'/answers';
     return axios.post(requestUrl, body, {headers});
 }
+
+export const questionIsUpvoted = (questionId) => {
+    const headers = buildAuthHeader();
+    const requestUrl = questManUrl+`/questions/${questionId}/upvoted`;
+    return axios.get(requestUrl, {headers});
+}
+
+export const questionUpvote = (questionId) => {
+    const requestUrl = questRunUrl+'/question-upvotes';
+    const headers = buildAuthHeader();
+    const body = {
+        question: {
+            id: questionId,
+        },
+    };
+    return axios.post(requestUrl, body, {headers});
+}
+
+export const questionUnUpvote = (upvoteId) => {
+    const requestUrl = questRunUrl+`/question-upvotes/${upvoteId}`;
+    const headers = buildAuthHeader();
+    return axios.delete(requestUrl, {headers}); 
+}
