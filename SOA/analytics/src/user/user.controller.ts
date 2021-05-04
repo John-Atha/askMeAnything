@@ -3,7 +3,9 @@ import {
   Get,
   Param,
   ClassSerializerInterceptor,
+  Query,
   UseInterceptors,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 
@@ -12,14 +14,19 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Get(':id/questions/monthly/:year/:month')
+  findUsersQuestionsMonthly(
+    @Query() reqParams,
+    @Param ('id', ParseIntPipe) id: number,
+    @Param ('year', ParseIntPipe) year:number,
+    @Param ('month', ParseIntPipe) month: number,) 
+  {
+    return this.userService.findQuestionsMonthly(reqParams, id, year, month);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @Get(':id/questions/monthly/count')
+  countUsersQuestionsMonthly(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.countQuestionsMonthly(id);
   }
 
 }

@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { Question } from './entities/question.entity';
-import { paginate } from '../../general-methods/methods';
+import { paginate, withCountQuestionsUpvotes } from '../../general-methods/methods';
+
 
 @Injectable()
 export class QuestionService {
@@ -18,7 +19,7 @@ export class QuestionService {
         );
       });
       questions = paginate(questions, params);
-      return this.withCountQuestionsUpvotes(questions);  
+      return withCountQuestionsUpvotes(questions, manager);
     })
   }
 
@@ -28,13 +29,4 @@ export class QuestionService {
     );
   }
 
-  async withCountQuestionsUpvotes(questions: Question[]): Promise<any> {
-    for (let i=0; i<questions.length; i++) {
-      const count = await this.manager.query(
-        `SELECT COUNT(*) FROM public."question_upvote" WHERE public."question_upvote"."questionId"=${questions[i].id}`,
-      );
-      questions[i]['upvotesCount'] = await parseInt(count[0]['count']);
-    }
-    return questions;
-  }
 }
