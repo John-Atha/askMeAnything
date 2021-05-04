@@ -3,6 +3,8 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import { KeywordService } from './keyword.service';
@@ -12,13 +14,18 @@ import { KeywordService } from './keyword.service';
 export class KeywordController {
   constructor(private readonly keywordService: KeywordService) {}
 
-  @Get()
-  findAll() {
-    return this.keywordService.findAll();
+  @Get(':id/questions/monthly/:year/:month')
+  findKeywordQuestionsMonthly(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year: number,
+    @Param('month', ParseIntPipe) month: number,)
+  {
+    return this.keywordService.findQuestionsMonthly(reqParams, id, year, month);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.keywordService.findOne(+id);
+  @Get(':id/questions/monthly/count')
+  countKeywordQuestionsMonthly(@Param('id', ParseIntPipe) id: number) {
+    return this.keywordService.countQuestionsMonthly(id);
   }
 }

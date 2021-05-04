@@ -31,7 +31,7 @@ export class UserService {
 
   async findAnswersMonthly(params, id: number, year: number, month: number): Promise<Answer[]> {
     return this.manager.transaction( async (manager) => {
-      const user = manager.findOne(User, id);
+      const user = await manager.findOne(User, id);
       if (!user) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
