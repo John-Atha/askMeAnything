@@ -1,5 +1,5 @@
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
-import { jwtConstants } from '../../constants';
+import { jwtConstants } from '../constants';
 const jwt = require('jsonwebtoken');
 
 export const validateParams = (params) => {
