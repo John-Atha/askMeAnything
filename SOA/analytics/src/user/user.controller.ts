@@ -17,16 +17,31 @@ export class UserController {
   @Get(':id/questions/monthly/:year/:month')
   findUsersQuestionsMonthly(
     @Query() reqParams,
-    @Param ('id', ParseIntPipe) id: number,
-    @Param ('year', ParseIntPipe) year:number,
-    @Param ('month', ParseIntPipe) month: number,) 
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year:number,
+    @Param('month', ParseIntPipe) month: number,) 
   {
     return this.userService.findQuestionsMonthly(reqParams, id, year, month);
+  }
+
+  @Get(':id/answers/monthly/:year/:month')
+  findUsersAnswersMonthly(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year: number,
+    @Param('month', ParseIntPipe) month: number,)
+  {
+    return this.userService.findAnswersMonthly(reqParams, id, year, month);
   }
 
   @Get(':id/questions/monthly/count')
   countUsersQuestionsMonthly(@Param('id', ParseIntPipe) id: number) {
     return this.userService.countQuestionsMonthly(id);
+  }
+
+  @Get(':id/answers/monthly/count')
+  countUsersAnswersMonthly(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.countAnswersMonthly(id);
   }
 
 }
