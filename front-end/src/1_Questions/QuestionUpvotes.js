@@ -30,7 +30,7 @@ function QuestionUpvotes(props) {
             console.log(response);
             getOneQuestion(props.id)
             .then(response => {
-                setUpvotes(response.data.upvotes);
+                setUpvotes(response.data.upvotesCount);
                 checkUpvoted();
             })
             .catch(err => {
@@ -49,7 +49,7 @@ function QuestionUpvotes(props) {
             console.log(response);
             getOneQuestion(props.id)
             .then(response => {
-                setUpvotes(response.data.upvotes);
+                setUpvotes(response.data.upvotesCount);
                 checkUpvoted();
             })
             .catch(err => {

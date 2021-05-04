@@ -41,7 +41,7 @@ function OneQuestion(props) {
                 <QuestionKeywords id={props.id} />
             </div>
             <div className="break"></div>
-            <Answers id={props.id} />
+            <Answers id={props.id} userId={props.userId} />
             <div className="break"></div>
             {props.answerChoice &&
             <Button variant="outline-primary" 

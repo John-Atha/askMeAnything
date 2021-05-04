@@ -56,7 +56,7 @@ function Latest() {
                                  date={value.updated_at}
                                  title={value.title}
                                  text={value.text}
-                                 upvotes={value.upvotes}
+                                 upvotes={value.upvotesCount}
                                  answerChoice={true}
                                  userId={userId} />
                 )

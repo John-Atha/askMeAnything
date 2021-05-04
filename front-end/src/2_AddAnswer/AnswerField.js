@@ -14,8 +14,7 @@ function AnswerField(props) {
             createNotification('danger', 'Sorry,', 'You cannot post an empty answer.');
         }
         else {
-            isLogged()
-            .then(response=> {
+            if (props.userId) {
                 Answer(text, props.id)
                 .then(response => {
                     console.log(response);
@@ -25,10 +24,10 @@ function AnswerField(props) {
                     console.log(err);
                     createNotification('danger', 'Sorry,', 'We could not post your answer.');
                 })
-            })
-            .catch(err => {
+            }
+            else {
                 createNotification('danger', 'Sorry,', 'You cannot post an answer without an account.');
-            })    
+            } 
         }
     }
 

@@ -10,7 +10,7 @@ function OneAnswer(props) {
 
     return(
         <div className="one-answer-container bordered-input flex-layout padding-bottom">
-            <AnswerUpvotes upvotes={props.upvotes} />
+            <AnswerUpvotes upvotes={props.upvotes} id={props.id} userId={props.userId} />
             <div style={{'marginLeft': '10px'}}>
                 <AnswerHeader owner={props.owner} date={props.date} />
                 <hr></hr>

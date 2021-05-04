@@ -37,11 +37,13 @@ function Answers (props) {
             <div className="answers-container bordered-input margin-top-smaller">
                 {answers.map((value, index) => {
                     return(
-                        <OneAnswer key={index} 
+                        <OneAnswer key={index}
+                                id={value.id} 
                                 owner={value.owner}
                                 text={value.text}
                                 date={value.updated_at}
-                                upvotes={value.upvotes} />
+                                upvotes={value.upvotesCount}
+                                userId={props.userId} />
                     )
                 })}
                 { !noData &&

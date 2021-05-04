@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getOneQuestion, getQuestionKeywords } from '../api';
+import { getOneQuestion, isLogged } from '../api';
 import OneQuestion from '../1_Questions/OneQuestion';
 import AnswerField from './AnswerField';
 
@@ -11,6 +11,7 @@ function AddMain(props) {
     const [date, setDate] = useState("");
     const [upvotes, setUpvotes] = useState(0);
     const [questionError, setQuestionError] = useState(false);
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         console.log(`I will answer question ${id}.`);
@@ -30,6 +31,18 @@ function AddMain(props) {
         })
     }, [id])
 
+    useEffect(()=> {
+        isLogged()
+        .then(response => {
+            console.log(response);
+            setUserId(response.data.id);
+        })
+        .catch(err => {
+            console.log(err);
+            setUserId(null)
+        })
+    }, [])
+
     return(
         <div className="margin-top-small container-width" style={{'padding': '10px', 'marginBottom': '200px', 'position': 'relative'}}>
             <OneQuestion title={title}
@@ -38,8 +51,9 @@ function AddMain(props) {
                          owner={owner}
                          date={date}
                          upvotes={upvotes}
-                         answerChoice={false} />
-            <AnswerField id={id} />
+                         answerChoice={false}
+                         userId={userId} />
+            <AnswerField id={id} userId={userId} />
         </div>
     )
 }
