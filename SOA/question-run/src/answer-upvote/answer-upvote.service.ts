@@ -29,7 +29,7 @@ export class AnswerUpvoteService {
       if (!answer) {
         throw new NotFoundException(`Answer '${answer_id}' not found.`);
       }
-      const allowed = await this.validateCreate(owner.id, answer_id);
+      const allowed = await this.validateCreate(owner, answer);
       if (!allowed) {
         throw new BadRequestException(`You have already upvoted this answer.`);
       }
@@ -63,10 +63,8 @@ export class AnswerUpvoteService {
     });
   }
 
-  async validateCreate(user_id: number, answer_id: number): Promise<boolean> {
-    const upvotes = await this.manager.query(
-      `SELECT * FROM public."answer_upvote" WHERE public."answer_upvote"."answerId"=${answer_id} AND public."answer_upvote"."ownerId"=${user_id}`,
-    )
+  async validateCreate(user: User, answer: Answer): Promise<boolean> {
+    const upvotes = await this.manager.find(AnswerUpvote, { owner: user, answer: answer});
     return !upvotes.length;
   }
 }
