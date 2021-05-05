@@ -14,11 +14,11 @@ export class UserService {
         throw new NotFoundException(`User '${id}' not found.`);
       }
       return this.manager.query(
-        `SELECT DATE_TRUNC('month', public."question"."updated_at") as upd_month,
+        `SELECT DATE_TRUNC('month', public."question"."created_at") as month,
                       COUNT(*)
                FROM public."question"
                WHERE public."question"."ownerId"=${id}
-               GROUP BY upd_month`,
+               GROUP BY month`,
       );
     });
   }
@@ -30,11 +30,11 @@ export class UserService {
         throw new NotFoundException(`User '${id}' not found.`);
       }
       return this.manager.query(
-        `SELECT DATE_TRUNC('month', public."answer"."updated_at") as upd_month,
+        `SELECT DATE_TRUNC('month', public."answer"."created_at") as month,
                       COUNT(*)
                FROM public."answer"
                WHERE public."answer"."ownerId"=${id}
-               GROUP BY upd_month`,
+               GROUP BY month`,
       );
     });
   }
@@ -46,7 +46,7 @@ export class UserService {
         throw new NotFoundException(`User '${id}' not found.`);
       }
       return manager.query(
-        `SELECT to_char(public."question"."updated_at", 'FMDay') as day,
+        `SELECT to_char(public."question"."created_at", 'FMDay') as day,
                         COUNT(*)
                  FROM public."question"
                  WHERE public."question"."ownerId"=${id}
@@ -62,7 +62,7 @@ export class UserService {
         throw new NotFoundException(`User '${id}' not found.`);
       }
       return manager.query(
-        `SELECT to_char(public."answer"."updated_at", 'FMDay') as day,
+        `SELECT to_char(public."answer"."created_at", 'FMDay') as day,
                        COUNT(*)
                FROM public."answer"
                WHERE public."answer"."ownerId"=${id}

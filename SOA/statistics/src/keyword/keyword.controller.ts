@@ -1,17 +1,17 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { KeywordService } from './keyword.service';
 
-@Controller('keyword')
+@Controller('keywords')
 export class KeywordController {
   constructor(private readonly keywordService: KeywordService) {}
 
-  @Get()
-  findAll() {
-    return this.keywordService.findAll();
+  @Get(':id/stats/monthly')
+  findKeywordsStatsMonthly(@Param('id', ParseIntPipe) id: number) {
+    return this.keywordService.findStatsMonthly(id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.keywordService.findOne(+id);
+  @Get(':id/stats/daily')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.keywordService.findStatsDaily(id);
   }
 }
