@@ -1,17 +1,17 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Request } from '@nestjs/common';
 import { UserService } from './user.service';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Get(':id/questions/stats/monthly')
+  findUsersQuestionsStatsMonthly(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findQuestionsStatsMonthly(id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @Get(':id/answers/stats/monthly')
+  findUsersAnswersStatsMonthly(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findAnswersStatsMonthly(id);
   }
 }
