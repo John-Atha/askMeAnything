@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { paginate, withCountAnswersUpvotes } from '../../general-methods/methods';
+import {
+  paginate,
+  withCountAnswersUpvotes,
+} from '../../general-methods/methods';
 import { EntityManager } from 'typeorm';
 import { Answer } from './entities/answer.entity';
 
@@ -9,7 +12,7 @@ export class AnswerService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
   async findMonthly(params, year: number, month: number): Promise<Answer[]> {
-    return this.manager.transaction( async (manager) => {
+    return this.manager.transaction(async (manager) => {
       let answers = await manager.find(Answer, { relations: ['owner'] });
       answers = answers.filter((answer) => {
         return(
@@ -19,12 +22,6 @@ export class AnswerService {
       });
       answers = paginate(answers, params);
       return withCountAnswersUpvotes(answers, manager);
-    })
-  }
-
-  async countMonthly() {
-    return this.manager.query(
-      `SELECT DATE_TRUNC('month', public."answer"."updated_at") as upd_month, COUNT(*) FROM public."answer" GROUP BY upd_month`,
-    );
+    });
   }
 }

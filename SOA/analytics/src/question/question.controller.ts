@@ -15,12 +15,11 @@ export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Get('monthly/:year/:month')
-  findMonthly(@Query() reqParams, @Param ('year', ParseIntPipe) year: number, @Param('month', ParseIntPipe) month: number) {
+  findMonthly(
+    @Query() reqParams,
+    @Param('year', ParseIntPipe) year: number,
+    @Param('month', ParseIntPipe) month: number,
+  ) {
     return this.questionService.findMonthly(reqParams, year, month);
-  }
-
-  @Get('monthly/count')
-  countMonthly() {
-    return this.questionService.countMonthly();
   }
 }

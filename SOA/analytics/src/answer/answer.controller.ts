@@ -13,14 +13,9 @@ import { AnswerService } from './answer.service';
 @UseInterceptors(ClassSerializerInterceptor)
 export class AnswerController {
   constructor(private readonly answerService: AnswerService) {}
-  
+
   @Get('monthly/:year/:month')
   findMonthly(@Query() reqParams, @Param ('year', ParseIntPipe) year: number, @Param ('month', ParseIntPipe) month: number) {
     return this.answerService.findMonthly(reqParams, year, month);
-  }
-
-  @Get('monthly/count')
-  findOne() {
-    return this.answerService.countMonthly();
   }
 }

@@ -20,13 +20,6 @@ export class QuestionService {
       });
       questions = paginate(questions, params);
       return withCountQuestionsUpvotes(questions, manager);
-    })
+    });
   }
-
-  async countMonthly() {
-    return this.manager.query(
-      `SELECT DATE_TRUNC('month', public."question"."updated_at") as upd_month, COUNT(*) FROM public."question" GROUP BY upd_month`,
-    );
-  }
-
 }
