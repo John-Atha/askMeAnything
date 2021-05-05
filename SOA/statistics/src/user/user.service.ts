@@ -38,4 +38,36 @@ export class UserService {
       );
     });
   }
+
+  async findQuestionsStatsDaily(id: number): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      const user = manager.findOne(User, id);
+      if (!user) {
+        throw new NotFoundException(`User '${id}' not found.`);
+      }
+      return manager.query(
+        `SELECT to_char(public."question"."updated_at", 'FMDay') as day,
+                        COUNT(*)
+                 FROM public."question"
+                 WHERE public."question"."ownerId"=${id}
+                 GROUP BY day`,
+      );
+    });
+  }
+
+  async findAnswersStatsDaily(id: number): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      const user = await manager.findOne(User, id);
+      if (!user) {
+        throw new NotFoundException(`User '${id}' not found.`);
+      }
+      return manager.query(
+        `SELECT to_char(public."answer"."updated_at", 'FMDay') as day,
+                       COUNT(*)
+               FROM public."answer"
+               WHERE public."answer"."ownerId"=${id}
+               GROUP BY day`,
+      );
+    });
+  }
 }

@@ -10,8 +10,18 @@ export class UserController {
     return this.userService.findQuestionsStatsMonthly(id);
   }
 
+  @Get(':id/questions/stats/daily')
+  findUsersQuestionsStatsDaily(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findQuestionsStatsDaily(id);
+  }
+
   @Get(':id/answers/stats/monthly')
   findUsersAnswersStatsMonthly(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findAnswersStatsMonthly(id);
+  }
+
+  @Get(':id/answers/stats/daily')
+  findUsersAnswersStatsDaily(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findAnswersStatsDaily(id);
   }
 }
