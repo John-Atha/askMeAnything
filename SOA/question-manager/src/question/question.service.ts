@@ -112,16 +112,17 @@ export class QuestionService {
   }
 
   async findQuestionsAnswers(id: number, params): Promise<Answer[]> {
-    const question = await this.manager.findOne(Question, id);
+    const question = await this.manager.findOne(Question, id, { relations: ['answers', 'answers.owner'] });
     if (!question) {
       throw new NotFoundException(`Question ${id} not found.`);
     }
-    let res = await this.manager.find(Answer, { relations: ['owner', 'question'] });
-    res = res.filter((answer) => {
-      return answer.question.id === id;
-    })
-    res = paginate(res, params);
-    return this.withCountAnswersUpvotes(res);
+    let answers = await this.withCountAnswersUpvotes(question.answers);
+    answers = answers.sort((a, b) =>
+      a['upvotesCount'] < b['upvotesCount'] ? 1 : -1,
+    );
+    //const answers = paginate(question.answers, params);
+    //return this.withCountAnswersUpvotes(answers);
+    return paginate(answers, params);
   }
 
   async withCountQuestionsUpvotes(questions): Promise<any> {
@@ -145,15 +146,11 @@ export class QuestionService {
   }
 
   async findUpvotes(id: number, params): Promise<QuestionUpvote> {
-    const question = await this.manager.findOne(Question, id);
+    const question = await this.manager.findOne(Question, id, { relations: ['upvotes', 'upvotes.owner'] });
     if (!question) {
       throw new NotFoundException(`Question ${id} not found.`);
     }
-    let res = await this.manager.find(QuestionUpvote, { relations: ['owner', 'question'] });
-    res = res.filter((upvote) => {
-      return upvote.question.id === question.id;
-    });
-    return paginate(res, params);
+    return paginate(question.upvotes, params);
   }
 
   async findKeywords(id: number): Promise<Keyword[]> {
@@ -161,13 +158,16 @@ export class QuestionService {
     if (!question) {
       throw new NotFoundException(`Question '${id}' not found.`);
     }
-    return question['keywords'];
+    return question.keywords;
   }
 
   async attachKeyword(req, question_id: number, keyword_id: number) {
     return this.manager.transaction(async (manager) => {
       const user_id = verify(req);
       const user = await manager.findOne(User, user_id);
+      if (!user) {
+        throw new UnauthorizedException();
+      }
       const question = await manager.findOne(Question, question_id, { relations: ['owner', 'keywords'] });
       if (!question) {
         throw new NotFoundException(`Question '${question_id} not found.`);
@@ -192,6 +192,9 @@ export class QuestionService {
     return this.manager.transaction(async (manager) => {
       const user_id = verify(req);
       const user = await manager.findOne(User, user_id);
+      if (!user) {
+        throw new UnauthorizedException();
+      }
       const question = await manager.findOne(Question, question_id, { relations: ['owner', 'keywords'] });
       if (!question) {
         throw new NotFoundException(`Question ${question_id} not found.`);
@@ -228,27 +231,23 @@ export class QuestionService {
   async isUpvoted(req, id: number): Promise<any> {
     return this.manager.transaction(async (manager) => {
       const user_id = verify(req);
-      const question = await manager.findOne(Question, id, { relations: ['upvotes', 'owner'] });
+      const user = await manager.findOne(User, user_id);
+      if (!user) {
+        throw new UnauthorizedException();
+      }
+      const question = await manager.findOne(Question, id);
       if (!question) {
         throw new NotFoundException(`Question ${id} not found.`);
       }
-      const upvotes = question.upvotes;
-      for (let i = 0; i < upvotes.length; i++) {
-        console.log(upvotes[i]);
-        const upvoteId = upvotes[i].id;
-        const upvote = await this.manager.findOne(QuestionUpvote, upvoteId, { relations: ['owner'] } );
-        if (upvote) {
-          if (upvote.owner.id === user_id) {
-            return {
-              upvoted: true,
-              id: upvote.id,
-            };
-          }
-        }
+      const upvote = await manager.find(QuestionUpvote, { owner: user, question: question });
+      if (!upvote.length) {
+        return {
+          upvoted: false,
+        };
       }
-      console.log(upvotes);
       return {
-        upvoted: false,
+        upvoted: true,
+        id: upvote[0].id,
       };
     });
   }
