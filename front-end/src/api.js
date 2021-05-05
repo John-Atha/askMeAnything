@@ -4,6 +4,8 @@ import config from './config';
 const questManUrl = config.questManUrl;
 const questRunUrl = config.questRunUrl;
 const authUrl = config.authUrl;
+const analsUrl = config.analsUrl;
+const statsUrl = config.statsUrl;
 
 const token = localStorage.getItem('token');
 const buildAuthHeader = () => {
@@ -36,9 +38,7 @@ export const getQuestions = (start, end) => {
         start: start,
         end: end,
     };
-    return axios.get(requestUrl, {
-        params: params,
-    });
+    return axios.get(requestUrl, {params});
 }
 
 export const getQuestionAnswers = (id, start, end) => {
@@ -70,6 +70,11 @@ export const isLogged = () => {
 
 export const getAllKeywords = () => {
     const requestUrl = questManUrl+`/keywords`;
+    return axios.get(requestUrl);
+}
+
+export const getOneKeyword = (id) => {
+    const requestUrl = questManUrl+`/keywords/${id}`;
     return axios.get(requestUrl);
 }
 
@@ -153,4 +158,18 @@ export const answerUnUpvote = (upvoteId) => {
     const requestUrl = questRunUrl+`/answer-upvotes/${upvoteId}`;
     const headers = buildAuthHeader();
     return axios.delete(requestUrl, {headers});
+}
+
+export const getKeywordsStats = (id) => {
+    const requestUrl = statsUrl+`/keywords/${id}/stats/monthly`;
+    return axios.get(requestUrl);
+}
+
+export const getKeywordQuestionsPeriod = (id, start, end, month, year) => {
+    const requestUrl = analsUrl+`/keywords/${id}/questions/monthly/${year}/${month}`;
+    const params = {
+        start: start,
+        end: end,
+    };
+    return axios.get(requestUrl, {params});
 }

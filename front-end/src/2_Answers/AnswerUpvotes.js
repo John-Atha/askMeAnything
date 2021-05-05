@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { getOneAnswer, answerIsUpvoted, answerUnUpvote, answerUpvote } from '../api';
 import { createNotification } from '../createNotification';
@@ -79,6 +79,10 @@ function AnswerUpvotes(props) {
             createNotification('danger', 'Sorry', 'You cannot upvote a question without an account')
         }
     }
+
+    useEffect(()=>{
+        checkUpvoted();
+    }, [props.id])
 
     return(
         <div className="center-content">
