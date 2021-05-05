@@ -1,7 +1,15 @@
-import { Controller, Get, Param, ParseIntPipe, Request } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe, Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -23,5 +31,10 @@ export class UserController {
   @Get(':id/answers/stats/daily')
   findUsersAnswersStatsDaily(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findAnswersStatsDaily(id);
+  }
+
+  @Get('ranking')
+  findUsersRanking(@Query() reqParams) {
+    return this.userService.ranking(reqParams);
   }
 }
