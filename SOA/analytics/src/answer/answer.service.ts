@@ -15,7 +15,7 @@ export class AnswerService {
     return this.manager.transaction(async (manager) => {
       let answers = await manager.find(Answer, { relations: ['owner'] });
       answers = answers.filter((answer) => {
-        return(
+        return (
           answer.updated_at.getFullYear() === year &&
           answer.updated_at.getMonth() === month
         );

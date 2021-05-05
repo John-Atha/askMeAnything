@@ -19,13 +19,8 @@ export class KeywordController {
     @Query() reqParams,
     @Param('id', ParseIntPipe) id: number,
     @Param('year', ParseIntPipe) year: number,
-    @Param('month', ParseIntPipe) month: number,)
-  {
+    @Param('month', ParseIntPipe) month: number,
+  ) {
     return this.keywordService.findQuestionsMonthly(reqParams, id, year, month);
-  }
-
-  @Get(':id/questions/monthly/count')
-  countKeywordQuestionsMonthly(@Param('id', ParseIntPipe) id: number) {
-    return this.keywordService.countQuestionsMonthly(id);
   }
 }
