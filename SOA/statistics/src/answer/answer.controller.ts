@@ -1,17 +1,17 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { AnswerService } from './answer.service';
 
-@Controller('answer')
+@Controller('answers')
 export class AnswerController {
   constructor(private readonly answerService: AnswerService) {}
 
-  @Get()
-  findAll() {
-    return this.answerService.findAll();
+  @Get('stats/monthly')
+  findAnswersStatsMonthly() {
+    return this.answerService.findStatsMonthly();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.answerService.findOne(+id);
+  @Get('stats/daily')
+  findAnswersStatsDaily(@Param('id') id: string) {
+    return this.answerService.findStatsDaily();
   }
 }

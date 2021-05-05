@@ -1,12 +1,26 @@
 import { Injectable } from '@nestjs/common';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { EntityManager } from 'typeorm';
 
 @Injectable()
 export class AnswerService {
-  findAll() {
-    return `This action returns all answer`;
+  constructor(@InjectEntityManager() private manager: EntityManager) {}
+
+  async findStatsMonthly(): Promise<any> {
+    return this.manager.query(
+      `SELECT DATE_TRUNC('month', public."answer"."created_at") as month,
+                    COUNT(*) as answers
+               FROM public."answer"
+               GROUP BY month`,
+    );
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} answer`;
+  async findStatsDaily(): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."answer"."created_at", 'FMDay') as day,
+                    COUNT(*) as answers
+              FROM public."answer"
+              GROUP BY day`,
+    );
   }
 }
