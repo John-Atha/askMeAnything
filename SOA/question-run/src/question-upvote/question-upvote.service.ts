@@ -27,7 +27,7 @@ export class QuestionUpvoteService {
         throw new UnauthorizedException();
       }
       const question_id = createQuestionUpvoteDto.question.id;
-      const question = await manager.findOne(Question, question_id);
+      const question = await manager.findOne(Question, question_id, { relations: ['owner'] });
       if (!question) {
         throw new NotFoundException(`Question '${question_id}' not found.`);
       }
@@ -41,6 +41,9 @@ export class QuestionUpvoteService {
       const upvote = await manager.create(QuestionUpvote, createQuestionUpvoteDto);
       upvote.owner = user;
       upvote.question = question;
+      const owner = question.owner;
+      owner.points++;
+      await manager.save(owner);
       return manager.save(upvote);
     });
   }
@@ -53,7 +56,7 @@ export class QuestionUpvoteService {
         throw new UnauthorizedException();
       }
       const upvote = await manager.findOne(QuestionUpvote, id, {
-        relations: ['owner'],
+        relations: ['owner', 'question', 'question.owner'],
       });
       if (!upvote) {
         throw new NotFoundException(`Upvote '${id}' not found.`);
@@ -61,6 +64,10 @@ export class QuestionUpvoteService {
       if (user.id !== upvote.owner.id) {
         throw new BadRequestException(`You cannot delete another user's upvote.`);
       }
+      const question = upvote.question;
+      const owner = question.owner;
+      if (owner.points) owner.points--;
+      await manager.save(owner);
       return manager.delete(QuestionUpvote, id);
     });
   }
