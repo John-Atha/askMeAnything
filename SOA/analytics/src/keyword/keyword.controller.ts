@@ -21,6 +21,24 @@ export class KeywordController {
     @Param('year', ParseIntPipe) year: number,
     @Param('month', ParseIntPipe) month: number,
   ) {
-    return this.keywordService.findQuestionsMonthly(reqParams, id, year, month);
+    return this.keywordService.findAll(reqParams, id, year, month);
   }
+
+  @Get(':id/questions/yearly/:year')
+  findKeywordQuestionsYearly(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year: number,
+  ) {
+    return this.keywordService.findAll(reqParams, id, year, null);
+  }
+
+  @Get(':id/questions')
+  findKeywordQuestionsAll(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.keywordService.findAll(reqParams, id, null, null);
+  }
+
 }
