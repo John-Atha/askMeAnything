@@ -1,0 +1,41 @@
+@keyframes expand-height {
+    0% {
+        height: 0 !important;
+        opacity: 0%;
+    }
+    30% {
+        height: 30px !important;
+        opacity: 30%;
+    }
+    60% {
+        height: 130px !important;
+        opacity: 60%;
+    }
+    100% {
+        height: min-content !important;
+        opacity: 100%;
+    }
+}
+
+.menu-arrow {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}
+.menu {
+    font-size: 25px;
+    background-color: lightgrey;
+    padding: 5px;
+    border: 1px solid grey;
+    position: relative;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.show-animated {
+    animation:
+        expand-height 0.5s;
+}

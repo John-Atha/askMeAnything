@@ -33,7 +33,7 @@ export const Register = (username, password, confirmation, email) => {
 }
 
 export const getQuestions = (start, end) => {
-    const requestUrl = questManUrl+"/questions";
+    const requestUrl = analsUrl+"/questions";
     const params = {
         start: start,
         end: end,

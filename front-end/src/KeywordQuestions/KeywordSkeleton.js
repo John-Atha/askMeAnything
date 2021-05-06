@@ -36,8 +36,8 @@ function KeywordSkeleton(props) {
         <div className="home-container">
             <MyNavbar />
                 {!keywordErr &&
-                    <h3 className="margin-top-smaller"
-                        style={{'color':'blue'}}>{name}</h3>        
+                    <h2 className="margin-top-smaller"
+                        style={{'color':'blue'}}>{name}</h2>        
                 }
                 {!keywordErr &&
                     <KeywordQuestions id={props.id} name={name} />
