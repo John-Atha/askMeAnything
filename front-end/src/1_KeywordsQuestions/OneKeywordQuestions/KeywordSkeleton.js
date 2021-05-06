@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-import { getOneKeyword } from '../api';
+import { getOneKeyword } from '../../api';
 
-import '../generalStyles.css';
+import '../../generalStyles.css';
 import './styles.css';
 
-import MyNavbar from '../Navbar/MyNavbar';
-import Footer from '../Footer/Footer';
+import MyNavbar from '../../Navbar/MyNavbar';
+import Footer from '../../Footer/Footer';
 import KeywordQuestions from './KeywordQuestions';
 
 function KeywordSkeleton(props) {
@@ -35,10 +35,6 @@ function KeywordSkeleton(props) {
     return(
         <div className="home-container">
             <MyNavbar />
-                {!keywordErr &&
-                    <h2 className="margin-top-smaller"
-                        style={{'color':'blue'}}>{name}</h2>        
-                }
                 {!keywordErr &&
                     <KeywordQuestions id={props.id} name={name} />
                 }

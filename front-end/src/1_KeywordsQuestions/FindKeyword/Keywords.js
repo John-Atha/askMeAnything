@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import { getAllKeywords } from '../api';
+import { getAllKeywords } from '../../api';
 
-import KeywordQuestions from '../KeywordQuestions/KeywordQuestions';
+import KeywordQuestions from '../OneKeywordQuestions/KeywordQuestions';
 
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl'
@@ -64,9 +64,9 @@ function Keywords() {
     }
 
     return(
-        <div className="main-page margin-top-small center-content">
+        <div className="main-page margin-top-small">
             
-            <h3>Questions per keyword</h3>
+            <h3 style={{'textAlign': 'center'}}>Questions per keyword</h3>
                 <div className="margin-top-small" style={{'marginLeft': 'auto', 'marginRight': 'auto', 'width': '350px'}}>
                     <Form onSubmit={(event) => {event.preventDefault(); buttonAdd();}} className="flex-layout marign-top-smaller">
                         <FormControl 

@@ -1,8 +1,8 @@
 import {React, useState, useEffect} from 'react';
 
-import { isLogged, getKeywordsStats } from '../api';
+import { isLogged, getKeywordsStats } from '../../api';
 
-import OnePeriodQuestions from './OnePeriodQuestions';
+import OnePeriodKeyQuestions from './OnePeriodKeyQuestions';
 
 function KeywordQuestions(props) {
 
@@ -87,7 +87,6 @@ function KeywordQuestions(props) {
 
     useEffect(() => {
         checkLogged();
-        getGeneral();
     }, [])
     
     return(
@@ -96,7 +95,7 @@ function KeywordQuestions(props) {
             {statsList.map((value, index) => {
                 const { year, month } = extractYearMonth(value.month);
                 return(
-                    <OnePeriodQuestions key={index}
+                    <OnePeriodKeyQuestions key={index}
                                         month={month}
                                         monthNum={value.month.slice(5, 7)}
                                         year={year}
@@ -105,7 +104,9 @@ function KeywordQuestions(props) {
                 )
             })}
             {noData && 
-                <div className="margin-top-smaller error-message">Sorry, no more questions found.</div>
+                <div className="margin-top-smaller error-message">
+                    Sorry, no questions found.
+                </div>
             }
         </div>
     )

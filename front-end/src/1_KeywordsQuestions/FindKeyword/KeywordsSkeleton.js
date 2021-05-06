@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Keywords from './Keywords';
-import MyNavbar from '../Navbar/MyNavbar';
-import Footer from '../Footer/Footer';
+import MyNavbar from '../../Navbar/MyNavbar';
+import Footer from '../../Footer/Footer';
 
 function KeywordsSkeleton() {
     return(

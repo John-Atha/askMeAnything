@@ -1,14 +1,14 @@
 import {React, useState, useEffect} from 'react';
 
-import { getKeywordQuestionsPeriod } from '../api';
+import { getKeywordQuestionsPeriod } from '../../api';
 
-import OneQuestion from '../1_Questions/OneQuestion';
+import OneQuestion from '../../1_Questions/OneQuestion';
 import Button from 'react-bootstrap/Button';
-import arrow_up from '../images/arrow1.png';
-import arrow_down from '../images/arrow_down.png';
+import arrow_up from '../../images/arrow1.png';
+import arrow_down from '../../images/arrow_down.png';
 import './styles.css';
 
-function OnePeriodQuestions(props) {
+function OnePeriodKeyQuestions(props) {
 
     const [id, setId] = useState(props.id);  
     const [questions, setQuestions] = useState([]);
@@ -28,7 +28,7 @@ function OnePeriodQuestions(props) {
             console.log(response);
             if (response.data.length) {
                 setQuestions(questions.concat(response.data));
-                setNoData(false);
+                setNoData(!response.data.length);
             }
             else {
                 setNoData(true);
@@ -88,4 +88,4 @@ function OnePeriodQuestions(props) {
     )
 }
 
-export default OnePeriodQuestions;
+export default OnePeriodKeyQuestions;
