@@ -5,8 +5,9 @@ import { Answer } from '../answer/entities/answer.entity';
 import { EntityManager } from 'typeorm';
 import {
   paginate,
-  withCountAnswersUpvotes,
   withCountQuestionsUpvotes,
+  withCountQuestionsUpvotesAndReform,
+  withCountAnswersAndQuestionsUpvotes,
 } from '../../general-methods/methods';
 import { User } from './entities/user.entity';
 
@@ -34,20 +35,16 @@ export class UserService {
             question.updated_at.getMonth() === month
           );
         });
-      }
-      else if (year && !month) {
+      } else if (year && !month) {
         questions = questions.filter((question) => {
           return (
             question.owner.id === id &&
             question.updated_at.getFullYear() === year
           );
-        });  
-      }
-      else {
+        });
+      } else {
         questions = questions.filter((question) => {
-          return (
-            question.owner.id === id
-          );
+          return question.owner.id === id;
         });
       }
       questions = paginate(questions, params);
@@ -61,12 +58,14 @@ export class UserService {
     year: number,
     month: number,
   ): Promise<Answer[]> {
-    return this.manager.transaction( async (manager) => {
+    return this.manager.transaction(async (manager) => {
       const user = await manager.findOne(User, id);
       if (!user) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      let answers = await manager.find(Answer, { relations: ['owner'] });
+      let answers = await manager.find(Answer, {
+        relations: ['owner', 'question', 'question.owner'],
+      });
       if (year && month) {
         answers = answers.filter((answer) => {
           return (
@@ -75,24 +74,52 @@ export class UserService {
             answer.updated_at.getMonth() === month
           );
         });
-      }
-      else if (year && !month) {
+      } else if (year && !month) {
         answers = answers.filter((answer) => {
           return (
-            answer.owner.id === id &&
-            answer.updated_at.getFullYear() === year
+            answer.owner.id === id && answer.updated_at.getFullYear() === year
           );
         });
-      }
-      else {
+      } else {
         answers = answers.filter((answer) => {
-          return (
-            answer.owner.id === id
-          );
+          return answer.owner.id === id;
         });
       }
       answers = paginate(answers, params);
-      return withCountAnswersUpvotes(answers, manager);
+      return withCountAnswersAndQuestionsUpvotes(answers, manager);
+    });
+  }
+
+  async findAllAnsweredQuestions(
+    params,
+    id: number,
+    year: number,
+    month: number,
+  ): Promise<Question[]> {
+    return this.manager.transaction(async (manager) => {
+      const user = await manager.findOne(User, id);
+      if (!user) {
+        throw new NotFoundException(`User ${id} not found.`);
+      }
+      let questions = await manager.query(
+        `SELECT public."question"."id",
+                      public."question"."title",
+                      public."question"."text",
+                      public."question"."created_at",
+                      public."question"."updated_at",
+                      public."user"."id" as ownerId,
+                      public."user"."email",
+                      public."user"."username",
+                      public."user"."points"
+                 FROM  public."answer", public."question", public."user"
+                 WHERE public."answer"."ownerId"=${id}
+                   AND public."user"."id"=${id}
+                   AND public."question"."id"=public."answer"."questionId"`,
+      );
+      console.log(questions);
+      questions = paginate(questions, params);
+      //return questions;
+      return withCountQuestionsUpvotesAndReform(questions, manager);
     });
   }
 }
