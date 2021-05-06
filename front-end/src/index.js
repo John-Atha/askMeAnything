@@ -11,8 +11,9 @@ import LoginRegister from './LoginRegister/LoginRegister';
 import Home from './MainPages/Home';
 import AskSkeleton from './1_AskQuestion/AskSkeleton';
 import AddSkeleton from './2_AddAnswer/AddSkeleton';
-import KeywordSkeleton from './KeywordQuestions/KeywordSkeleton';
-import KeywordsSkeleton from './KeywordsQuestions/KeywordsSkeleton';
+import KeywordSkeleton from './1_KeywordsQuestions/OneKeywordQuestions/KeywordSkeleton';
+import KeywordsSkeleton from './1_KeywordsQuestions/FindKeyword/KeywordsSkeleton';
+import PeriodsSkeleton from './1_PeriodQuestions/PeriodsSkeleton';
 
 const FindAdd = () => {
   let {id} = useParams();
@@ -51,6 +52,9 @@ ReactDOM.render(
         </Route>
         <Route path="/keywords/:id" exact>
           <FindKeyword />
+        </Route>
+        <Route path="/questions" exact>
+          <PeriodsSkeleton />
         </Route>
       </Switch>
     </BrowserRouter>

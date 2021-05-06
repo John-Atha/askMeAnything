@@ -13,7 +13,7 @@ function AnswerQuestion() {
     const answer = () => {
         isLogged()
         .then(response => {
-            window.location.href=`#`;
+            window.location.href=`/questions`;
         })
         .catch(err => {
             createNotification('danger', 'Sorry,', 'You cannot add an answer without an account');
