@@ -15,7 +15,7 @@ function PeriodQuestions() {
                 Want to see the content organised in a more practical way?<br></br>
                 This category suits you.
                 </Card.Text>
-                <Button variant="primary" style={{'margin': '2px'}}>See analytics</Button>
+                <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href='/questions'}} >See analytics</Button>
                 <Button variant="primary" style={{'margin': '2px'}}>See statistics</Button>
             </Card.Body>
         </Card>

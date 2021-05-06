@@ -32,6 +32,11 @@ export const Register = (username, password, confirmation, email) => {
     return axios.post(requestUrl, object);
 }
 
+export const getOneUser = (id) => {
+    const requestUrl = authUrl+`/users/${id}`;
+    return axios.get(requestUrl);
+}
+
 export const getQuestions = (start, end) => {
     const requestUrl = analsUrl+"/questions";
     const params = { start, end };
@@ -172,6 +177,17 @@ export const getGeneralQuestionStats = () => {
 
 export const getGeneralQuestionsPeriod = (start, end, month, year) => {
     const requestUrl = analsUrl+`/questions/monthly/${year}/${month}`;
+    const params = { start, end };
+    return axios.get(requestUrl, { params });
+}
+
+export const getUserQuestionsStats = (id) => {
+    const requestUrl = statsUrl+`/users/${id}/questions/stats/monthly`;
+    return axios.get(requestUrl);
+}
+
+export const getUserQuestionsPeriod = (id, start, end, month, year) => {
+    const requestUrl = analsUrl+`/users/${id}/questions/monthly/${year}/${month}`;
     const params = { start, end };
     return axios.get(requestUrl, { params });
 }

@@ -14,14 +14,20 @@ import AddSkeleton from './2_AddAnswer/AddSkeleton';
 import KeywordSkeleton from './1_KeywordsQuestions/OneKeywordQuestions/KeywordSkeleton';
 import KeywordsSkeleton from './1_KeywordsQuestions/FindKeyword/KeywordsSkeleton';
 import PeriodsSkeleton from './1_PeriodQuestions/PeriodsSkeleton';
+import UserQuestionsSkeleton from './UserQuestions/UserQuestionsSkeleton';
 
 const FindAdd = () => {
-  let {id} = useParams();
+  const {id} = useParams();
   return <AddSkeleton id={id} />
 }
 const FindKeyword = () => {
-  let {id} = useParams();
+  const {id} = useParams();
   return <KeywordSkeleton id={id} />
+}
+
+const FindUserQuestions = () => {
+  const {id} = useParams();
+  return <UserQuestionsSkeleton id={id} />
 }
 
 ReactDOM.render(
@@ -55,6 +61,12 @@ ReactDOM.render(
         </Route>
         <Route path="/questions" exact>
           <PeriodsSkeleton />
+        </Route>
+        <Route path="/users/:id" exact>
+
+        </Route>
+        <Route path="/users/:id/questions" exact>
+          <FindUserQuestions />
         </Route>
       </Switch>
     </BrowserRouter>
