@@ -92,7 +92,7 @@ function KeywordQuestions(props) {
     
     return(
         <div className="margin-top-small main-page" style={{'paddingBottom': '100px'}}>
-            <h4>Questions</h4>
+            <h4>{props.name}</h4>
             {statsList.map((value, index) => {
                 const { year, month } = extractYearMonth(value.month);
                 return(

@@ -168,7 +168,7 @@ function Main() {
             </div>
             <h5 className="question-specs-title container-width margin-top-smaller">Keywords</h5>
             <div className="flex-layout container-width">
-                <Form style={{'width': '50%', 'padding': '10px'}} onSubmit={(event)=>{event.preventDefault();}}>
+                <Form style={{'width': '50%', 'padding': '10px'}} onSubmit={(event)=>{event.preventDefault(); buttonAdd();}}>
                     <div className="margin-top-smaller flex-layout">
                         <FormControl 
                             style={{'width': '250px'}}
