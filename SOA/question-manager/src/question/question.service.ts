@@ -39,14 +39,6 @@ export class QuestionService {
     });
   }
 
-  async findAll(params): Promise<any> {
-    let res = [];
-    res = await this.manager.find(Question, { relations: ['owner'] });
-    res.sort((a, b) => (a.updated_at > b.updated_at) ? -1 : 1 );
-    res = paginate(res, params);
-    return this.withCountQuestionsUpvotes(res);
-  }
-
   async findOne(id: number): Promise<any> {
     let question = null;
     question = await this.manager.findOne(Question, id, {
@@ -99,16 +91,6 @@ export class QuestionService {
       }
       return manager.delete(Question, id);
     });
-  }
-
-  async findByUser(id: number, params): Promise<any> {
-    let res = [];
-    res = await this.manager.find(Question, { relations: ['owner'] });
-    res = res.filter((question) => {
-      return question.owner.id === id;
-    });
-    res = paginate(res, params);
-    return this.withCountQuestionsUpvotes(res);
   }
 
   async findQuestionsAnswers(id: number, params): Promise<Answer[]> {

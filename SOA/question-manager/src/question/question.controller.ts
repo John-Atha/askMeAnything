@@ -26,11 +26,6 @@ export class QuestionController {
     return this.questionService.create(req, createQuestionDto);
   }
 
-  @Get()
-  findAll(@Query() reqParams) {
-    return this.questionService.findAll(reqParams);
-  }
-
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.questionService.findOne(id);
@@ -48,11 +43,6 @@ export class QuestionController {
   @Delete(':id')
   remove(@Request() req, @Param('id', ParseIntPipe) id: number) {
     return this.questionService.remove(req, id);
-  }
-
-  @Get('users/:id')
-  findByUser(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
-    return this.questionService.findByUser(id, reqParams);
   }
 
   @Get(':id/answers')
