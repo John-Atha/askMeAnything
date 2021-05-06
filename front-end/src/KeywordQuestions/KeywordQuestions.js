@@ -5,6 +5,14 @@ import { isLogged, getKeywordsStats } from '../api';
 import OnePeriodQuestions from './OnePeriodQuestions';
 
 function KeywordQuestions(props) {
+
+    const [id, setId] = useState(props.id)
+
+    useEffect(() => {
+        setId(props.id);
+        getGeneral(props.id);
+    }, [props.id])
+
     const [noData, setNoData] = useState(false);
     const [userId, setUserId] = useState(null);
     const [statsList, setStatsList] = useState([]);
@@ -65,9 +73,10 @@ function KeywordQuestions(props) {
         return { year, month };
     }
 
-    const getGeneral = () => {
-        getKeywordsStats(props.id)
+    const getGeneral = (curr_id) => {
+        getKeywordsStats(curr_id)
         .then(response => {
+            setStatsList([]);
             setStatsList(response.data);
             setNoData(!response.data.length);
         })
@@ -92,7 +101,7 @@ function KeywordQuestions(props) {
                                         monthNum={value.month.slice(5, 7)}
                                         year={year}
                                         userId={userId}
-                                        id={props.id} />
+                                        id={id} />
                 )
             })}
             {noData && 

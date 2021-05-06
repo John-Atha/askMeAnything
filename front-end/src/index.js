@@ -12,6 +12,7 @@ import Home from './MainPages/Home';
 import AskSkeleton from './1_AskQuestion/AskSkeleton';
 import AddSkeleton from './2_AddAnswer/AddSkeleton';
 import KeywordSkeleton from './KeywordQuestions/KeywordSkeleton';
+import KeywordsSkeleton from './KeywordsQuestions/KeywordsSkeleton';
 
 const FindAdd = () => {
   let {id} = useParams();
@@ -44,6 +45,9 @@ ReactDOM.render(
         </Route>
         <Route path="/answer/:id" exact>
           <FindAdd />
+        </Route>
+        <Route path="/keywords" exact>
+          <KeywordsSkeleton />
         </Route>
         <Route path="/keywords/:id" exact>
           <FindKeyword />

@@ -9,15 +9,21 @@ import arrow_down from '../images/arrow_down.png';
 import './styles.css';
 
 function OnePeriodQuestions(props) {
+
+    const [id, setId] = useState(props.id);  
     const [questions, setQuestions] = useState([]);
     const [start, setStart] = useState(1);
     const [end, setEnd] = useState(5);
     const [noData, setNoData] = useState(false);
     const [showData, setShowData] = useState(false);
 
-    useEffect(()=> {
+    useEffect(() => {
+        setId(props.id);
+    }, [props.id])
+
+    const getAnalytics = () => {
         console.log(`I am asking from ${start} to ${end}`);
-        getKeywordQuestionsPeriod(props.id, start, end, props.monthNum, props.year)
+        getKeywordQuestionsPeriod(id, start, end, props.monthNum, props.year)
         .then(response => {
             console.log(response);
             if (response.data.length) {
@@ -32,6 +38,10 @@ function OnePeriodQuestions(props) {
             console.log(err);
             setNoData(true);
         })
+    }
+
+    useEffect(()=> {
+       getAnalytics();
     }, [start, end])
 
 
