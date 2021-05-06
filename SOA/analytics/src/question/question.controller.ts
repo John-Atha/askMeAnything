@@ -20,6 +20,19 @@ export class QuestionController {
     @Param('year', ParseIntPipe) year: number,
     @Param('month', ParseIntPipe) month: number,
   ) {
-    return this.questionService.findMonthly(reqParams, year, month);
+    return this.questionService.findAll(reqParams, year, month-1);
+  }
+
+  @Get('yearly/:year')
+  findYearly(
+    @Query() reqParams,
+    @Param('year', ParseIntPipe) year: number,
+  ) {
+    return this.questionService.findAll(reqParams, year, null);
+  }
+
+  @Get()
+  findAll(@Query() reqParams) {
+    return this.questionService.findAll(reqParams, null, null);
   }
 }

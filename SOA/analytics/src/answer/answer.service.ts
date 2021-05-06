@@ -24,4 +24,32 @@ export class AnswerService {
       return withCountAnswersUpvotes(answers, manager);
     });
   }
+
+  async findAll(
+    params,
+    year: number,
+    month: number,
+  ): Promise<Answer[]> {
+    return this.manager.transaction(async (manager) => {
+      let answers = await manager.find(Answer, { relations: ['owner'] });
+      if (year && month) {
+        answers = answers.filter((answer) => {
+          return (
+            answer.updated_at.getFullYear() === year &&
+            answer.updated_at.getMonth() === month
+          );
+        });
+      }
+      else if (year && !month) {
+        answers = answers.filter((answer) => {
+          return (
+            answer.updated_at.getFullYear() === year
+          );
+        });
+      }
+      answers.sort((a, b) => (a.created_at > b.created_at) ? -1 : 1 );
+      answers = paginate(answers, params);
+      return withCountAnswersUpvotes(answers, manager);
+    });
+  }
 }

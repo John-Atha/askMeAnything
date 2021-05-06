@@ -14,7 +14,7 @@ import { User } from './entities/user.entity';
 export class UserService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
-  async findQuestionsMonthly(
+  async findAllQuestions(
     params,
     id: number,
     year: number,
@@ -26,19 +26,36 @@ export class UserService {
         throw new NotFoundException(`User '${id}' not found.`);
       }
       let questions = await manager.find(Question, { relations: ['owner'] });
-      questions = questions.filter((question) => {
-        return (
-          question.owner.id === id &&
-          question.updated_at.getFullYear() === year &&
-          question.updated_at.getMonth() === month
-        );
-      });
+      if (year && month) {
+        questions = questions.filter((question) => {
+          return (
+            question.owner.id === id &&
+            question.updated_at.getFullYear() === year &&
+            question.updated_at.getMonth() === month
+          );
+        });
+      }
+      else if (year && !month) {
+        questions = questions.filter((question) => {
+          return (
+            question.owner.id === id &&
+            question.updated_at.getFullYear() === year
+          );
+        });  
+      }
+      else {
+        questions = questions.filter((question) => {
+          return (
+            question.owner.id === id
+          );
+        });
+      }
       questions = paginate(questions, params);
       return withCountQuestionsUpvotes(questions, manager);
     });
   }
 
-  async findAnswersMonthly(
+  async findAllAnswers(
     params,
     id: number,
     year: number,
@@ -50,13 +67,30 @@ export class UserService {
         throw new NotFoundException(`User '${id}' not found.`);
       }
       let answers = await manager.find(Answer, { relations: ['owner'] });
-      answers = answers.filter((answer) => {
-        return (
-          answer.owner.id === id &&
-          answer.updated_at.getFullYear() === year &&
-          answer.updated_at.getMonth() === month
-        );
-      });
+      if (year && month) {
+        answers = answers.filter((answer) => {
+          return (
+            answer.owner.id === id &&
+            answer.updated_at.getFullYear() === year &&
+            answer.updated_at.getMonth() === month
+          );
+        });
+      }
+      else if (year && !month) {
+        answers = answers.filter((answer) => {
+          return (
+            answer.owner.id === id &&
+            answer.updated_at.getFullYear() === year
+          );
+        });
+      }
+      else {
+        answers = answers.filter((answer) => {
+          return (
+            answer.owner.id === id
+          );
+        });
+      }
       answers = paginate(answers, params);
       return withCountAnswersUpvotes(answers, manager);
     });
