@@ -21,7 +21,7 @@ export class KeywordController {
     @Param('year', ParseIntPipe) year: number,
     @Param('month', ParseIntPipe) month: number,
   ) {
-    return this.keywordService.findAll(reqParams, id, year, month);
+    return this.keywordService.findAll(reqParams, id, year, month-1);
   }
 
   @Get(':id/questions/yearly/:year')

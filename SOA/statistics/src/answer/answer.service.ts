@@ -8,7 +8,7 @@ export class AnswerService {
 
   async findStatsMonthly(): Promise<any> {
     return this.manager.query(
-      `SELECT DATE_TRUNC('month', public."answer"."created_at") as month,
+      `SELECT to_char(public."answer"."created_at", 'YYYY-MM') as month,
                     COUNT(*) as answers
                FROM public."answer"
                GROUP BY month`,

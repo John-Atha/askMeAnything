@@ -15,7 +15,7 @@ export class UserService {
         throw new NotFoundException(`User '${id}' not found.`);
       }
       return this.manager.query(
-        `SELECT DATE_TRUNC('month', public."question"."created_at") as month,
+        `SELECT to_char(public."question"."created_at", 'YYYY-MM') as month,
                       COUNT(*)
                FROM public."question"
                WHERE public."question"."ownerId"=${id}
@@ -31,7 +31,7 @@ export class UserService {
         throw new NotFoundException(`User '${id}' not found.`);
       }
       return this.manager.query(
-        `SELECT DATE_TRUNC('month', public."answer"."created_at") as month,
+        `SELECT to_char(public."answer"."created_at", 'YYYY-MM') as month,
                       COUNT(*)
                FROM public."answer"
                WHERE public."answer"."ownerId"=${id}

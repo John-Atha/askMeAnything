@@ -14,7 +14,7 @@ export class KeywordService {
         throw new NotFoundException(`Keyword '${id}' not found.`);
       }
       return manager.query(
-        `SELECT DATE_TRUNC('month', public."question"."created_at") as month,
+        `SELECT to_char(public."question"."created_at", 'YYYY-MM') as month,
                       COUNT(*) as questions
                FROM public."question", public."question_keywords_keyword" 
                WHERE public."question_keywords_keyword"."keywordId"=${id}
