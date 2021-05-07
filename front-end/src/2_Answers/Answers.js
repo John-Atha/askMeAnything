@@ -16,7 +16,7 @@ function Answers (props) {
     useEffect(()=> {
         getQuestionAnswers(props.id, start, end)
         .then(response=> {
-            console.log(response);
+            //console.log(response);
             if (response.data.length) {
                 setAnswers(answers.concat(response.data));
                 setNoData(response.data.length<5 ? true : false);

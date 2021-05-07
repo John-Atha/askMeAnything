@@ -12,7 +12,7 @@ function QuestionKeywords(props) {
         console.log(`I am asking for my keywords.`);
         getQuestionKeywords(id)
         .then(response => {
-            console.log(response);
+            //console.log(response);
             setKeywords(response.data)
         })
         .catch(err => {

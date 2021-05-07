@@ -15,7 +15,7 @@ function MyNavbar() {
     useEffect(() => {
         isLogged()
         .then(response => {
-            console.log(response);
+            //console.log(response);
             setUserId(response.data.id);
         })
         .catch(err => {

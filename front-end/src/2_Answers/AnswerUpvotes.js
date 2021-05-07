@@ -15,7 +15,7 @@ function AnswerUpvotes(props) {
     const checkUpvoted = () => {
         answerIsUpvoted(props.id)
         .then(response => {
-            console.log(response);
+            //console.log(response);
             setIsUpvoted(response.data.upvoted);
             setUpvoteId(response.data.id);
         })
@@ -29,7 +29,7 @@ function AnswerUpvotes(props) {
     const upvote = () => {
         answerUpvote(props.id)
         .then(response => {
-            console.log(response);
+            //console.log(response);
             getOneAnswer(props.id)
             .then(response => {
                 console.log(response);
@@ -49,7 +49,7 @@ function AnswerUpvotes(props) {
     const unUpvote = () => {
         answerUnUpvote(upvoteId)
         .then(response => {
-            console.log(response);
+            //console.log(response);
             getOneAnswer(props.id)
             .then(response => {
                 console.log(response);
