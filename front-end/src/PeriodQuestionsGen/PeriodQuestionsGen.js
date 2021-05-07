@@ -1,6 +1,6 @@
 import {React, useState, useEffect} from 'react';
 
-import { isLogged, getKeywordsStats, getUserQuestionsStats, getGeneralQuestionStats } from '../api';
+import { isLogged, getKeywordsStats, getUserQuestionsStats, getUserAnsweredStats, getGeneralQuestionStats } from '../api';
 
 import OnePeriodQuestionsGen from './OnePeriodQuestionsGen';
 
@@ -14,7 +14,7 @@ function PeriodQuestionsGen(props) {
     const checkLogged = () => {
         isLogged()
         .then(response => {
-            console.log(response);
+            //console.log(response);
             setUserId(response.data.id);
         })
         .catch(err => {
@@ -76,6 +76,9 @@ function PeriodQuestionsGen(props) {
             case 'keyword':
                 func = getKeywordsStats;
                 break;
+            case 'user-answered':
+                func = getUserAnsweredStats;
+                break;
         } 
         func(props.id)
         .then(response => {
@@ -116,7 +119,17 @@ function PeriodQuestionsGen(props) {
                     </a>
                 </div>    
             }
-            {props.case!=='user' && props.case!=='keyword' &&
+            {props.case==='user-answered' &&
+                <div className="flex-layout with-whitespace">
+                    <h4>All questions </h4>
+                    <a  href={`/users/${props.id}`}
+                        style={{'fontSize': '1.5rem', 'marginTop': '-4px'}}>
+                            {props.username}
+                    </a>
+                    <h4> has answered</h4>
+                </div>    
+            }
+            {props.case==='general' &&
                 <h4>All questions</h4>
             }
             {statsList.map((value, index) => {

@@ -27,6 +27,10 @@ const FindUserQuestions = () => {
   const {id} = useParams();
   return <PeriodQuestionsGenSkeleton case='user' id={id} />
 }
+const FindUserAnswered = () => {
+  const {id} = useParams();
+  return <PeriodQuestionsGenSkeleton case='user-answered' id={id} />;
+}
 
 ReactDOM.render(
   <React.StrictMode>
@@ -65,6 +69,9 @@ ReactDOM.render(
         </Route>
         <Route path="/users/:id/questions" exact>
           <FindUserQuestions />
+        </Route>
+        <Route path="/users/:id/answers" exact>
+          <FindUserAnswered />
         </Route>
       </Switch>
     </BrowserRouter>

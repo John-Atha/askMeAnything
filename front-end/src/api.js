@@ -191,3 +191,14 @@ export const getUserQuestionsPeriod = (id, start, end, month, year) => {
     const params = { start, end };
     return axios.get(requestUrl, { params });
 }
+
+export const getUserAnsweredStats = (id) => {
+    const requestUrl = statsUrl+`/users/${id}/answered/stats/monthly`;
+    return axios.get(requestUrl);
+}
+
+export const getUserAnsweredPeriod = (id, start, end, month, year) => {
+    const requestUrl = analsUrl+`/users/${id}/answered/monthly/${year}/${month}`;
+    const params = { start, end };
+    return axios.get(requestUrl, { params });
+}

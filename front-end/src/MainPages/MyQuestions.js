@@ -15,7 +15,7 @@ function MyQuestions(props) {
                 Want to see your questions and your answers so far?
                 </Card.Text>
                 <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href=`/users/${props.id}/questions`}} >My Questions</Button>
-                <Button variant="primary" style={{'margin': '2px'}} >My Answers</Button>
+                <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href=`/users/${props.id}/answers`}}>My Answers</Button>
             </Card.Body>
         </Card>    
     )

@@ -14,7 +14,7 @@ function PeriodQuestionsGenSkeleton(props) {
     const getUser = () => {
         getOneUser(props.id)
         .then(response => {
-            console.log(response);
+            //console.log(response);
             setUsername(response.data.username);
             setErr(null);
         })
@@ -26,7 +26,7 @@ function PeriodQuestionsGenSkeleton(props) {
     const getKeyword = () => {
         getOneKeyword(props.id)
         .then(response => {
-            console.log(response);
+            //console.log(response);
             setKeywordName(response.data.name);
             setErr(null);
         })
@@ -36,7 +36,7 @@ function PeriodQuestionsGenSkeleton(props) {
         })
     }
     useEffect(() => {
-        if (props.case==='user') getUser();
+        if (props.case==='user' || props.case==='user-answered') getUser();
         else if (props.case==='keyword') getKeyword();
     }, [])
 

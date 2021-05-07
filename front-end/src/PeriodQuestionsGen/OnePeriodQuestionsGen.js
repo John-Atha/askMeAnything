@@ -1,6 +1,6 @@
 import {React, useState, useEffect} from 'react';
 
-import { getKeywordQuestionsPeriod, getGeneralQuestionsPeriod, getUserQuestionsPeriod } from '../api';
+import { getKeywordQuestionsPeriod, getGeneralQuestionsPeriod, getUserQuestionsPeriod, getUserAnsweredPeriod } from '../api';
 
 import OneQuestion from '../1_Questions/OneQuestion';
 import Button from 'react-bootstrap/Button';
@@ -29,8 +29,12 @@ function OnePeriodQuestionsGen(props) {
                 break;
             case 'keyword':
                 func = getKeywordQuestionsPeriod;
-                break; 
+                break;
+            case 'user-answered':
+                func = getUserAnsweredPeriod;
+                break;
         }
+        console.log(`Asking with start: ${start} and end:${end}`);
         func(props.id, start, end, props.monthNum, props.year)
         .then(response => {
             console.log(response);
