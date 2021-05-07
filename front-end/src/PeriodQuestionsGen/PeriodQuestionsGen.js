@@ -143,6 +143,7 @@ function PeriodQuestionsGen(props) {
                         userId={userId}
                         id={id}
                         case={props.case}
+                        count={(props.case==='user'||props.case==='general'||props.case==='keyword') ? value.questions : value.answered}
                     />
                 )
             })}

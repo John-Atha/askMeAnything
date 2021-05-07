@@ -63,7 +63,7 @@ function OnePeriodQuestionsGen(props) {
             <button className="menu"
                         onClick={()=>{setShowData(!showData)}}>
                 <div>
-                    {`${props.month} ${props.year}`}
+                    {`${props.month} ${props.year} (${props.count})`}
                 </div>
                 <img  className="menu-arrow" 
                         src={showData ? arrow_up : arrow_down}
