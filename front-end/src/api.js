@@ -170,12 +170,12 @@ export const getKeywordQuestionsPeriod = (id, start, end, month, year) => {
     return axios.get(requestUrl, {params});
 }
 
-export const getGeneralQuestionStats = () => {
+export const getGeneralQuestionStats = (dummy) => {
     const requestUrl = statsUrl+'/questions/stats/monthly';
     return axios.get(requestUrl);
 }
 
-export const getGeneralQuestionsPeriod = (start, end, month, year) => {
+export const getGeneralQuestionsPeriod = (dummy, start, end, month, year) => {
     const requestUrl = analsUrl+`/questions/monthly/${year}/${month}`;
     const params = { start, end };
     return axios.get(requestUrl, { params });

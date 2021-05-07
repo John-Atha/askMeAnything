@@ -1,18 +1,12 @@
 import {React, useState, useEffect} from 'react';
 
-import { isLogged, getKeywordsStats } from '../../api';
+import { isLogged, getKeywordsStats, getUserQuestionsStats, getGeneralQuestionStats } from '../api';
 
-import OnePeriodKeyQuestions from './OnePeriodKeyQuestions';
+import OnePeriodQuestionsGen from './OnePeriodQuestionsGen';
 
-function KeywordQuestions(props) {
+function PeriodQuestionsGen(props) {
 
     const [id, setId] = useState(props.id)
-
-    useEffect(() => {
-        setId(props.id);
-        getGeneral(props.id);
-    }, [props.id])
-
     const [noData, setNoData] = useState(false);
     const [userId, setUserId] = useState(null);
     const [statsList, setStatsList] = useState([]);
@@ -73,8 +67,17 @@ function KeywordQuestions(props) {
         return { year, month };
     }
 
-    const getGeneral = (curr_id) => {
-        getKeywordsStats(curr_id)
+    const getGeneral = () => {
+        let func = getGeneralQuestionStats;
+        switch(props.case) {
+            case 'user':
+                func = getUserQuestionsStats;
+                break;
+            case 'keyword':
+                func = getKeywordsStats;
+                break;
+        } 
+        func(props.id)
         .then(response => {
             setStatsList([]);
             setStatsList(response.data);
@@ -87,20 +90,47 @@ function KeywordQuestions(props) {
 
     useEffect(() => {
         checkLogged();
+        if (props.case!=='keyword') {
+            getGeneral();
+        }
     }, [])
+
+    useEffect(() => {
+        if (props.case==='keyword') {
+            setId(props.id);
+            getGeneral();
+        }
+    }, [props.id])
     
     return(
         <div className="margin-top-small main-page" style={{'paddingBottom': '100px'}}>
-            <h4>{props.name}</h4>
+            {props.case==='keyword' &&
+                <h4>{props.name}</h4>
+            }
+            {props.case==='user' &&
+                <div className="flex-layout with-whitespace">
+                    <h4>All questions of </h4>
+                    <a  href={`/users/${props.id}`}
+                        style={{'fontSize': '1.5rem', 'marginTop': '-4px'}}>
+                            {props.username}
+                    </a>
+                </div>    
+            }
+            {props.case!=='user' && props.case!=='keyword' &&
+                <h4>All questions</h4>
+            }
             {statsList.map((value, index) => {
                 const { year, month } = extractYearMonth(value.month);
                 return(
-                    <OnePeriodKeyQuestions key={index}
-                                        month={month}
-                                        monthNum={value.month.slice(5, 7)}
-                                        year={year}
-                                        userId={userId}
-                                        id={id} />
+                    <OnePeriodQuestionsGen 
+                        key={index}
+                        month={month}
+                        monthNum={value.month.slice(5, 7)}
+                        year={year}
+                        userId={userId}
+                        id={id}
+                        case={props.case}
+                    />
                 )
             })}
             {noData && 
@@ -112,4 +142,4 @@ function KeywordQuestions(props) {
     )
 }
 
-export default KeywordQuestions;
+export default PeriodQuestionsGen;

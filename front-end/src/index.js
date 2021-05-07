@@ -11,10 +11,9 @@ import LoginRegister from './LoginRegister/LoginRegister';
 import Home from './MainPages/Home';
 import AskSkeleton from './1_AskQuestion/AskSkeleton';
 import AddSkeleton from './2_AddAnswer/AddSkeleton';
-import KeywordSkeleton from './1_KeywordsQuestions/OneKeywordQuestions/KeywordSkeleton';
-import KeywordsSkeleton from './1_KeywordsQuestions/FindKeyword/KeywordsSkeleton';
-import PeriodsSkeleton from './1_PeriodQuestions/PeriodsSkeleton';
-import UserQuestionsSkeleton from './UserQuestions/UserQuestionsSkeleton';
+import KeywordsSkeleton from './1_KeywordsQuestions/KeywordsSkeleton';
+
+import PeriodQuestionsGenSkeleton from './PeriodQuestionsGen/PeriodQuestionsGenSkeleton';
 
 const FindAdd = () => {
   const {id} = useParams();
@@ -22,12 +21,11 @@ const FindAdd = () => {
 }
 const FindKeyword = () => {
   const {id} = useParams();
-  return <KeywordSkeleton id={id} />
+  return <PeriodQuestionsGenSkeleton case='keyword' id={id} />
 }
-
 const FindUserQuestions = () => {
   const {id} = useParams();
-  return <UserQuestionsSkeleton id={id} />
+  return <PeriodQuestionsGenSkeleton case='user' id={id} />
 }
 
 ReactDOM.render(
@@ -60,7 +58,7 @@ ReactDOM.render(
           <FindKeyword />
         </Route>
         <Route path="/questions" exact>
-          <PeriodsSkeleton />
+          <PeriodQuestionsGenSkeleton case='general' />
         </Route>
         <Route path="/users/:id" exact>
 

@@ -25,7 +25,7 @@ function MyHome() {
         <div className="flex-layout main-page">
             <AskQuestion />
             <AnswerQuestion />
-            <MyQuestions />
+            <MyQuestions id={userId} />
             <MyContributions />
         </div>
     )

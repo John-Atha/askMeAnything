@@ -1,17 +1,17 @@
 import React from 'react';
 
+import Keywords from './Keywords';
 import MyNavbar from '../Navbar/MyNavbar';
 import Footer from '../Footer/Footer';
-import PeriodsQuestions from './PeriodsQuestions';
 
-function PeriodsSkeleton() {
+function KeywordsSkeleton() {
     return(
         <div className="home-container">
             <MyNavbar />
-            <PeriodsQuestions />
+            <Keywords />
             <Footer />
         </div>
     )
 }
 
-export default PeriodsSkeleton;
+export default KeywordsSkeleton;

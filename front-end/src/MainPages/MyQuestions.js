@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 import my_analytics_photo from '../images/jack-hodges-rbVqlz8H5Sg-unsplash.jpg'
 
-function MyQuestions() {
+function MyQuestions(props) {
     return(
         <Card style={{ width: '300px' }} className="margin">
             <Card.Img className="card-image" variant="top" src={my_analytics_photo} />
@@ -14,7 +14,7 @@ function MyQuestions() {
                 <Card.Text>
                 Want to see your questions and your answers so far?
                 </Card.Text>
-                <Button variant="primary" style={{'margin': '2px'}} >My Questions</Button>
+                <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href=`/users/${props.id}/questions`}} >My Questions</Button>
                 <Button variant="primary" style={{'margin': '2px'}} >My Answers</Button>
             </Card.Body>
         </Card>    

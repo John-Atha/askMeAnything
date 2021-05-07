@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import {React, useState, useEffect} from 'react';
 
-import { getGeneralQuestionsPeriod } from '../api';
+import { getKeywordQuestionsPeriod, getGeneralQuestionsPeriod, getUserQuestionsPeriod } from '../api';
 
 import OneQuestion from '../1_Questions/OneQuestion';
 import Button from 'react-bootstrap/Button';
 import arrow_up from '../images/arrow1.png';
 import arrow_down from '../images/arrow_down.png';
-import '../1_KeywordsQuestions/OneKeywordQuestions/styles.css';
+import './styles.css';
 
+function OnePeriodQuestionsGen(props) {
 
-function OnePeriodQuestions(props) {
-    const [id, setId] = useState(props.id);
+    const [id, setId] = useState(props.id);  
     const [questions, setQuestions] = useState([]);
     const [start, setStart] = useState(1);
     const [end, setEnd] = useState(5);
@@ -22,11 +22,25 @@ function OnePeriodQuestions(props) {
     }, [props.id])
 
     const getAnalytics = () => {
-        getGeneralQuestionsPeriod(start, end, props.monthNum, props.year)
+        let func = getGeneralQuestionsPeriod;
+        switch(props.case) {
+            case 'user':
+                func = getUserQuestionsPeriod;
+                break;
+            case 'keyword':
+                func = getKeywordQuestionsPeriod;
+                break; 
+        }
+        func(props.id, start, end, props.monthNum, props.year)
         .then(response => {
             console.log(response);
-            setQuestions(questions.concat(response.data));
-            setNoData(!response.data.length);
+            if (response.data.length) {
+                setQuestions(questions.concat(response.data));
+                setNoData(!response.data.length);
+            }
+            else {
+                setNoData(true);
+            }
         })
         .catch(err => {
             console.log(err);
@@ -34,9 +48,10 @@ function OnePeriodQuestions(props) {
         })
     }
 
-    useEffect(() => {
-        getAnalytics();
+    useEffect(()=> {
+       getAnalytics();
     }, [start, end])
+
 
     return(
         <div className="margin-top-smaller main-page">
@@ -79,12 +94,6 @@ function OnePeriodQuestions(props) {
             }
         </div>
     )
-
-
-
-
-
-
 }
 
-export default OnePeriodQuestions;
+export default OnePeriodQuestionsGen;

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import { getAllKeywords } from '../../api';
+import { getAllKeywords } from '../api';
 
-import KeywordQuestions from '../OneKeywordQuestions/KeywordQuestions';
-
+import PeriodQuestionsGen from '../PeriodQuestionsGen/PeriodQuestionsGen';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl'
 import Form from 'react-bootstrap/Form'
@@ -106,7 +105,7 @@ function Keywords() {
                     }
                 </div>
 
-            <KeywordQuestions id={current} name={currentName} />
+            <PeriodQuestionsGen case='keyword' id={current} name={currentName} />
         </div>
     )
 }
