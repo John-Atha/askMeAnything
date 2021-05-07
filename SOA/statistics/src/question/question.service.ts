@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
+import { daysComplete } from '../../general-methods/methods';
 import { EntityManager } from 'typeorm';
 
 @Injectable()
@@ -16,11 +17,12 @@ export class QuestionService {
   }
 
   async findStatsDaily(): Promise<any> {
-    return this.manager.query(
+    const data = await this.manager.query(
       `SELECT to_char(public."question"."created_at", 'FMDay') as day,
                     COUNT(*) as questions
               FROM public."question"
               GROUP BY day`,
     );
+    return daysComplete(data, 'questions')
   }
 }

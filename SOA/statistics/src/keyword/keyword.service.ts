@@ -1,5 +1,6 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
+import { daysComplete } from '../../general-methods/methods';
 import { EntityManager } from 'typeorm';
 import {Keyword} from "./entities/keyword.entity";
 
@@ -30,7 +31,7 @@ export class KeywordService {
       if (!keyword) {
         throw new NotFoundException(`Keyword '${id}' not found.`);
       }
-      return this.manager.query(
+      const data = await this.manager.query(
         `SELECT to_char(public."question"."created_at", 'FMDay') as day,
                       COUNT(*) as questions
                FROM public."question", public."question_keywords_keyword" 
@@ -38,6 +39,7 @@ export class KeywordService {
                  AND public."question_keywords_keyword"."questionId"=public."question"."id"
                GROUP BY day`,
       );
+      return daysComplete(data, 'questions');
     });
   }
 }

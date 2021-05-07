@@ -73,3 +73,21 @@ export async function withCountAnswersUpvotes(answers: Answer[], manager): Promi
   }
   return answers;
 }
+
+export const daysComplete = (data, key) => {
+  // keep empty days, so that we complete the object with these days and their counter=0
+  let flag = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  data.forEach((obj) => {
+    const day = obj.day;
+    obj[key] = parseInt(obj[key]);
+    const index = flag.indexOf(day);
+    flag = flag.slice(0, index).concat(flag.slice(index+1, flag.length));
+  })
+  flag.forEach((day) => {
+    data.push({
+      day: day,
+      [key]: 0,
+    })
+  })
+  return data;
+}

@@ -2,8 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { User } from './entities/user.entity';
-import {paginate} from "../../general-methods/methods";
-import { Question } from 'src/question/entities/question.entity';
+import {daysComplete, paginate} from "../../general-methods/methods";
 
 @Injectable()
 export class UserService {
@@ -17,7 +16,7 @@ export class UserService {
       }
       return this.manager.query(
         `SELECT to_char(public."question"."created_at", 'YYYY-MM') as month,
-                      COUNT(*)
+                      COUNT(*) as questions
                FROM public."question"
                WHERE public."question"."ownerId"=${id}
                GROUP BY month`,
@@ -33,7 +32,7 @@ export class UserService {
       }
       return this.manager.query(
         `SELECT to_char(public."answer"."created_at", 'YYYY-MM') as month,
-                      COUNT(*)
+                      COUNT(*) as answers
                FROM public."answer"
                WHERE public."answer"."ownerId"=${id}
                GROUP BY month`,
@@ -47,13 +46,14 @@ export class UserService {
       if (!user) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      return manager.query(
+      const data = await manager.query(
         `SELECT to_char(public."question"."created_at", 'FMDay') as day,
-                        COUNT(*)
+                        COUNT(*) as questions
                  FROM public."question"
                  WHERE public."question"."ownerId"=${id}
                  GROUP BY day`,
       );
+      return daysComplete(data, 'questions');
     });
   }
 
@@ -63,13 +63,14 @@ export class UserService {
       if (!user) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      return manager.query(
+      const data = await manager.query(
         `SELECT to_char(public."answer"."created_at", 'FMDay') as day,
-                       COUNT(*)
+                       COUNT(*) as answers
                FROM public."answer"
                WHERE public."answer"."ownerId"=${id}
                GROUP BY day`,
       );
+      return daysComplete(data, 'answers');
     });
   }
 
@@ -101,7 +102,7 @@ export class UserService {
       );
       return temp.map((item) =>{
         return {
-          count: parseInt(item.count),
+          answered: parseInt(item.count),
           month: item.month
         };
       });  
@@ -114,8 +115,8 @@ export class UserService {
       if (!user) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      const temp = await this.manager.query(
-        `SELECT COUNT (DISTINCT public."question"."id"),
+      const data = await this.manager.query(
+        `SELECT COUNT (DISTINCT public."question"."id") as answered,
                 to_char(public."answer"."created_at", 'FMDay') as day
          FROM  public."answer", public."question", public."user"
          WHERE public."answer"."ownerId"=${id}
@@ -123,12 +124,7 @@ export class UserService {
            AND public."question"."id"=public."answer"."questionId"
          GROUP BY day`,
       );
-      return temp.map((item) =>{
-        return {
-          count: parseInt(item.count),
-          day: item.day
-        };
-      }); 
+      return daysComplete(data, 'answered');
     })
   }
 }
