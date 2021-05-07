@@ -68,11 +68,6 @@ export class UserController {
     return this.userService.findAllAnswers(reqParams, id, null, null);
   }
 
-  @Get(':id/answered')
-  findUsersAnsweredAll(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
-    return this.userService.findAllAnsweredQuestions(reqParams, id, null, null);
-  }
-
   @Get(':id/answered/monthly/:year/:month')
   findUsersAnsweredMonthly(
     @Query() reqParams,
@@ -80,7 +75,7 @@ export class UserController {
     @Param('year', ParseIntPipe) year: number,
     @Param('month', ParseIntPipe) month: number,
   ) {
-    return this.userService.findAllAnsweredQuestions(reqParams, id, year, month-1);
+    return this.userService.findAllAnsweredQuestions(reqParams, id, year, month);
   }
 
   @Get(':id/answered/yearly/:year')
@@ -91,4 +86,10 @@ export class UserController {
   ) {
     return this.userService.findAllAnsweredQuestions(reqParams, id, year, null);
   }
+
+  @Get(':id/answered')
+  findUsersAnswered(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
+    return this.userService.findAllAnsweredQuestions(reqParams, id, null, null);
+  }
+
 }

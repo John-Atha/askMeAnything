@@ -3,6 +3,7 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { User } from './entities/user.entity';
 import {paginate} from "../../general-methods/methods";
+import { Question } from 'src/question/entities/question.entity';
 
 @Injectable()
 export class UserService {
@@ -81,5 +82,53 @@ export class UserService {
       .addOrderBy('user.username', 'ASC')
       .getMany();
     return paginate(users, params);
+  }
+
+  async findAnsweredStatsMonthly(id: number): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      const user = await manager.findOne(User, id);
+      if (!user) {
+        throw new NotFoundException(`User '${id}' not found.`);
+      }
+      const temp = await manager.query(
+        `SELECT COUNT (DISTINCT public."question"."id"),
+                to_char(public."answer"."created_at", 'YYYY-MM') as month
+         FROM  public."answer", public."question", public."user"
+         WHERE public."answer"."ownerId"=${id}
+           AND public."user"."id"=${id}
+           AND public."question"."id"=public."answer"."questionId"
+         GROUP BY month`,
+      );
+      return temp.map((item) =>{
+        return {
+          count: parseInt(item.count),
+          month: item.month
+        };
+      });  
+    })
+  }
+
+  async findAnsweredStatsDaily(id: number): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      const user = await manager.findOne(User, id);
+      if (!user) {
+        throw new NotFoundException(`User '${id}' not found.`);
+      }
+      const temp = await this.manager.query(
+        `SELECT COUNT (DISTINCT public."question"."id"),
+                to_char(public."answer"."created_at", 'FMDay') as day
+         FROM  public."answer", public."question", public."user"
+         WHERE public."answer"."ownerId"=${id}
+           AND public."user"."id"=${id}
+           AND public."question"."id"=public."answer"."questionId"
+         GROUP BY day`,
+      );
+      return temp.map((item) =>{
+        return {
+          count: parseInt(item.count),
+          day: item.day
+        };
+      }); 
+    })
   }
 }

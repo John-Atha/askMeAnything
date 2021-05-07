@@ -94,14 +94,37 @@ export class UserService {
     params,
     id: number,
     year: number,
-    month: number,
+    month: any,
   ): Promise<Question[]> {
     return this.manager.transaction(async (manager) => {
       const user = await manager.findOne(User, id);
       if (!user) {
         throw new NotFoundException(`User ${id} not found.`);
       }
-      let questions = await manager.query(
+      let questions = [];
+      if (year && month) {
+        if (month<10) month='0'+month.toString();
+        console.log(`year: ${year}`);
+        console.log(`month: ${month}`);
+        questions = await manager.query(
+          `SELECT public."question"."id",
+                        public."question"."title",
+                        public."question"."text",
+                        public."question"."created_at",
+                        public."question"."updated_at",
+                        public."user"."id" as ownerId,
+                        public."user"."email",
+                        public."user"."username",
+                        public."user"."points"
+                   FROM  public."answer", public."question", public."user"
+                   WHERE public."answer"."ownerId"=${id}
+                     AND public."user"."id"=${id}
+                     AND public."question"."id"=public."answer"."questionId"
+                     AND to_char(public."answer"."created_at", 'YYYY-MM')='${year}-${month}'`,
+        );  
+      }
+      else if (year && !month) {
+        questions = await manager.query(
         `SELECT public."question"."id",
                       public."question"."title",
                       public."question"."text",
@@ -114,8 +137,27 @@ export class UserService {
                  FROM  public."answer", public."question", public."user"
                  WHERE public."answer"."ownerId"=${id}
                    AND public."user"."id"=${id}
-                   AND public."question"."id"=public."answer"."questionId"`,
-      );
+                   AND public."question"."id"=public."answer"."questionId"
+                   AND to_char(public."answer"."created_at", 'YYYY')='${year}'`,
+        );
+      }
+      else {
+        questions = await manager.query(
+          `SELECT public."question"."id",
+                        public."question"."title",
+                        public."question"."text",
+                        public."question"."created_at",
+                        public."question"."updated_at",
+                        public."user"."id" as ownerId,
+                        public."user"."email",
+                        public."user"."username",
+                        public."user"."points"
+                   FROM  public."answer", public."question", public."user"
+                   WHERE public."answer"."ownerId"=${id}
+                     AND public."user"."id"=${id}
+                     AND public."question"."id"=public."answer"."questionId"`,
+          );
+      }
       console.log(questions);
       questions = paginate(questions, params);
       //return questions;
