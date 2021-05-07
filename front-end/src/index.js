@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
+
 import ReactNotifications from 'react-notifications-component';
 
 import LoginRegister from './LoginRegister/LoginRegister';
@@ -12,8 +13,8 @@ import Home from './MainPages/Home';
 import AskSkeleton from './1_AskQuestion/AskSkeleton';
 import AddSkeleton from './2_AddAnswer/AddSkeleton';
 import KeywordsSkeleton from './1_KeywordsQuestions/KeywordsSkeleton';
-
 import PeriodQuestionsGenSkeleton from './PeriodQuestionsGen/PeriodQuestionsGenSkeleton';
+import StatsPage from './3_Statistics/Pages/StatsPage';
 
 const FindAdd = () => {
   const {id} = useParams();
@@ -30,6 +31,14 @@ const FindUserQuestions = () => {
 const FindUserAnswered = () => {
   const {id} = useParams();
   return <PeriodQuestionsGenSkeleton case='user-answered' id={id} />;
+}
+const FindUserQuestStats = () => {
+  const {id} = useParams();
+  return <StatsPage case='questions-user' id={id} />;
+}
+const FindUserStats = () => {
+  const {id} = useParams();
+  return <StatsPage case='all-user' id={id} />;
 }
 
 ReactDOM.render(
@@ -64,6 +73,9 @@ ReactDOM.render(
         <Route path="/questions" exact>
           <PeriodQuestionsGenSkeleton case='general' />
         </Route>
+        <Route path="/questions/stats" exact>
+          <StatsPage case='questions-gen' />
+        </Route>
         <Route path="/users/:id" exact>
 
         </Route>
@@ -72,6 +84,12 @@ ReactDOM.render(
         </Route>
         <Route path="/users/:id/answers" exact>
           <FindUserAnswered />
+        </Route>
+        <Route path="/users/:id/questions/stats" exact>
+          <FindUserQuestStats />
+        </Route>
+        <Route path="/users/:id/stats" exact>
+          <FindUserStats />
         </Route>
       </Switch>
     </BrowserRouter>

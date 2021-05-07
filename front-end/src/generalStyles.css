@@ -97,7 +97,7 @@ hr {
 .flex-item {
     flex-grow: 1;
     height: min-content;
-    width: 300px !important;
+    min-width: 300px !important;
 }
 .flex-item-big {
     flex-grow: 1;
