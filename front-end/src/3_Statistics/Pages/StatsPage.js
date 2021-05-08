@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { getOneUser, getOneKeyword } from '../../api';
+import { getOneUser } from '../../api';
 
 import MyNavbar from '../../Navbar/MyNavbar';
 import Footer from '../../Footer/Footer';
@@ -8,7 +8,6 @@ import QuestionsStats from './QuestionsStats';
 
 function StatsPage(props) {
     const [username, setUsername] = useState(null);
-    const [name, setName] = useState(null);
     const [err, setErr] = useState(false);
 
     useEffect(() => {
@@ -17,16 +16,6 @@ function StatsPage(props) {
             .then(response => {
                 //console.log(response);
                 setUsername(response.data.username);
-                setErr(false);
-            })
-            .catch(err => {
-                setErr(true);
-            })
-        }
-        if (props.case==='keyword') {
-            getOneKeyword(props.id)
-            .then(response => {
-                setName(response.data.name);
                 setErr(false);
             })
             .catch(err => {
@@ -59,15 +48,6 @@ function StatsPage(props) {
                 {props.case==='questions-gen' &&
                     <h4 className="center-content margin-top-small">General Questions Statistics</h4>
                 }
-                {props.case==='keyword' &&
-                    <div className="center-content margin-top-small flex-layout with-whitespace">
-                        <a  href={`/keywords/${props.id}`}
-                            style={{'fontSize': '1.5rem', 'marginTop': '-8px'}}>
-                            {name}
-                        </a>
-                        <h4> Statistics</h4>
-                    </div>
-                }
                 <div className="flex-layout">
                     {(props.case==='questions-gen'||props.case==='questions-user') &&
                         <QuestionsStats case={props.case} id={props.id}/>                
@@ -77,9 +57,6 @@ function StatsPage(props) {
                     }
                     {props.case==='all-user' &&
                         <QuestionsStats case='answers-user' id={props.id}/>
-                    }
-                    {props.case==='keyword' &&
-                        <QuestionsStats case={props.case} id={props.id} name={name} />
                     }
                 </div>
                 { err &&

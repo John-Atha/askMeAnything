@@ -28,6 +28,17 @@ function QuestionsStats(props) {
         setStatsList(stats);
     }
     
+    const checkEmpty = (data) => {
+        let isEmpty = true;
+        for (let i=0; i<data.length; i++) {
+            if (data[i][key]!==0) {
+                isEmpty = false;
+                break;
+            }
+        }
+        setErr(isEmpty);
+    }
+
     useEffect(() => {
         let func = getGeneralQuestionsStatsDaily;
         switch (props.case) {
@@ -45,13 +56,13 @@ function QuestionsStats(props) {
         .then(response => {
             console.log(response);
             fixData(response.data);
-            setErr(!response.data.length);
+            checkEmpty(response.data);
         })
         .catch(err => {
             console.log(err);
             setErr(true);
         })
-    }, [])
+    }, [props.id])
 
     return(
         <div className="main-page margin-top-small flex-item">
