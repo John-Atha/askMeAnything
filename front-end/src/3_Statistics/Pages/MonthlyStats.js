@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
-import { getGeneralQuestionsStatsDaily,
-         getUserQuestionsStatsDaily,
-         getUserAnswersStatsDaily,
-         getKeywordsStatsDaily } from '../../api';
+import { getGeneralQuestionsStatsMonthly,
+         getUserQuestionsStatsMonthly,
+         getUserAnswersStatsMonthly,
+         getKeywordsStatsMonthly } from '../../api';
 
-import Pie from '../Diagrams/Pie';
+import Line from '../Diagrams/Line';
 
-function QuestionsStats(props) {
+function MonthlyStats(props) {
     const [statsList, setStatsList] = useState([]);
     const [err, setErr] = useState(false);
     const key = (props.case === 'answers-user') ? 'answers' : 'questions';
 
     const fixData = (res) => {
-        let sum = 0;
-        res.forEach((day) => {
-            sum+=parseInt(day[key]);
-        });
-        let stats = [];
-        res.forEach((day) => {
-            console.log(day);
+        const stats = [];
+        res.forEach((obj) => {
+            console.log(obj);
+            const date = obj['month'].split('-');
             stats.push({
-                y: Math.round((day[key]/sum)*100*100)/100,
-                label: day.day,
+                x: new Date(date[0], date[1], 1),
+                y: obj[key],
             })
         });
         setStatsList(stats);
@@ -40,16 +37,16 @@ function QuestionsStats(props) {
     }
 
     useEffect(() => {
-        let func = getGeneralQuestionsStatsDaily;
+        let func = getGeneralQuestionsStatsMonthly;
         switch (props.case) {
             case 'questions-user':
-                func = getUserQuestionsStatsDaily;
+                func = getUserQuestionsStatsMonthly;
                 break;
             case 'answers-user':
-                func = getUserAnswersStatsDaily;
+                func = getUserAnswersStatsMonthly;
                 break;
             case 'keyword':
-                func = getKeywordsStatsDaily;
+                func = getKeywordsStatsMonthly;
                 break;
         }
         func(props.id)
@@ -67,7 +64,7 @@ function QuestionsStats(props) {
     return(
         <div className="main-page margin-top-small flex-item">
             {!err &&
-                    <Pie data={statsList} extraTitle={props.case==="keyword" ? `${props.name} ${key}` : key} />
+                    <Line data={statsList} extraTitle={props.case==="keyword" ? `${props.name} ${key}` : key} />
             }
             { err &&
                 <div className="error-message margin-top">
@@ -79,4 +76,4 @@ function QuestionsStats(props) {
     )
 }
 
-export default QuestionsStats;
+export default MonthlyStats;

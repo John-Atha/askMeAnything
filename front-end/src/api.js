@@ -159,7 +159,7 @@ export const answerUnUpvote = (upvoteId) => {
     return axios.delete(requestUrl, {headers});
 }
 
-export const getKeywordsStats = (id) => {
+export const getKeywordsStatsMonthly = (id) => {
     const requestUrl = statsUrl+`/keywords/${id}/stats/monthly`;
     return axios.get(requestUrl);
 }
@@ -181,7 +181,7 @@ export const getGeneralQuestionsPeriod = (dummy, start, end, month, year) => {
     return axios.get(requestUrl, { params });
 }
 
-export const getUserQuestionsStats = (id) => {
+export const getUserQuestionsStatsMonthly = (id) => {
     const requestUrl = statsUrl+`/users/${id}/questions/stats/monthly`;
     return axios.get(requestUrl);
 }
@@ -220,5 +220,15 @@ export const getUserAnswersStatsDaily = (id) => {
 
 export const getKeywordsStatsDaily = (id) => {
     const requestUrl = statsUrl+`/keywords/${id}/stats/daily`;
+    return axios.get(requestUrl);
+}
+
+export const getGeneralQuestionsStatsMonthly = (dummy) => {
+    const requestUrl = statsUrl+`/questions/stats/monthly`;
+    return axios.get(requestUrl);
+}
+
+export const getUserAnswersStatsMonthly = (id) => {
+    const requestUrl = statsUrl+`/users/${id}/answers/stats/monthly`;
     return axios.get(requestUrl);
 }

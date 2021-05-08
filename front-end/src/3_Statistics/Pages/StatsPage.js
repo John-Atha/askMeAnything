@@ -4,7 +4,8 @@ import { getOneUser } from '../../api';
 
 import MyNavbar from '../../Navbar/MyNavbar';
 import Footer from '../../Footer/Footer';
-import QuestionsStats from './QuestionsStats';
+import DailyStats from './DailyStats';
+import MonthlyStats from './MonthlyStats';
 
 function StatsPage(props) {
     const [username, setUsername] = useState(null);
@@ -48,17 +49,24 @@ function StatsPage(props) {
                 {props.case==='questions-gen' &&
                     <h4 className="center-content margin-top-small">General Questions Statistics</h4>
                 }
-                <div className="flex-layout">
-                    {(props.case==='questions-gen'||props.case==='questions-user') &&
-                        <QuestionsStats case={props.case} id={props.id}/>                
-                    }
-                    {props.case==='all-user' &&
-                        <QuestionsStats case='questions-user' id={props.id}/>
-                    }
-                    {props.case==='all-user' &&
-                        <QuestionsStats case='answers-user' id={props.id}/>
-                    }
-                </div>
+                {(props.case==='questions-gen'||props.case==='questions-user') &&
+                    <div className="flex-layout">
+                        <DailyStats case={props.case} id={props.id}/>
+                        <MonthlyStats case={props.case} id={props.id}/>
+                    </div>
+                }
+                {props.case==='all-user' &&
+                    <div className="flex-layout">
+                        <DailyStats case='questions-user' id={props.id}/>
+                        <MonthlyStats case='questions-user' id={props.id}/>
+                    </div>
+                }
+                {props.case==='all-user' &&
+                    <div className="flex-layout">
+                        <DailyStats case='answers-user' id={props.id}/>
+                        <MonthlyStats case='answers-user' id={props.id}/>
+                    </div>
+                }
                 { err &&
                     <div className="error-message margin-top">
                         Sorry, no data found.
