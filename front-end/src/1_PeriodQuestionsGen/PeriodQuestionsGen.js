@@ -110,10 +110,8 @@ function PeriodQuestionsGen(props) {
     }, [])
 
     useEffect(() => {
-        if (props.case==='keyword') {
             setId(props.id);
             getGeneral();
-        }
     }, [props.id])
     
     return(

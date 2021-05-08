@@ -45,7 +45,7 @@ function MyNavbar() {
                 <Nav className="mr-auto">
                     <Nav.Link href="/">Home</Nav.Link>
                     <Nav.Link onClick={()=>redirect('my')}>My AskMeAnything</Nav.Link>
-                    <Nav.Link onClick={()=>redirect('profile')}>My Profile</Nav.Link>
+                    <Nav.Link onClick={()=>redirect(`users/${userId}`)}>My Profile</Nav.Link>
                 </Nav>
                 {!userId &&
                     <Nav>

@@ -13,9 +13,9 @@ function OnePeriodQuestionsGen(props) {
     const [id, setId] = useState(props.id);  
     const [questions, setQuestions] = useState([]);
     const [start, setStart] = useState(1);
-    const [end, setEnd] = useState(5);
+    const [end, setEnd] = useState(1);
     const [noData, setNoData] = useState(false);
-    const [showData, setShowData] = useState(false);
+    const [showData, setShowData] = useState(true);
 
     useEffect(() => {
         setId(props.id);
