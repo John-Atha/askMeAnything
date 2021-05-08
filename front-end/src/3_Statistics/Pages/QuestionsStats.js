@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-import { getGeneralQuestionsStatsDaily, getUserQuestionsStatsDaily, getUserAnswersStatsDaily } from '../../api';
+import { getGeneralQuestionsStatsDaily,
+         getUserQuestionsStatsDaily,
+         getUserAnswersStatsDaily,
+         getKeywordsStatsDaily } from '../../api';
 
 import Pie from '../Diagrams/Pie';
 
 function QuestionsStats(props) {
     const [statsList, setStatsList] = useState([]);
     const [err, setErr] = useState(false);
-    const key = props.case === 'answers-user' ? 'answers' : 'questions';
+    const key = (props.case === 'answers-user') ? 'answers' : 'questions';
 
     const fixData = (res) => {
         let sum = 0;
@@ -34,14 +37,15 @@ function QuestionsStats(props) {
             case 'answers-user':
                 func = getUserAnswersStatsDaily;
                 break;
+            case 'keyword':
+                func = getKeywordsStatsDaily;
+                break;
         }
         func(props.id)
         .then(response => {
             console.log(response);
-            //setStatsList(response.data);
             fixData(response.data);
             setErr(!response.data.length);
-            
         })
         .catch(err => {
             console.log(err);
@@ -52,7 +56,7 @@ function QuestionsStats(props) {
     return(
         <div className="main-page margin-top-small flex-item">
             {!err &&
-                    <Pie data={statsList} extraTitle={key} />
+                    <Pie data={statsList} extraTitle={props.case==="keyword" ? `${props.name} ${key}` : key} />
             }
             { err &&
                 <div className="error-message margin-top">

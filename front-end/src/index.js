@@ -40,6 +40,10 @@ const FindUserStats = () => {
   const {id} = useParams();
   return <StatsPage case='all-user' id={id} />;
 }
+const FindKeywordStats = () => {
+  const {id} = useParams();
+  return <StatsPage case='keyword' id={id} />
+}
 
 ReactDOM.render(
   <React.StrictMode>
@@ -69,6 +73,9 @@ ReactDOM.render(
         </Route>
         <Route path="/keywords/:id" exact>
           <FindKeyword />
+        </Route>
+        <Route path="/keywords/:id/stats" exact>
+          <FindKeywordStats />
         </Route>
         <Route path="/questions" exact>
           <PeriodQuestionsGenSkeleton case='general' />

@@ -217,3 +217,8 @@ export const getUserAnswersStatsDaily = (id) => {
     const requestUrl = statsUrl+`/users/${id}/answers/stats/daily`;
     return axios.get(requestUrl);
 }
+
+export const getKeywordsStatsDaily = (id) => {
+    const requestUrl = statsUrl+`/keywords/${id}/stats/daily`;
+    return axios.get(requestUrl);
+}
