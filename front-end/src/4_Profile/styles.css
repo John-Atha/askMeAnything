@@ -2,10 +2,21 @@
    font-weight: bold;
 }
 .contact-container {
+    position: absolute;
+    right: 10px;
     padding: 10px;
     display: grid;
     width: 400px;
     grid-template-columns: 50px 100px 300px;
     grid-template-rows: min-content min-content min-content min-content;
     border-collapse: collapse;
+}
+.carousel-indicators li {
+    background-color: black !important;
+}
+.carousel-control-next span, .carousel-control-prev span {
+    background-color: black !important;
+}
+.carousel {
+    flex-basis: 50%;
 }
