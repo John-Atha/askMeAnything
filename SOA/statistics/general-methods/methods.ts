@@ -91,3 +91,12 @@ export const daysComplete = (data, key) => {
   })
   return data;
 }
+
+export const monthlyCountsParseInt = (data, key) => {
+  return data.map((obj) => {
+    return {
+      month: obj.month,
+      [key]: parseInt(obj[key]),
+    }
+  })
+}

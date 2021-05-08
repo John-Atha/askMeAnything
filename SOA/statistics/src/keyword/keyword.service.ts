@@ -1,6 +1,6 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { daysComplete } from '../../general-methods/methods';
+import { daysComplete, monthlyCountsParseInt } from '../../general-methods/methods';
 import { EntityManager } from 'typeorm';
 import {Keyword} from "./entities/keyword.entity";
 
@@ -14,7 +14,7 @@ export class KeywordService {
       if (!keyword) {
         throw new NotFoundException(`Keyword '${id}' not found.`);
       }
-      return manager.query(
+      const data = await manager.query(
         `SELECT to_char(public."question"."created_at", 'YYYY-MM') as month,
                       COUNT(*) as questions
                FROM public."question", public."question_keywords_keyword" 
@@ -22,6 +22,7 @@ export class KeywordService {
                  AND public."question_keywords_keyword"."questionId"=public."question"."id"
                GROUP BY month`,
       );
+      return monthlyCountsParseInt(data, 'questions');
     });
   }
 

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { User } from './entities/user.entity';
-import {daysComplete, paginate} from "../../general-methods/methods";
+import { daysComplete, paginate,monthlyCountsParseInt } from "../../general-methods/methods";
 
 @Injectable()
 export class UserService {
@@ -14,13 +14,14 @@ export class UserService {
       if (!user) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      return this.manager.query(
+      const data = await this.manager.query(
         `SELECT to_char(public."question"."created_at", 'YYYY-MM') as month,
                       COUNT(*) as questions
                FROM public."question"
                WHERE public."question"."ownerId"=${id}
                GROUP BY month`,
       );
+      return monthlyCountsParseInt(data, 'questions');
     });
   }
 
@@ -30,13 +31,14 @@ export class UserService {
       if (!user) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      return this.manager.query(
+      const data = await this.manager.query(
         `SELECT to_char(public."answer"."created_at", 'YYYY-MM') as month,
                       COUNT(*) as answers
                FROM public."answer"
                WHERE public."answer"."ownerId"=${id}
                GROUP BY month`,
       );
+      return monthlyCountsParseInt(data, 'answers');
     });
   }
 
@@ -91,8 +93,8 @@ export class UserService {
       if (!user) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      const temp = await manager.query(
-        `SELECT COUNT (DISTINCT public."question"."id"),
+      const data = await manager.query(
+        `SELECT COUNT (DISTINCT public."question"."id") as answered,
                 to_char(public."answer"."created_at", 'YYYY-MM') as month
          FROM  public."answer", public."question", public."user"
          WHERE public."answer"."ownerId"=${id}
@@ -100,12 +102,7 @@ export class UserService {
            AND public."question"."id"=public."answer"."questionId"
          GROUP BY month`,
       );
-      return temp.map((item) =>{
-        return {
-          answered: parseInt(item.count),
-          month: item.month
-        };
-      });  
+      return monthlyCountsParseInt(data, 'answered'); 
     })
   }
 
