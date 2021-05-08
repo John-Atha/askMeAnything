@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import ReactNotifications from 'react-notifications-component';
 
-import LoginRegister from './LoginRegister/LoginRegister';
+import LoginRegister from './5_LoginRegister/LoginRegister';
 import Home from './0_MainPages/Home';
 import AskSkeleton from './1_AskQuestion/AskSkeleton';
 import AddSkeleton from './2_AddAnswer/AddSkeleton';
@@ -17,6 +17,7 @@ import PeriodQuestionsGenSkeleton from './1_PeriodQuestionsGen/PeriodQuestionsGe
 import StatsPage from './3_Statistics/Pages/StatsPage';
 import KeywordPage from './1_KeywordsQuestions/KeywordPage';
 import ProfileSkeleton from './4_Profile/ProfileSkeleton';
+import Ranking from './Ranking/Ranking';
 
 const FindAdd = () => {
   const {id} = useParams();
@@ -109,6 +110,9 @@ ReactDOM.render(
         </Route>
         <Route path="/users/:id/stats" exact>
           <FindUserStats />
+        </Route>
+        <Route path="/ranking" exact>
+          <Ranking />
         </Route>
       </Switch>
     </BrowserRouter>

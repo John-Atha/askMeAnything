@@ -232,3 +232,9 @@ export const getUserAnswersStatsMonthly = (id) => {
     const requestUrl = statsUrl+`/users/${id}/answers/stats/monthly`;
     return axios.get(requestUrl);
 }
+
+export const getUsersRanking = (start, end) => {
+    const requestUrl = statsUrl+'/users/ranking';
+    const params = { start, end };
+    return axios.get(requestUrl, { params });
+}
