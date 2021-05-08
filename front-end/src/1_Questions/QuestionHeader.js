@@ -10,7 +10,7 @@ function QuestionHeader(props) {
             <div className="question-title">{props.title[0].toUpperCase()+(props.title.slice(1))}</div>
             <div className="flex-layout">
                 <div className="with-whitespace">Asked by </div>
-                <a href="#">{props.owner.username}</a>
+                <a href={`/users/${props.owner.id}`}>{props.owner.username}</a>
                 <div>, on {props.date.slice(0, props.date.length-14)}</div>
             </div>
         </div>

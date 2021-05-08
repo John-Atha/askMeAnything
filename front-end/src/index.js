@@ -9,21 +9,22 @@ import 'bootstrap/dist/css/bootstrap.css';
 import ReactNotifications from 'react-notifications-component';
 
 import LoginRegister from './LoginRegister/LoginRegister';
-import Home from './MainPages/Home';
+import Home from './0_MainPages/Home';
 import AskSkeleton from './1_AskQuestion/AskSkeleton';
 import AddSkeleton from './2_AddAnswer/AddSkeleton';
 import KeywordsSkeleton from './1_KeywordsQuestions/KeywordsSkeleton';
-import PeriodQuestionsGenSkeleton from './PeriodQuestionsGen/PeriodQuestionsGenSkeleton';
+import PeriodQuestionsGenSkeleton from './1_PeriodQuestionsGen/PeriodQuestionsGenSkeleton';
 import StatsPage from './3_Statistics/Pages/StatsPage';
 import KeywordPage from './1_KeywordsQuestions/KeywordPage';
+import ProfileSkeleton from './4_Profile/ProfileSkeleton';
 
 const FindAdd = () => {
   const {id} = useParams();
-  return <AddSkeleton id={id} />
+  return <AddSkeleton id={id} />;
 }
 const FindKeyword = () => {
   const {id} = useParams();
-  return <KeywordPage id={id} />
+  return <KeywordPage id={id} />;
 }
 const FindUserQuestions = () => {
   const {id} = useParams();
@@ -43,7 +44,11 @@ const FindUserStats = () => {
 }
 const FindKeywordStats = () => {
   const {id} = useParams();
-  return <StatsPage case='keyword' id={id} />
+  return <StatsPage case='keyword' id={id} />;
+}
+const FindProfile = () => {
+  const {id} = useParams();
+  return <ProfileSkeleton id={id} />;
 }
 
 ReactDOM.render(
@@ -91,7 +96,7 @@ ReactDOM.render(
           <StatsPage case='questions-gen' />
         </Route>
         <Route path="/users/:id" exact>
-
+          <FindProfile />
         </Route>
         <Route path="/users/:id/questions" exact>
           <FindUserQuestions />

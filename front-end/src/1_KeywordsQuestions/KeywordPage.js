@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { getOneKeyword } from '../api';
 
-import PeriodQuestionsGen from '../PeriodQuestionsGen/PeriodQuestionsGen';
+import PeriodQuestionsGen from '../1_PeriodQuestionsGen/PeriodQuestionsGen';
 import DailyStats from '../3_Statistics/Pages/DailyStats';
 import MonthlyStats from '../3_Statistics/Pages/MonthlyStats';
 import MyNavbar from '../Navbar/MyNavbar';

@@ -1,0 +1,4 @@
+email-icon: https://www.iconfinder.com/icons/211660/email_icon
+github-icon: https://github.com/logos
+web-icon: https://icon-icons.com/download/120072/PNG/512/
+score-icon: https://www.iconfinder.com/icons/2316248/accomplishments_awards_champion_cup_resume_winner_certificate_icon
