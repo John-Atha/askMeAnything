@@ -1,6 +1,6 @@
 import {React, useState, useEffect} from 'react';
 
-import { isLogged, getKeywordsStats, getUserQuestionsStats, getUserAnsweredStats, getGeneralQuestionStats } from '../api';
+import { isLogged, getKeywordsStatsMonthly, getUserQuestionsStatsMonthly, getUserAnsweredStats, getGeneralQuestionStats } from '../api';
 
 import OnePeriodQuestionsGen from './OnePeriodQuestionsGen';
 
@@ -71,10 +71,10 @@ function PeriodQuestionsGen(props) {
         let func = getGeneralQuestionStats;
         switch(props.case) {
             case 'user':
-                func = getUserQuestionsStats;
+                func = getUserQuestionsStatsMonthly;
                 break;
             case 'keyword':
-                func = getKeywordsStats;
+                func = getKeywordsStatsMonthly;
                 break;
             case 'user-answered':
                 func = getUserAnsweredStats;

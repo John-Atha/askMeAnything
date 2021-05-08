@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { getOneKeyword } from '../api';
 
 import PeriodQuestionsGen from '../PeriodQuestionsGen/PeriodQuestionsGen';
-import QuestionsStats from '../3_Statistics/Pages/QuestionsStats';
+import DailyStats from '../3_Statistics/Pages/DailyStats';
+import MonthlyStats from '../3_Statistics/Pages/MonthlyStats';
 import MyNavbar from '../Navbar/MyNavbar';
 import Footer from '../Footer/Footer';
 
@@ -23,7 +24,10 @@ function KeywordPage(props) {
             {name &&
                 <div className="margin-top-small">
                     <PeriodQuestionsGen case='keyword' id={props.id} name={name} />
-                    <QuestionsStats case='keyword' id={props.id} name={name} />
+                    <div className="flex-layout">
+                        <DailyStats case='keyword' id={props.id} name={name} />
+                        <MonthlyStats case='keyword' id={props.id} name={name} />
+                    </div>
                 </div>
             }
             {!name &&
