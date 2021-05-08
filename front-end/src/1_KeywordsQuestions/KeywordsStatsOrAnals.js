@@ -107,6 +107,7 @@ function KeywordsStatsOrAnals(props) {
                         </div>
                     }
                 </div>
+            <h3 className="margin-top-small" style={{'textAlign': 'center', 'color': 'blue'}}>{currentName}</h3>
             {(props.case==='analytics'||props.case==='all') &&
                 <PeriodQuestionsGen case='keyword' id={current} name={currentName} />
             }

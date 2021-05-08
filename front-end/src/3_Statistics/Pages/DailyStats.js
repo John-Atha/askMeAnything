@@ -67,7 +67,7 @@ function DailyStats(props) {
     return(
         <div className="main-page margin-top-small flex-item">
             {!err &&
-                    <Pie data={statsList} extraTitle={props.case==="keyword" ? `${props.name} ${key}` : key} />
+                    <Pie data={statsList} extraTitle={key} />
             }
             { err &&
                 <div className="error-message margin-top">

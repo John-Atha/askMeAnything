@@ -10,6 +10,7 @@ function PeriodQuestionsGen(props) {
     const [noData, setNoData] = useState(false);
     const [userId, setUserId] = useState(null);
     const [statsList, setStatsList] = useState([]);
+    const [sum, setSum] = useState(0);
 
     const checkLogged = () => {
         isLogged()
@@ -20,6 +21,15 @@ function PeriodQuestionsGen(props) {
         .catch(err => {
             console.log(err);
         })
+    }
+
+    const sumCompute = (data) => {
+        const key = (props.case==='user'||props.case==='general'||props.case==='keyword') ? 'questions' : 'answered'
+        let tempSum = 0;
+        data.forEach((record) => {
+            tempSum += record[key];
+        })
+        setSum(tempSum);
     }
 
     const extractYearMonth = (str) => {
@@ -85,6 +95,7 @@ function PeriodQuestionsGen(props) {
             setStatsList([]);
             setStatsList(response.data);
             setNoData(!response.data.length);
+            sumCompute(response.data);
         })
         .catch(err => {
             setNoData(true);
@@ -108,11 +119,11 @@ function PeriodQuestionsGen(props) {
     return(
         <div className="margin-top-small main-page" style={{'paddingBottom': '100px'}}>
             {props.case==='keyword' &&
-                <h4>{props.name}</h4>
+                <h4>{props.name} ({sum})</h4>
             }
             {props.case==='user' &&
                 <div className="flex-layout with-whitespace">
-                    <h4>All questions of </h4>
+                    <h4>All questions ({sum}) of </h4>
                     <a  href={`/users/${props.id}`}
                         style={{'fontSize': '1.5rem', 'marginTop': '-4px'}}>
                             {props.username}
@@ -121,7 +132,7 @@ function PeriodQuestionsGen(props) {
             }
             {props.case==='user-answered' &&
                 <div className="flex-layout with-whitespace">
-                    <h4>All questions </h4>
+                    <h4>All questions ({sum}) </h4>
                     <a  href={`/users/${props.id}`}
                         style={{'fontSize': '1.5rem', 'marginTop': '-4px'}}>
                             {props.username}
@@ -130,7 +141,7 @@ function PeriodQuestionsGen(props) {
                 </div>    
             }
             {props.case==='general' &&
-                <h4>All questions</h4>
+                <h4>All questions ({sum})</h4>
             }
             {statsList.map((value, index) => {
                 const { year, month } = extractYearMonth(value.month);

@@ -64,7 +64,7 @@ function MonthlyStats(props) {
     return(
         <div className="main-page margin-top-small flex-item">
             {!err &&
-                    <Line data={statsList} extraTitle={props.case==="keyword" ? `${props.name} ${key}` : key} />
+                    <Line data={statsList} extraTitle={key} />
             }
             { err &&
                 <div className="error-message margin-top">
