@@ -26,7 +26,7 @@ function MyHome() {
             <AskQuestion />
             <AnswerQuestion />
             <MyQuestions id={userId} />
-            <MyContributions />
+            <MyContributions id={userId} />
         </div>
     )
 }

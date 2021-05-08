@@ -1,14 +1,14 @@
 import React from 'react';
 
-import Keywords from './Keywords';
+import KeywordsStatsOrAnals from './KeywordsStatsOrAnals';
 import MyNavbar from '../Navbar/MyNavbar';
 import Footer from '../Footer/Footer';
 
-function KeywordsSkeleton() {
+function KeywordsSkeleton(props) {
     return(
         <div className="home-container">
             <MyNavbar />
-            <Keywords />
+            <KeywordsStatsOrAnals case={props.case} />            
             <Footer />
         </div>
     )

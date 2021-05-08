@@ -15,6 +15,7 @@ import AddSkeleton from './2_AddAnswer/AddSkeleton';
 import KeywordsSkeleton from './1_KeywordsQuestions/KeywordsSkeleton';
 import PeriodQuestionsGenSkeleton from './PeriodQuestionsGen/PeriodQuestionsGenSkeleton';
 import StatsPage from './3_Statistics/Pages/StatsPage';
+import KeywordPage from './1_KeywordsQuestions/KeywordPage';
 
 const FindAdd = () => {
   const {id} = useParams();
@@ -22,7 +23,7 @@ const FindAdd = () => {
 }
 const FindKeyword = () => {
   const {id} = useParams();
-  return <PeriodQuestionsGenSkeleton case='keyword' id={id} />
+  return <KeywordPage id={id} />
 }
 const FindUserQuestions = () => {
   const {id} = useParams();
@@ -69,7 +70,13 @@ ReactDOM.render(
           <FindAdd />
         </Route>
         <Route path="/keywords" exact>
-          <KeywordsSkeleton />
+          <KeywordsSkeleton case='all' />
+        </Route>
+        <Route path="/keywords/analytics" exact>
+          <KeywordsSkeleton case='analytics' />
+        </Route>
+        <Route path="/keywords/statistics" exact>
+          <KeywordsSkeleton case='statistics' />
         </Route>
         <Route path="/keywords/:id" exact>
           <FindKeyword />

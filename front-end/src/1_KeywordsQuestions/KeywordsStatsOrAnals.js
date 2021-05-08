@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { getAllKeywords } from '../api';
 
 import PeriodQuestionsGen from '../PeriodQuestionsGen/PeriodQuestionsGen';
+import QuestionsStats from '../3_Statistics/Pages/QuestionsStats';
+
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl'
 import Form from 'react-bootstrap/Form'
 
 
-function Keywords() {
+function KeywordsStatsOrAnals(props) {
     const [current, setCurrent] = useState(null);
     const [currentName, setCurrentName] = useState('');
     const [all, setAll] = useState([]);
@@ -104,10 +106,14 @@ function Keywords() {
                         </div>
                     }
                 </div>
-
-            <PeriodQuestionsGen case='keyword' id={current} name={currentName} />
+            {(props.case==='analytics'||props.case==='all') &&
+                <PeriodQuestionsGen case='keyword' id={current} name={currentName} />
+            }
+            {(props.case==='statistics'||props.case==='all') && 
+                <QuestionsStats case='keyword' id={current} name={currentName} />
+            }
         </div>
     )
 }
 
-export default Keywords;
+export default KeywordsStatsOrAnals;
