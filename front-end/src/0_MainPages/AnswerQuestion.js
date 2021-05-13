@@ -6,7 +6,7 @@ import { createNotification } from '../createNotification';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import answer_photo from '../images/karla-vidal-cn9KWcTseH0-unsplash.jpg'
-
+import './styles.css';
 
 function AnswerQuestion() {
 
@@ -21,16 +21,16 @@ function AnswerQuestion() {
     }
 
     return(
-        <Card style={{ width: '300px' }} className="margin">
+        <Card className="margin card-width">
             <Card.Img className="card-image" variant="top" src={answer_photo} />
-            <Card.Body style={{'marginTop': '50px'}}>
+            <Card.ImgOverlay style={{'color': 'black'}}>
                 <Card.Title>Answer a question</Card.Title>
                 <Card.Text>
                 Wanna help others?<br></br>
                 Just try answering a question and contributing to our community.
                 </Card.Text>
                 <Button variant="primary" onClick={answer} >Find a question to answer</Button>
-            </Card.Body>
+            </Card.ImgOverlay>
         </Card>    
     )
 }

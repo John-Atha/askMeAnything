@@ -5,8 +5,8 @@ import { createNotification } from '../createNotification';
 
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-
 import question_photo from '../images/ilkka-karkkainen-yn8aHOdNLZo-unsplash.jpg'
+import './styles.css';
 
 function AskQuestion() {
 
@@ -21,16 +21,16 @@ function AskQuestion() {
     }
 
     return(
-        <Card style={{ width: '300px' }} className="margin">
+        <Card className="margin card-width">
             <Card.Img className="card-image" variant="top" src={question_photo} />
-            <Card.Body>
+            <Card.ImgOverlay style={{'color': 'black'}}>
                 <Card.Title>Ask a question</Card.Title>
                 <Card.Text>
                 Is there anything you want to know?<br></br>
                 Just post it and our extremely active community will help you really soon.
                 </Card.Text>
                 <Button variant="primary" onClick={redirect}>Create Question</Button>
-            </Card.Body>
+            </Card.ImgOverlay>
         </Card>
     )
 }

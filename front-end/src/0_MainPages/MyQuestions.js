@@ -7,16 +7,16 @@ import my_analytics_photo from '../images/jack-hodges-rbVqlz8H5Sg-unsplash.jpg'
 
 function MyQuestions(props) {
     return(
-        <Card style={{ width: '300px' }} className="margin">
+        <Card className="margin card-width">
             <Card.Img className="card-image" variant="top" src={my_analytics_photo} />
-            <Card.Body style={{'marginTop': '50px'}}>
+            <Card.ImgOverlay style={{'color': 'black'}}>
                 <Card.Title>My analytics</Card.Title>
                 <Card.Text>
                 Want to see your questions and your answers so far?
                 </Card.Text>
                 <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href=`/users/${props.id}/questions`}} >My Questions</Button>
                 <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href=`/users/${props.id}/answers`}}>My Answers</Button>
-            </Card.Body>
+            </Card.ImgOverlay>
         </Card>    
     )
 }

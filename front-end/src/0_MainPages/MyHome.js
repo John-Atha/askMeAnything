@@ -6,11 +6,14 @@ import AnswerQuestion from './AnswerQuestion';
 import AskQuestion from './AskQuestion';
 import MyQuestions from './MyQuestions';
 import MyContributions from './MyContributions';
+import Carousel from 'react-bootstrap/Carousel';
 
 function MyHome() {
-
+    const [index, setIndex] = useState(0);
     const [userId, setUserId] = useState(null);
-
+    const handleSelect = (selectedIndex, e) => {
+      setIndex(selectedIndex);
+    };
     useEffect(() => {
         isLogged()
         .then(response => {
@@ -19,14 +22,24 @@ function MyHome() {
         .catch(err => {
             window.location.href='/';
         })
-    })
+    }, [])
 
     return(
-        <div className="flex-layout main-page">
-            <AskQuestion />
-            <AnswerQuestion />
-            <MyQuestions id={userId} />
-            <MyContributions id={userId} />
+        <div className="main-page center-content">
+            <Carousel activeIndex={index} onSelect={handleSelect} className='carousel' style={{'height': '400px'}}>
+                <Carousel.Item interval={5000}>
+                    <AskQuestion />
+                </Carousel.Item>
+                <Carousel.Item interval={5000}>
+                        <AnswerQuestion />
+                </Carousel.Item>
+                <Carousel.Item interval={5000}>
+                    <MyQuestions id={userId} />
+                </Carousel.Item>
+                <Carousel.Item>
+                    <MyContributions id={userId} />
+                </Carousel.Item>
+            </Carousel>
         </div>
     )
 }
