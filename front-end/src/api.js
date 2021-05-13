@@ -234,7 +234,8 @@ export const getUserAnswersStatsMonthly = (id) => {
 }
 
 export const getUsersRanking = (start, end) => {
+    const headers = buildAuthHeader();
     const requestUrl = statsUrl+'/users/ranking';
     const params = { start, end };
-    return axios.get(requestUrl, { params });
+    return axios.get(requestUrl, { params, headers });
 }

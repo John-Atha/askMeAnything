@@ -10,13 +10,15 @@ function RankingMain() {
     const [start, setStart] = useState(1);
     const [end, setEnd] = useState(10);
     const [noData, setNoData] = useState(false);
+    const [position, setPosition] = useState(null);
 
     useEffect(() => {
         getUsersRanking(start, end)
         .then(response => {
             console.log(response);
-            setRankList(rankList.concat(response.data));
-            setNoData(!response.data.length)
+            setRankList(rankList.concat(response.data.ranking));
+            setPosition(response.data.position);
+            setNoData(!response.data.ranking.length)
         })
         .catch(err => {
             console.log(err);
@@ -26,6 +28,9 @@ function RankingMain() {
 
     return(
         <div className="center-content">
+        {position &&
+            <h4 className='margin-top-small with-whitespace'>Your position: {position} {position<=10 && '\nGood job!'}</h4>
+        }
         <table className="margin-top-small rank-table center-content">
             <thead>
                 <tr>
@@ -37,10 +42,10 @@ function RankingMain() {
             <tbody>
             {rankList.map((value, index) => {
                 return(
-                    <tr style={{ 'backgroundColor': (index%2===0) ? 'white' : 'lightgrey' }} >
-                        <td style={{'width':'100px'}}>{index+1}</td>
-                        <td style={{'width':'200px', 'textAlign': 'center'}}><a href={`/users/${value.id}`}>{value.username}</a></td>
-                        <td style={{'width':'100px'}}>{value.points}</td>
+                    <tr key={index+0.1} style={{ 'backgroundColor': (index%2===0) ? 'white' : 'lightgrey' }} >
+                        <td key={index+0.2} style={{'width':'100px'}}>{index+1}</td>
+                        <td key={index+0.3} style={{'width':'200px', 'textAlign': 'center'}}><a href={`/users/${value.id}`}>{value.username}</a></td>
+                        <td key={index+0.4} style={{'width':'100px'}}>{value.points}</td>
                     </tr>
                 )
             })}
