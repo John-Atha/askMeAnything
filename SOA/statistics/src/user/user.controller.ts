@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Request,
   ParseIntPipe, Query,
   UseInterceptors,
 } from '@nestjs/common';
@@ -34,8 +35,8 @@ export class UserController {
   }
 
   @Get('ranking')
-  findUsersRanking(@Query() reqParams) {
-    return this.userService.ranking(reqParams);
+  findUsersRanking(@Request() req, @Query() reqParams) {
+    return this.userService.ranking(req, reqParams);
   }
 
   @Get(':id/answered/stats/monthly')

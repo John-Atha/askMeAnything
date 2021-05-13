@@ -16,7 +16,7 @@ function OnePeriodQuestionsGen(props) {
     const [end, setEnd] = useState(1);
     const [noData, setNoData] = useState(false);
     const [showData, setShowData] = useState(true);
-
+    const [first, setFirst] = useState(true);
     useEffect(() => {
         setId(props.id);
     }, [props.id])
@@ -87,7 +87,7 @@ function OnePeriodQuestionsGen(props) {
                         })}
                         { showData && !noData && 
                             <Button variant="outline-primary"
-                                    onClick={()=>{setStart(start+5);setEnd(end+5)}}>
+                                    onClick={()=>{if (first) {setStart(start+5);setEnd(end+10);setFirst(false)} else {setStart(start+5);setEnd(end+5);}}}>
                                         See more
                             </Button>
                         }

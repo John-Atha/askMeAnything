@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { User } from './entities/user.entity';
-import { daysComplete, paginate,monthlyCountsParseInt } from "../../general-methods/methods";
+import { daysComplete, paginate,monthlyCountsParseInt, verify } from "../../general-methods/methods";
 
 @Injectable()
 export class UserService {
@@ -76,7 +76,15 @@ export class UserService {
     });
   }
 
-  async ranking(params: any): Promise<User[]> {
+  async ranking(req: any, params: any): Promise<any> {
+    let user_id = null;
+    let position = null;
+    try {
+      user_id = await verify(req);
+    }
+    catch {
+      ;
+    }
     const users = await this.manager
       .createQueryBuilder()
       .select('user')
@@ -84,7 +92,18 @@ export class UserService {
       .orderBy('user.points', 'DESC')
       .addOrderBy('user.username', 'ASC')
       .getMany();
-    return paginate(users, params);
+    if (user_id) {
+      for (let i=0; i<users.length; i++) {
+        if (users[i].id===user_id) {
+          position = i+1;
+          break;
+        }
+      }
+    }
+    return {
+      ranking: paginate(users, params),
+      position: position,
+    } 
   }
 
   async findAnsweredStatsMonthly(id: number): Promise<any> {

@@ -7,9 +7,15 @@ import DailyStats from '../3_Statistics/Pages/DailyStats';
 import MonthlyStats from '../3_Statistics/Pages/MonthlyStats';
 import MyNavbar from '../Navbar/MyNavbar';
 import Footer from '../Footer/Footer';
+import Carousel from 'react-bootstrap/Carousel';
 
 function KeywordPage(props) {
     const [name, setName] = useState(null);
+    const [index, setIndex] = useState(0);
+  
+    const handleSelect = (selectedIndex, e) => {
+      setIndex(selectedIndex);
+    };
 
     useEffect(() => {
         getOneKeyword(props.id)
@@ -19,15 +25,19 @@ function KeywordPage(props) {
     }, [])
 
     return(
-        <div className="home-container">
+        <div className="home-container" style={{'paddingBottom': '100px'}}>
             <MyNavbar />
             {name &&
                 <div className="margin-top-small">
                     <PeriodQuestionsGen case='keyword' id={props.id} name={name} />
-                    <div className="flex-layout">
-                        <DailyStats case='keyword' id={props.id} name={name} />
-                        <MonthlyStats case='keyword' id={props.id} name={name} />
-                    </div>
+                    <Carousel activeIndex={index} onSelect={handleSelect} className='carousel' style={{'marginTop': '-100px'}}>
+                        <Carousel.Item interval={5000}>
+                            <DailyStats case='keyword' id={props.id} name={name} />
+                        </Carousel.Item>
+                        <Carousel.Item interval={5000}>
+                            <MonthlyStats case='keyword' id={props.id} name={name} />
+                        </Carousel.Item>
+                    </Carousel>
                 </div>
             }
             {!name &&

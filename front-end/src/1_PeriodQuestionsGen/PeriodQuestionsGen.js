@@ -117,7 +117,7 @@ function PeriodQuestionsGen(props) {
     return(
         <div className="margin-top-small main-page" style={{'paddingBottom': '100px'}}>
             {props.case==='keyword' &&
-                <h4>{props.name} ({sum})</h4>
+                <h4>{props.name} ({sum} questions)</h4>
             }
             {props.case==='user' &&
                 <div className="flex-layout with-whitespace">
