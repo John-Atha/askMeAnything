@@ -18,9 +18,7 @@ function Basics(props) {
             <h4 className="profile-bio">
                 {props.user.bio}
             </h4>
-            <div>
-                Member since: { props.user.member_since ? props.user.member_since.slice(0, 10) : '-'}
-            </div>
+            <div style={{'textAlign': 'left'}}>Member since: { props.user.member_since ? props.user.member_since.slice(0, 10) : '-'}</div>
             
         </div>
     )

@@ -12,8 +12,9 @@ import PeriodQuestionsGen from '../1_PeriodQuestionsGen/PeriodQuestionsGen';
 function ProfileMain(props) {
     return(
         <div className="margin-top-smaller">
-            <div className="flex-layout">
+            <div className="flex-layout center-content">
                 <Basics user={props.user} />
+                <div style={{'height': 0, 'width': '100px'}}></div>
                 <Contact user={props.user} />
             </div>
             <div className='flex-layout'>

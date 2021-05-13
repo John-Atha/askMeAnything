@@ -46,7 +46,7 @@ function Latest() {
 
 
     return(
-        <div className="margin-top-smaller main-page" style={{'paddingBottom': '100px'}}>
+        <div className="margin-top main-page" style={{'paddingBottom': '100px'}}>
             <h5>Latest Questions</h5>            
             {questions.map((value, index) => {
                 return(

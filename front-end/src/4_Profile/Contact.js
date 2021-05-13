@@ -13,14 +13,14 @@ function Contact(props) {
     return(
         <div className="contact-container">
             <img style={{'height': '30px', 'width': '35px', 'gridRow': 1, 'gridColumn': 1, 'marginTop': '-4px'}} src={email_icon} />
-            <div className='contact-item' style={{'gridRow': 1, 'gridColumn': 2}}>Email</div>
-            <div className='contact-item' style={{'gridRow': 1, 'gridColumn': 3}}>{props.user.email}</div>
-            <img style={{'height': '30px', 'width': '35px', 'gridRow': 2, 'gridColumn': 1, 'marginTop': '-7px'}} src={git_icon} />
-            <div className='contact-item' style={{'gridRow': 2, 'gridColumn': 2}}>Github</div>
-            <a   className='contact-item' style={{'gridRow': 2, 'gridColumn': 3}} href={github_url}>{props.user.github_username || '-'}</a>
+            <div className='contact-item' style={{'gridRow': 1, 'gridColumn': 2, 'textAlign': 'left'}}>Email</div>
+            <div className='contact-item' style={{'gridRow': 1, 'gridColumn': 3, 'textAlign': 'left'}}>{props.user.email}</div>
+            <img style={{'height': '30px', 'width': '35px', 'gridRow': 2, 'gridColumn': 1, 'marginTop': '-7px', 'textAlign': 'left'}} src={git_icon} />
+            <div className='contact-item' style={{'gridRow': 2, 'gridColumn': 2, 'textAlign': 'left'}}>Github</div>
+            <a   className='contact-item' style={{'gridRow': 2, 'gridColumn': 3, 'textAlign': 'left'}} href={github_url}>{props.user.github_username || '-'}</a>
             <img style={{'height': '25px', 'width': '35px', 'gridRow': 3, 'gridColumn': 1, 'marginTop': '0px'}} src={web_icon} />
-            <div className='contact-item' style={{'gridRow': 3, 'gridColumn': 2}}>Website</div>
-            <a   className='contact-item' style={{'gridRow': 3, 'gridColumn': 3}} href={website_url}>{props.user.site_url || '-'}</a>
+            <div className='contact-item' style={{'gridRow': 3, 'gridColumn': 2, 'textAlign': 'left'}}>Website</div>
+            <a   className='contact-item' style={{'gridRow': 3, 'gridColumn': 3, 'textAlign': 'left'}} href={website_url}>{props.user.site_url || '-'}</a>
         </div>
     )
 }
