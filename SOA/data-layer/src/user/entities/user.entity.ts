@@ -22,38 +22,38 @@ export class User {
   @Column({ unique: true })
   username: string;
 
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   @Column()
   password: string;
 
-  @Exclude()
+  //@Exclude()
   @Column({ nullable: true })
   date_of_birth: Date;
 
   @Column({ default: 0 })
   points: number;
 
-  @Exclude()
+  //@Exclude()
   @Column({ nullable: true })
   bio: string;
 
-  @Exclude()
+  //@Exclude()
   @Column({ nullable: true })
   site_url: string;
 
-  @Exclude()
+  //@Exclude()
   @Column({ nullable: true })
   github_username: string;
 
-  @Exclude()
+  //@Exclude()
   @Column({ nullable: true })
   first_name: string;
 
-  @Exclude()
+  //@Exclude()
   @Column({ nullable: true })
   last_name: string;
 
-  @Exclude()
+  //@Exclude()
   @CreateDateColumn()
   member_since: Date;
 

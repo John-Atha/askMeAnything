@@ -33,19 +33,35 @@ export class UserService {
   async findOne(conditions: any): Promise<User> {
     let user = null;
     let { id, username, email } = conditions;
+    console.log(conditions);
     if (id) user = await this.manager.findOne(User, id);
-    else if (username) user = await this.manager.findOne(User, username);
-    else if (email) user = await this.manager.findOne(User, email);
-    if (!user) {
+    else if (username) user = await this.manager.findOne(User, { username });
+    else if (email) user = await this.manager.findOne(User, { email });
+    /*if (!user) {
       throw new NotFoundException(`User not found.`);
-    }
+    }*/
     return user;
   }
 
+  async findOneWithPass(conditions: any): Promise<User> {
+    let user = null;
+    let { id, username, email } = conditions;
+    console.log(conditions);
+    if (id) user = await this.manager.findOne(User, id);
+    else if (username) user = await this.manager.findOne(User, { username });
+    else if (email) user = await this.manager.findOne(User, { email });
+    /*if (!user) {
+      throw new NotFoundException(`User not found.`);
+    }*/
+    user['pass'] = user['password'];
+    return user;
+  }
+  
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     return this.manager.transaction(async (manager) => {
       const user = await manager.findOne(User, id);
       const newUser = await manager.merge(User, user, updateUserDto);
+      console.log(newUser);
       return manager.save(newUser);
     });
   }

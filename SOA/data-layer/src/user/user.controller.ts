@@ -37,6 +37,11 @@ export class UserController {
     return this.userService.findOne(conditions);
   }
 
+  @Get('one/pass')
+  findOneWithPass(@Query() conditions: any) {
+    return this.userService.findOneWithPass(conditions);
+  }
+
   //@UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {

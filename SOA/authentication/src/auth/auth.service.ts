@@ -1,15 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserService } from '../user/user.service';
+import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { User } from '../user/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
-//const md5 = require('md5');
-//const MD5 = require('crypto-js/md5');
+import { getOneUserWithPass } from '../async_calls/async_calls';
 
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
-
 
 @Injectable()
 export class AuthService {
@@ -20,10 +15,13 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.manager.findOne(User, { username: username });
-    const match = await bcrypt.compare(pass, user ? user.password : '');
+    //const user = await this.manager.findOne(User, { username: username });
+    const user = await getOneUserWithPass({ username });
+    console.log('user:');
+    console.log(user);
+    const match = await bcrypt.compare(pass, user.data ? user.data.pass : '');
     if (match) {
-      const { password, ...result } = user;
+      const { password, ...result } = user.data;
       return result;
     }
     else {

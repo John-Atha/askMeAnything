@@ -6,9 +6,12 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
+import { createUser, deleteUser, getAllUsers, getOneUser, updateUser } from '../async_calls/async_calls';
+import { paginate, verify } from '../../general_methods/methods';
+import { jwtConstants } from '../../constants';
+const jwt = require('jsonwebtoken');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -17,14 +20,12 @@ const saltRounds = 10;
 export class UserService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<any> {
     if (createUserDto.password === createUserDto.confirmation) {
       const allowed = await this.validRegister(createUserDto.username, createUserDto.email);
       if (allowed) {
-        const user = await this.manager.create(User, createUserDto);
-        const hash = bcrypt.hashSync(user.password, saltRounds);
-        user.password = hash;
-        return this.manager.save(user);
+        const user = await createUser(createUserDto);
+        return user.data;
       }
       else {
         throw new BadRequestException(`Username/email already exist.`)
@@ -35,33 +36,44 @@ export class UserService {
     }
   }
 
-  async findAll(params): Promise<User[]> {
-    const res = await this.manager.find(User);
-    return this.paginate(res, params);
+  async findAll(params): Promise<any> {
+    const res = await getAllUsers();
+    return paginate(res.data, params);
+    //const res = await getAllUsers();
+    //console.log(res);
+    //return this.paginate(res, params);
   }
 
-  async findOne(id: number): Promise<User> {
-    const user = await this.manager.findOne(User, id);
-    if (!user) {
+  async findOne(id: number): Promise<any> {
+    //const user = await this.manager.findOne(User, id);
+    const user = await getOneUser({ id });
+    console.log(`user: ${user.data}`);
+    if (!user.data) {
       throw new NotFoundException(`User '${id}' not found.`);
     }
-    return user;
+    return user.data;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto, req_user: User): Promise<User> {
+  async update(id: number, updateUserDto: UpdateUserDto, req: any): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user = await manager.findOne(User, id);
+      //const user = await manager.findOne(User, id);
+      const user = await getOneUser({ id });
+      const req_user_id = verify(req);
+      console.log(`req_user_id : ${req_user_id}`);
       if (!user) {
         throw new NotFoundException(`User ${id} not found.`);
       }
-      else if (user.id!==req_user.id) {
+      else if (user.data.id!==req_user_id) {
         throw new UnauthorizedException();
       }
       else {
-        const valid = await this.validUpdate(user.id, updateUserDto.username, updateUserDto.email)
+        const valid = await this.validUpdate(user.data.id, updateUserDto.username, updateUserDto.email)
         if (valid) {
-          const newUser = await manager.merge(User, user, updateUserDto);
-          return manager.save(newUser);
+          console.log('valid update');
+          console.log(user.data.id);
+          console.log(updateUserDto);
+          const newUser = await updateUser(user.data.id, updateUserDto);
+          return newUser.data;
         }
         else {
           throw new BadRequestException(`Username/email already exist.`);
@@ -70,67 +82,59 @@ export class UserService {
     });
   }
 
-  async remove(id: number, req_user: User): Promise<void> {
+  async remove(id: number, req: any): Promise<void> {
     return this.manager.transaction(async (manager) => {
-      const user = await manager.findOne(User, id);
-      if (!user) {
+      const req_user_id = verify(req);
+      //const user = await manager.findOne(User, id);
+      const user = await getOneUser({ id });
+      if (!user.data) {
         throw new NotFoundException(`User ${id} not found.`);
       }
-      else if (user.id!==req_user.id || user.username!==req_user.username) {
+      else if (id!==req_user_id /* || user.data.username!==req_user.username*/) {
         throw new UnauthorizedException();
       }
-      await manager.delete(User, id);
+      return deleteUser(id);
     });
   }
 
   async validRegister(username: string, email: string): Promise<boolean> {
-    const res1 = await this.manager.findOne(User, { username: username });
-    const res2 = await this.manager.findOne(User, { email: email });
-    return !res1 && !res2;
+    //const res1 = await this.manager.findOne(User, { username: username });
+    const res1 = await getOneUser({ username });
+    //const res2 = await this.manager.findOne(User, { email: email });
+    const res2 = await getOneUser({ email });
+    return !res1.data && !res2.data;
   }
 
   async validUpdate(id: number, username: string, email:string): Promise<boolean> {
-    const res1 = await this.manager.findOne(User, { username: username });
-    const res2 = await this.manager.findOne(User, { email: email });
+    //const res1 = await this.manager.findOne(User, { username: username });
+    const res1 = await getOneUser({ username });
+    //const res2 = await this.manager.findOne(User, { email: email });
+    const res2 = await getOneUser({ email });
     return (
-      (!res1 || (res1 && res1['id'] === id)) &&
-      (!res2 || (res2 && res2['id'] === id))
+      (!res1.data || (res1.data && res1.data['id'] === id)) &&
+      (!res2.data || (res2.data && res2.data['id'] === id))
     );
   }
 
-  identify(req_user: User) {
-    return req_user;
+  identify(req: any) {
+    const headers = req['rawHeaders'];
+    let token = '';
+    headers.forEach((header) => {
+      if (header.startsWith('Bearer')) {
+        token = header.slice(7);
+      }
+    });
+    let decoded = {};
+    try {
+      decoded = jwt.verify(token, jwtConstants.secret);
+    } catch (error) {
+      console.log(error);
+      throw new UnauthorizedException();
+    }
+    return { 
+      username: decoded['username'],
+      id: decoded['sub'],
+    };
+    //return decoded['sub'];
   }
-
-  validateParams = (params) => {
-    if (params.start !== undefined) {
-      if (!parseInt(params.start)) {
-        throw new BadRequestException(`Invalid start parameter.`);
-      }
-    }
-    if (params.end !== undefined) {
-      if (!parseInt(params.end)) {
-        throw new BadRequestException(`Invalid end parameter.`);
-      }
-    }
-  };
-
-  paginate = (res, params) => {
-    this.validateParams(params);
-    if (!res.length) {
-      return res;
-    }
-    if (params.start > res.length) {
-      return [];
-    }
-    const start = parseInt(params.start) - 1 || 0;
-    const end =
-      parseInt(params.end) || (parseInt(params.end) === 0 ? 0 : res.length);
-    console.log(`start: ${start}`);
-    console.log(`end: ${end}`);
-    if (start >= end || start <= -1 || end === 0) {
-      throw new BadRequestException('Invalid parameters');
-    }
-    return res.slice(start, end);
-  };
 }

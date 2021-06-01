@@ -38,21 +38,21 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Request() req, @Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto, req.user);
+    return this.userService.update(id, updateUserDto, req);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Request() req, @Param('id', ParseIntPipe) id: number) {
-    return this.userService.remove(id, req.user);
+    return this.userService.remove(id, req);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Post('logged')
   identify(@Request() req) {
-    return this.userService.identify(req.user);
+    return this.userService.identify(req);
   }
 }
