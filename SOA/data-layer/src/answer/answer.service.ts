@@ -11,11 +11,39 @@ import { EntityManager } from 'typeorm';
 import { verify } from '../../general_methods/methods';
 import { Question } from '../question/entities/question.entity';
 import { Answer } from './entities/answer.entity';
+import { AnswerUpvote } from '../answer-upvote/entities/answer-upvote.entity';
 import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class AnswerService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
+
+  async findOne(id: number): Promise<Answer> {
+    let answer = null;
+    answer = await this.manager.findOne(Answer, id);
+    if (answer) {
+      const count = await this.manager.query(
+      `SELECT COUNT(*) FROM public."answer_upvote" WHERE public."answer_upvote"."answerId"=${id}`,
+      );
+      answer['upvotesCount'] = await parseInt(count[0]['count']);
+      }
+    return answer;
+  }
+
+  async findOneUpvotes(id: number): Promise<AnswerUpvote[]> {
+    let answer = null;
+    answer = await this.manager.findOne(Answer, id, { relations: ['upvotes', 'upvotes.owner']});
+    return answer;
+  }
+
+  async isUpvoted(answer_id: number, user_id: number): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      const user = await manager.findOne(User, user_id);
+      const answer = await manager.findOne(Answer, answer_id);
+      const upvote = await manager.find(AnswerUpvote, { owner: user, answer: answer} );
+      return upvote;
+    });
+  }
 
   async create(req, createAnswerDto: CreateAnswerDto): Promise<Answer> {
     return this.manager.transaction(async (manager) => {

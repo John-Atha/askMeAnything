@@ -48,3 +48,15 @@ export const questionIsUpvoted = (user_id: number, quest_id: number) => {
 export const createKeyword = (createKeywordDto: CreateKeywordDto) => {
     return axios.post(dataLayerUrl+`/keywords`, createKeywordDto);
 }
+
+export const getOneAnswer = (id: number) => {
+    return axios.get(dataLayerUrl+`/answers/${id}`);
+}
+
+export const getAnswerUpvotes = (id: number) => {
+    return axios.get(dataLayerUrl+`/answers/${id}/upvotes`);
+}
+
+export const answerIsUpvoted = (user_id: number, answer_id: number) => {
+    return axios.get(dataLayerUrl+`/answers/${answer_id}/upvoted/${user_id}`);
+}
