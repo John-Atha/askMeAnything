@@ -3,11 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   Query,
-  ParseIntPipe,
   Request,
 } from '@nestjs/common';
 import { KeywordService } from './keyword.service';
@@ -18,17 +14,17 @@ export class KeywordController {
   constructor(private readonly keywordService: KeywordService) {}
 
   @Post()
-  create(@Request() req, @Body() createKeywordDto: CreateKeywordDto) {
-    return this.keywordService.create(req, createKeywordDto);
+  create(@Body() createKeywordDto: CreateKeywordDto) {
+    return this.keywordService.create(createKeywordDto);
   }
 
   @Get()
-  findAll(@Query() reqParams) {
-    return this.keywordService.findAll(reqParams);
+  findAll() {
+    return this.keywordService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number, @Query() reqParams) {
-    return this.keywordService.findOne(id, reqParams);
+  @Get('one')
+  findOne(@Query() reqParams) {
+    return this.keywordService.findOne(reqParams);
   }
 }

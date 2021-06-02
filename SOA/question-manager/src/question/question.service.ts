@@ -200,7 +200,7 @@ export class QuestionService {
         throw new BadRequestException(`Only the question's owner can modify it.`);
       }
       //const keyword = await manager.findOne(Keyword, keyword_id);
-      const keyword = await getOneKeyword(keyword_id, null);
+      const keyword = await getOneKeyword({id: keyword_id});
       if (!keyword.data) {
         throw new NotFoundException(`Keyword '${keyword_id} not found.`);
       }
@@ -238,7 +238,7 @@ export class QuestionService {
         throw new BadRequestException(`Only the question's owner can modify it.`);
       }
       //const keyword = await manager.findOne(Keyword, keyword_id);
-      const keyword = await getOneKeyword(keyword_id, null);
+      const keyword = await getOneKeyword({id: keyword_id});
       if (!keyword.data) {
         throw new NotFoundException(`Keyword '${keyword_id} not found.`);
       }

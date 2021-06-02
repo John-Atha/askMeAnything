@@ -1,3 +1,4 @@
+import { CreateKeywordDto } from "src/keyword/dto/create-keyword.dto";
 import { CreateQuestionDto } from "src/question/dto/create-question.dto";
 import { UpdateQuestionDto } from "src/question/dto/update-question.dto";
 
@@ -28,8 +29,12 @@ export const answerCountUpvotes = (id: number) => {
     return axios.get(dataLayerUrl+`/questions/${id}/answers/count-upvotes`);
 }
 
-export const getOneKeyword = (id: number, params: any) => {
-    return axios.get(dataLayerUrl+`/keywords/${id}`, { params });
+export const getOneKeyword = (params: any) => {
+    return axios.get(dataLayerUrl+`/keywords/one`, { params });
+}
+
+export const getAllKeywords = () => {
+    return axios.get(dataLayerUrl+`/keywords`);
 }
 
 export const updateQuestionKeywords = (question_id: number, keywords: any) => {
@@ -37,6 +42,9 @@ export const updateQuestionKeywords = (question_id: number, keywords: any) => {
 }
 
 export const questionIsUpvoted = (user_id: number, quest_id: number) => {
-    console.log(dataLayerUrl+`/questions/${quest_id}/upvoted/${user_id}`);
     return axios.get(dataLayerUrl+`/questions/${quest_id}/upvoted/${user_id}`);
+}
+
+export const createKeyword = (createKeywordDto: CreateKeywordDto) => {
+    return axios.post(dataLayerUrl+`/keywords`, createKeywordDto);
 }

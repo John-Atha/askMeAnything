@@ -14,31 +14,28 @@ const jwt = require('jsonwebtoken');
 export class KeywordService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
-  async create(req, createKeywordDto: CreateKeywordDto): Promise<Keyword> {
-    const user_id = verify(req);
-    const allowed = await this.validateCreate(createKeywordDto.name);
-    console.log(allowed);
-    if (!allowed) {
-      throw new BadRequestException(
-        `Keyword '${createKeywordDto.name}' already exists.`,
-      );
-    }
+  async create(createKeywordDto: CreateKeywordDto): Promise<Keyword> {
     return this.manager.transaction(async (manager) => {
       const keyword = await manager.create(Keyword, createKeywordDto);
       return manager.save(keyword);
     });
   }
 
-  async findAll(params) {
-    const keywords = await this.manager.find(Keyword);
-    return paginate(keywords, params);
+  async findAll() {
+    return this.manager.find(Keyword);
   }
 
-  async findOne(id: number, params: any) {
+  async findOne(params: any) {
+    console.log(params);
     let keyword = null;
     let relations = [];
     if (params.questions) relations.push('questions');
-    keyword = await this.manager.findOne(Keyword, id, { relations });
+    if (params.id) {
+      keyword = await this.manager.findOne(Keyword, params.id, { relations });
+    }
+    else if (params.name) {
+      keyword = await this.manager.findOne(Keyword, {name: params.name}, { relations });
+    }
     return keyword;
   }
 
