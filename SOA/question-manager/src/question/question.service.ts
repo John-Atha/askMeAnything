@@ -14,44 +14,56 @@ import { Answer } from '../answer/entities/answer.entity';
 import { QuestionUpvote } from '../question-upvote/entities/question-upvote.entity';
 import { Keyword } from '../keyword/entities/keyword.entity';
 import { paginate, verify } from '../../general-methods/methods';
+import { createQuestion, getOneQuestion, getOneUser, updateQuestion } from 'async_calls/async_calls';
 
 @Injectable()
 export class QuestionService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
-  async create(req, createQuestionDto: CreateQuestionDto): Promise<Question> {
+  async create(req, createQuestionDto: CreateQuestionDto): Promise<any> {
     const user_id = verify(req);
     const allowed = await this.validateCreate(createQuestionDto.title);
     if (!allowed) {
       throw new BadRequestException('Title already exists.');
     }
     return this.manager.transaction(async (manager) => {
-      const owner = await manager.findOne(User, user_id);
-      if (!owner) {
+      //const owner = await manager.findOne(User, user_id);
+      const owner = await getOneUser({ id: user_id });
+      if (!owner.data) {
         throw new UnauthorizedException();
       }
       createQuestionDto['owner'] = {
         id: user_id,
-      };
+      };/*
       const question = await manager.create(Question, createQuestionDto);
       question.owner = owner;
-      return manager.save(question);
+      return manager.save(question);*/
+      const question = await createQuestion(createQuestionDto, owner.data);
+      return question.data;
     });
   }
 
   async findOne(id: number): Promise<any> {
     let question = null;
-    question = await this.manager.findOne(Question, id, {
+    /*question = await this.manager.findOne(Question, id, {
       relations: ['owner', 'upvotes'],
-    });
-    if (!question) {
+    });*/
+    const params = {
+      id,
+      owner: true,
+      upvotes: true,
+    };
+    question = await getOneQuestion(params);
+    console.log('question data:')
+    console.log(question.data);
+    if (!question.data) {
       throw new NotFoundException(`Question '${id}' not found.`);
     }
-    const count = await this.manager.query(
+    /*const count = await this.manager.query(
       `SELECT COUNT(*) FROM public."question_upvote" WHERE public."question_upvote"."questionId"=${id}`,
     );
-    question['upvotesCount'] = await parseInt(count[0]['count']);
-    return question;
+    question.data['upvotesCount'] = await parseInt(count[0]['count']);*/
+    return question.data;
   }
 
   async update(req, id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
@@ -61,30 +73,45 @@ export class QuestionService {
       throw new BadRequestException('Title already exists.');
     }
     return this.manager.transaction(async (manager) => {
-      const question = await manager.findOne(Question, id, {
+      const params = {
+        id,
+        owner: true,
+      }
+      const question = await getOneQuestion(params);
+      /*const question = await manager.findOne(Question, id, {
         relations: ['owner'],
-      });
-      if (!question) {
+      });*/
+      if (!question.data) {
         throw new NotFoundException(`Question ${id} not found.`);
       }
-      if (question.owner.id !== user_id) {
+      console.log(question.data);
+      if (question.data.owner.id !== user_id) {
         throw new BadRequestException(
           "You cannot update another user's question",
         );
       }
-      manager.merge(Question, question, updateQuestionDto);
-      return manager.save(question);
+      /*manager.merge(Question, question, updateQuestionDto);
+      return manager.save(question);*/
+      const newQuestion = await updateQuestion(id, updateQuestionDto);
+      return newQuestion.data;
     });
   }
 
   async remove(req, id: number): Promise<any> {
     const user_id = verify(req);
     return this.manager.transaction(async (manager) => {
-      const question = await manager.findOne(Question, id, { relations: ['owner'] });
-      if (!question) {
+      const params = {
+        id,
+        owner: true,
+      }
+      const question = await getOneQuestion(params);
+      /*const question = await manager.findOne(Question, id, {
+        relations: ['owner'],
+      });*/
+      if (!question.data) {
         throw new NotFoundException(`Question ${id} not found.`);
       }
-      if (question.owner.id !== user_id) {
+      if (question.data.owner.id !== user_id) {
         throw new BadRequestException(
           "You cannot delete another user's question.",
         );
@@ -235,12 +262,16 @@ export class QuestionService {
   }
 
   async validateCreate(title: string): Promise<boolean> {
-    const res = await this.manager.find(Question, { title: title });
-    return !res.length;
+    //const res = await this.manager.find(Question, { title: title });
+    const params = { title };
+    const res = await getOneQuestion(params);
+    return !res.data;
   }
 
   async validateUpdate(id: number, title: string): Promise<boolean> {
-    const res = await this.manager.findOne(Question, { title: title });
-    return !res || (res && res['id'] === id);
+    //const res = await this.manager.findOne(Question, { title: title });
+    const params = { title };
+    const res = await getOneQuestion(params);
+    return !res.data || (res.data && res.data['id'] === id);
   }
 }

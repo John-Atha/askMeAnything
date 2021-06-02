@@ -22,27 +22,26 @@ export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Post()
-  create(@Request() req, @Body() createQuestionDto: CreateQuestionDto) {
-    return this.questionService.create(req, createQuestionDto);
+  create(@Body() body: any) {
+    return this.questionService.create(body);
   }
 
   @Get('one')
-  findOne(@Query('conditions', ParseIntPipe) id: number) {
-    return this.questionService.findOne(id);
+  findOne(@Query() reqParams) {
+    return this.questionService.findOne(reqParams);
   }
 
   @Patch(':id')
   update(
-    @Request() req,
     @Param('id', ParseIntPipe) id: number,
     @Body() updateQuestionDto: UpdateQuestionDto,
   ) {
-    return this.questionService.update(req, id, updateQuestionDto);
+    return this.questionService.update(id, updateQuestionDto);
   }
 
   @Delete(':id')
-  remove(@Request() req, @Param('id', ParseIntPipe) id: number) {
-    return this.questionService.remove(req, id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.questionService.remove(id);
   }
 
   @Get(':id/answers')

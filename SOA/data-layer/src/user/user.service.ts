@@ -65,9 +65,7 @@ export class UserService {
     });
   }
 
-  async remove(id: number): Promise<void> {
-    return this.manager.transaction(async (manager) => {
-      await manager.delete(User, id);
-    });
+  async remove(id: number): Promise<any> {
+    return this.manager.delete(User, id);
   }
 }

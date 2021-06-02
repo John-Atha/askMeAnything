@@ -78,7 +78,7 @@ export class UserService {
     });
   }
 
-  async remove(id: number, req: any): Promise<void> {
+  async remove(id: number, req: any): Promise<any> {
     return this.manager.transaction(async (manager) => {
       const req_user_id = verify(req);
       //const user = await manager.findOne(User, id);

@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
 import { Keyword } from './entities/keyword.entity';
