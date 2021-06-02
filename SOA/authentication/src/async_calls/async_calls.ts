@@ -1,3 +1,4 @@
+import { CreateUserDto } from "../user/dto/create-user.dto";
 import { UpdateUserDto } from "../user/dto/update-user.dto";
 
 const axios = require('axios');
@@ -22,6 +23,6 @@ export const deleteUser = (id: number) => {
     return axios.delete(dataLayerUrl+`users/${id}`);
 }
 
-export const createUser = (createUserDto: any) => {
-    return axios.post(dataLayerUrl+`/users`, { createUserDto });
+export const createUser = (createUserDto: CreateUserDto) => {
+    return axios.post(dataLayerUrl+`/users`, createUserDto);
 }
