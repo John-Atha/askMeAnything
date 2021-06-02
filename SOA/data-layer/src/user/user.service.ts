@@ -61,7 +61,6 @@ export class UserService {
     return this.manager.transaction(async (manager) => {
       const user = await manager.findOne(User, id);
       const newUser = await manager.merge(User, user, updateUserDto);
-      console.log(newUser);
       return manager.save(newUser);
     });
   }

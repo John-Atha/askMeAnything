@@ -15,7 +15,7 @@ export const getOneUserWithPass = (params) => {
     return axios.get(dataLayerUrl+'/users/one/pass', { params });
 }
 export const updateUser = (id: number, updateUserDto: UpdateUserDto) => {
-    return axios.patch(dataLayerUrl+`/users/${id}`, { updateUserDto });
+    return axios.patch(dataLayerUrl+`/users/${id}`, updateUserDto);
 }
 
 export const deleteUser = (id: number) => {

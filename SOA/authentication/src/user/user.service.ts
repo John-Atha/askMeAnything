@@ -59,7 +59,6 @@ export class UserService {
       //const user = await manager.findOne(User, id);
       const user = await getOneUser({ id });
       const req_user_id = verify(req);
-      console.log(`req_user_id : ${req_user_id}`);
       if (!user) {
         throw new NotFoundException(`User ${id} not found.`);
       }
@@ -69,9 +68,6 @@ export class UserService {
       else {
         const valid = await this.validUpdate(user.data.id, updateUserDto.username, updateUserDto.email)
         if (valid) {
-          console.log('valid update');
-          console.log(user.data.id);
-          console.log(updateUserDto);
           const newUser = await updateUser(user.data.id, updateUserDto);
           return newUser.data;
         }
