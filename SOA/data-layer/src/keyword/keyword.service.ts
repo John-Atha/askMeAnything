@@ -34,11 +34,11 @@ export class KeywordService {
     return paginate(keywords, params);
   }
 
-  async findOne(id: number) {
-    const keyword = await this.manager.findOne(Keyword, id, { relations: ['questions'] });
-    if (!keyword) {
-      throw new NotFoundException(`Keyword '${id}' not found.`);
-    }
+  async findOne(id: number, params: any) {
+    let keyword = null;
+    let relations = [];
+    if (params.questions) relations.push('questions');
+    keyword = await this.manager.findOne(Keyword, id, { relations });
     return keyword;
   }
 

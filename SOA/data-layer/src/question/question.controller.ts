@@ -44,9 +44,9 @@ export class QuestionController {
     return this.questionService.remove(id);
   }
 
-  @Get(':id/answers')
-  Answers(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
-    return this.questionService.findQuestionsAnswers(id, reqParams);
+  @Get(':id/answers/count-upvotes')
+  AnswerCountUpvotes(@Param('id', ParseIntPipe) id: number) {
+    return this.questionService.AnswerCountUpvotes(id);
   }
 
   @Get(':id/upvotes')
@@ -54,9 +54,10 @@ export class QuestionController {
     return this.questionService.findUpvotes(id, reqParams);
   }
 
-  @Get(':id/upvoted')
-  Upvoted(@Request() req, @Param('id', ParseIntPipe) id: number) {
-    return this.questionService.isUpvoted(req, id);
+  @Get(':quest_id/upvoted/:user_id')
+  Upvoted(@Param('user_id', ParseIntPipe) user_id: number,
+          @Param('quest_id', ParseIntPipe) quest_id: number) {
+    return this.questionService.isUpvoted(user_id, quest_id);
   }
 
   @Get(':id/keywords')
@@ -64,21 +65,12 @@ export class QuestionController {
     return this.questionService.findKeywords(id);
   }
 
-  @Post(':quest_id/keywords/:key_id')
+  @Post(':quest_id/keywords')
   AttachKeyword(
-    @Request() req,
     @Param('quest_id', ParseIntPipe) quest_id: number,
-    @Param('key_id', ParseIntPipe) key_id: number,
+    @Body() keywords: any,
   ) {
-    return this.questionService.attachKeyword(req, quest_id, key_id);
+    return this.questionService.updKeywords(quest_id, keywords);
   }
 
-  @Delete(':quest_id/keywords/:key_id')
-  DetachKeyword(
-    @Request() req,
-    @Param('quest_id', ParseIntPipe) quest_id: number,
-    @Param('key_id', ParseIntPipe) key_id: number,
-  ) {
-    return this.questionService.detachKeyword(req, quest_id, key_id);
-  }
 }

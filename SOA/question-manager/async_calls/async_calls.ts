@@ -23,3 +23,20 @@ export const updateQuestion = (id: number, updateQuestionDto: UpdateQuestionDto)
 export const deleteQuestion = (id: number) => {
     return axios.delete(dataLayerUrl+`/questions/${id}`);
 }
+
+export const answerCountUpvotes = (id: number) => {
+    return axios.get(dataLayerUrl+`/questions/${id}/answers/count-upvotes`);
+}
+
+export const getOneKeyword = (id: number, params: any) => {
+    return axios.get(dataLayerUrl+`/keywords/${id}`, { params });
+}
+
+export const updateQuestionKeywords = (question_id: number, keywords: any) => {
+    return axios.post(dataLayerUrl+`/questions/${question_id}/keywords`, keywords);
+}
+
+export const questionIsUpvoted = (user_id: number, quest_id: number) => {
+    console.log(dataLayerUrl+`/questions/${quest_id}/upvoted/${user_id}`);
+    return axios.get(dataLayerUrl+`/questions/${quest_id}/upvoted/${user_id}`);
+}

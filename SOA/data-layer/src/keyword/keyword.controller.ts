@@ -28,7 +28,7 @@ export class KeywordController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.keywordService.findOne(id);
+  findOne(@Param('id', ParseIntPipe) id: number, @Query() reqParams) {
+    return this.keywordService.findOne(id, reqParams);
   }
 }
