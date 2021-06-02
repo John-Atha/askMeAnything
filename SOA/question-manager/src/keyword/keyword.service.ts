@@ -4,7 +4,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
-import { Keyword } from './entities/keyword.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { paginate, verify } from '../../general-methods/methods';

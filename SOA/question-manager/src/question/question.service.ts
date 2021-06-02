@@ -6,13 +6,8 @@ import {
 } from '@nestjs/common';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
-import { Question } from './entities/question.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { User } from '../user/entities/user.entity';
-import { Answer } from '../answer/entities/answer.entity';
-import { QuestionUpvote } from '../question-upvote/entities/question-upvote.entity';
-import { Keyword } from '../keyword/entities/keyword.entity';
 import { paginate, verify } from '../../general-methods/methods';
 import { answerCountUpvotes, updateQuestionKeywords, createQuestion, deleteQuestion, getOneKeyword, getOneQuestion, getOneUser, updateQuestion, questionIsUpvoted } from 'async_calls/async_calls';
 
@@ -66,7 +61,7 @@ export class QuestionService {
     return question.data;
   }
 
-  async update(req, id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
+  async update(req, id: number, updateQuestionDto: UpdateQuestionDto): Promise<any> {
     const user_id = verify(req);
     const allowed = await this.validateUpdate(id, updateQuestionDto.title);
     if (!allowed) {
@@ -120,7 +115,7 @@ export class QuestionService {
     });
   }
 
-  async findQuestionsAnswers(id: number, paramsInit): Promise<Answer[]> {
+  async findQuestionsAnswers(id: number, paramsInit): Promise<any> {
     //const question = await this.manager.findOne(Question, id, { relations: ['answers', 'answers.owner'] });
     const params = {
       id,
@@ -149,7 +144,7 @@ export class QuestionService {
     return answers;
   }
 
-  async findUpvotes(id: number, paramsInit): Promise<QuestionUpvote> {
+  async findUpvotes(id: number, paramsInit): Promise<any> {
     //const question = await this.manager.findOne(Question, id, { relations: ['upvotes', 'upvotes.owner'] });
     const params = {
       id,
@@ -163,7 +158,7 @@ export class QuestionService {
     return paginate(question.data.upvotes, paramsInit);
   }
 
-  async findKeywords(id: number): Promise<Keyword[]> {
+  async findKeywords(id: number): Promise<any> {
     //const question = await this.manager.findOne(Question, id, { relations: ['keywords'] });
     const params = {
       id,
