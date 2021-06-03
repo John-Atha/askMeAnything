@@ -53,4 +53,9 @@ export class UserController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.userService.remove(id);
   }
+
+  @Get(':id/answered')
+  findAnswered(@Param('id', ParseIntPipe) id: number, @Query() reqParams: any) {
+    return this.userService.findAnswered(id, reqParams);
+  }
 }

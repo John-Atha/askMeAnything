@@ -1,167 +1,153 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { Question } from '../question/entities/question.entity';
-import { Answer } from '../answer/entities/answer.entity';
 import { EntityManager } from 'typeorm';
 import {
   paginate,
-  withCountQuestionsUpvotes,
-  withCountQuestionsUpvotesAndReform,
-  withCountAnswersAndQuestionsUpvotes,
 } from '../../general-methods/methods';
-import { User } from './entities/user.entity';
+import { countAnswersAndQuestionsUpvotes, countQuestionsUpvotes, getAnswers, getOneUser, getQuestions, getUserAnswered } from 'async_calls/async_calls';
 
 @Injectable()
 export class UserService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
   async findAllQuestions(
-    params,
+    params: any,
     id: number,
     year: number,
     month: number,
-  ): Promise<Question[]> {
+  ): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user = await manager.findOne(User, id);
-      if (!user) {
+      //const user = await manager.findOne(User, id);
+      const user = await getOneUser({ id });
+      if (!user.data) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      let questions = await manager.find(Question, { relations: ['owner'] });
+      //let questions = await manager.find(Question, { relations: ['owner'] });
+      let questions = await getQuestions({ owner: true });
+      questions = questions.data;
       if (year && month) {
         questions = questions.filter((question) => {
+          console.log(question);
+          const date = new Date(question.updated_at);
           return (
             question.owner.id === id &&
-            question.updated_at.getFullYear() === year &&
-            question.updated_at.getMonth() === month
+            date.getFullYear() === year &&
+            date.getMonth() === month
           );
         });
-      } else if (year && !month) {
+      }
+      else if (year && !month) {
         questions = questions.filter((question) => {
+          const date = new Date(question.updated_at);
           return (
             question.owner.id === id &&
-            question.updated_at.getFullYear() === year
-          );
+            date.getFullYear() === year
+          );    
+
         });
-      } else {
+      }
+      else {
         questions = questions.filter((question) => {
           return question.owner.id === id;
         });
       }
       questions = paginate(questions, params);
-      return withCountQuestionsUpvotes(questions, manager);
+      questions = await countQuestionsUpvotes(questions);
+      return questions.data;
+      //return withCountQuestionsUpvotes(questions, manager);
     });
   }
 
   async findAllAnswers(
-    params,
+    params: any,
     id: number,
     year: number,
     month: number,
-  ): Promise<Answer[]> {
+  ): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user = await manager.findOne(User, id);
-      if (!user) {
+      //const user = await manager.findOne(User, id);
+      const user = await getOneUser({ id });
+      if (!user.data) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      let answers = await manager.find(Answer, {
+      /*let answers = await manager.find(Answer, {
         relations: ['owner', 'question', 'question.owner'],
-      });
+      });*/
+      const query_params = {
+        id,
+        owner: true,
+        question: true,
+        questionOwner: true,
+      }
+      let answers = await getAnswers(query_params);
+      answers = answers.data;
       if (year && month) {
         answers = answers.filter((answer) => {
+          const date = new Date(answer.updated_at);
           return (
             answer.owner.id === id &&
-            answer.updated_at.getFullYear() === year &&
-            answer.updated_at.getMonth() === month
+            date.getFullYear() === year &&
+            date.getMonth() === month
           );
         });
-      } else if (year && !month) {
+      }
+      else if (year && !month) {
         answers = answers.filter((answer) => {
+          const date = new Date(answer.updated_at);
           return (
-            answer.owner.id === id && answer.updated_at.getFullYear() === year
+            answer.owner.id === id &&
+            date.getFullYear() === year
           );
         });
-      } else {
+      }
+      else {
         answers = answers.filter((answer) => {
           return answer.owner.id === id;
         });
       }
       answers = paginate(answers, params);
-      return withCountAnswersAndQuestionsUpvotes(answers, manager);
+      //return withCountAnswersAndQuestionsUpvotes(answers, manager);
+      answers = await countAnswersAndQuestionsUpvotes(answers);
+      return answers.data;
     });
   }
 
   async findAllAnsweredQuestions(
-    params,
+    params: any,
     id: number,
     year: number,
     month: any,
-  ): Promise<Question[]> {
+  ): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user = await manager.findOne(User, id);
-      if (!user) {
+      //const user = await manager.findOne(User, id);
+      const user = await getOneUser({ id });
+      if (!user.data) {
         throw new NotFoundException(`User ${id} not found.`);
       }
-      let questions = [];
-      if (year && month) {
-        if (month<10) month='0'+month.toString();
-        console.log(`year: ${year}`);
-        console.log(`month: ${month}`);
-        questions = await manager.query(
-          `SELECT public."question"."id",
-                        public."question"."title",
-                        public."question"."text",
-                        public."question"."created_at",
-                        public."question"."updated_at",
-                        public."user"."id" as ownerId,
-                        public."user"."email",
-                        public."user"."username",
-                        public."user"."points"
-                   FROM  public."answer", public."question", public."user"
-                   WHERE public."answer"."ownerId"=${id}
-                     AND public."user"."id"=${id}
-                     AND public."question"."id"=public."answer"."questionId"
-                     AND to_char(public."answer"."created_at", 'YYYY-MM')='${year}-${month}'`,
-        );  
+      const query_params = {
+        year,
+        month,
       }
-      else if (year && !month) {
-        questions = await manager.query(
-        `SELECT public."question"."id",
-                      public."question"."title",
-                      public."question"."text",
-                      public."question"."created_at",
-                      public."question"."updated_at",
-                      public."user"."id" as ownerId,
-                      public."user"."email",
-                      public."user"."username",
-                      public."user"."points"
-                 FROM  public."answer", public."question", public."user"
-                 WHERE public."answer"."ownerId"=${id}
-                   AND public."user"."id"=${id}
-                   AND public."question"."id"=public."answer"."questionId"
-                   AND to_char(public."answer"."created_at", 'YYYY')='${year}'`,
-        );
-      }
-      else {
-        questions = await manager.query(
-          `SELECT public."question"."id",
-                        public."question"."title",
-                        public."question"."text",
-                        public."question"."created_at",
-                        public."question"."updated_at",
-                        public."user"."id" as ownerId,
-                        public."user"."email",
-                        public."user"."username",
-                        public."user"."points"
-                   FROM  public."answer", public."question", public."user"
-                   WHERE public."answer"."ownerId"=${id}
-                     AND public."user"."id"=${id}
-                     AND public."question"."id"=public."answer"."questionId"`,
-          );
-      }
-      console.log(questions);
-      questions = paginate(questions, params);
+      let questions = await getUserAnswered(id, query_params);
+      console.log(questions.data);
+      questions = paginate(questions.data, params);
       //return questions;
-      return withCountQuestionsUpvotesAndReform(questions, manager);
+      questions = await countQuestionsUpvotes(questions);
+      questions = questions.data;
+      for (let i=0; i<questions.length; i++) {
+        questions[i]['owner'] = {
+          id: questions[i].ownerid,
+          email: questions[i].email,
+          username: questions[i].username,
+          points: questions[i].points,
+        };
+        delete questions[i].ownerid;
+        delete questions[i].email;
+        delete questions[i].username;
+        delete questions[i].points;
+      }
+      //return withCountQuestionsUpvotesAndReform(questions, manager);
+      return questions;
     });
   }
 }

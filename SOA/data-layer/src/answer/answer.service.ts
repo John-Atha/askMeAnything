@@ -34,6 +34,15 @@ export class AnswerService {
     return answer;
   }
 
+  async find(params: any): Promise<Answer[]> {
+    let relations = [];
+    if (params.owner) relations.push('owner');
+    if (params.question) relations.push('question');
+    if (params.questionOwner) relations.push('question.owner');
+    const answers = await this.manager.find(Answer, { relations });
+    return answers;
+  }
+
   async findOneUpvotes(id: number): Promise<AnswerUpvote[]> {
     let answer = null;
     answer = await this.manager.findOne(Answer, id, { relations: ['upvotes', 'upvotes.owner']});
@@ -71,5 +80,21 @@ export class AnswerService {
 
   async remove(id: number): Promise<any> {
       return this.manager.delete(Answer, id);
+  }
+
+  async answersAndQuestionsCountUpvotes(body: any): Promise<Answer[]> {
+    const answers = body.answers;
+    for (let i = 0; i < answers.length; i++) {
+      const count = await this.manager.query(
+        `SELECT COUNT(*) FROM public."answer_upvote" WHERE public."answer_upvote"."answerId"=${answers[i].id}`,
+      );
+      answers[i]['upvotesCount'] = await parseInt(count[0]['count']);
+      const question = answers[i].question;
+      const count2 = await this.manager.query(
+        `SELECT COUNT(*) FROM public."question_upvote" WHERE public."question_upvote"."questionId"=${question.id}`,
+      );
+      question['upvotesCount'] = await parseInt(count2[0]['count']);
+    }
+    return answers;
   }
 }

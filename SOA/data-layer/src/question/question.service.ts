@@ -62,6 +62,13 @@ export class QuestionService {
     return question;
   }
 
+  async find(params: any): Promise<Question[]> {
+    let relations = [];
+    if (params.owner) relations.push('owner');
+    const questions = await this.manager.find(Question, { relations });
+    return questions;
+  }
+
   async update(id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
     return this.manager.transaction(async (manager) => {
       const question = await manager.findOne(Question, id);
@@ -110,6 +117,19 @@ export class QuestionService {
       const question = await manager.findOne(Question, quest_id);
       return manager.find(QuestionUpvote, { owner: user, question: question });
     });
+  }
+
+  async questionsCountUpvotes(body: any): Promise<any> {
+    console.log('body');
+    console.log(body);
+    const questions = body.questions;
+    for (let i = 0; i < questions.length; i++) {
+      const count = await this.manager.query(
+        `SELECT COUNT(*) FROM public."question_upvote" WHERE public."question_upvote"."questionId"=${questions[i].id}`,
+      );
+      questions[i]['upvotesCount'] = await parseInt(count[0]['count']);
+    }
+    return questions;
   }
 
   async validateCreate(title: string): Promise<boolean> {

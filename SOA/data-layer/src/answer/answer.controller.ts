@@ -21,6 +21,17 @@ export class AnswerController {
   findOne(@Query() reqParams) {
     return this.answerService.findOne(reqParams);
   }
+
+  @Get()
+  find(@Query() reqParams: any) {
+    return this.answerService.find(reqParams);
+  }
+
+  @Post('count-ups')
+  countUpvotes(@Body() body: any) {
+    return this.answerService.answersAndQuestionsCountUpvotes(body);
+  }
+
   @Get(':id/upvotes')
   findOneUpvotes(@Param('id', ParseIntPipe) id: number) {
     return this.answerService.findOneUpvotes(id);

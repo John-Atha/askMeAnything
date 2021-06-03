@@ -1,8 +1,5 @@
 import {
-  BadRequestException,
   Injectable,
-  NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -10,6 +7,8 @@ import { User } from './entities/user.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { paginate } from 'general_methods/methods';
+import { Console } from 'console';
+import { ENGINE_METHOD_PKEY_ASN1_METHS } from 'constants';
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -67,5 +66,64 @@ export class UserService {
 
   async remove(id: number): Promise<any> {
     return this.manager.delete(User, id);
+  }
+
+  async findAnswered(id: number, params: any) {
+    console.log(id);
+    console.log(params);
+    if (params.year && params.month) {
+      if (params.month<10) params.month = '0' + params.month;
+      return this.manager.query(
+        `SELECT DISTINCT public."question"."id",
+                      public."question"."title",
+                      public."question"."text",
+                      public."question"."created_at",
+                      public."question"."updated_at",
+                      public."user"."id" as ownerId,
+                      public."user"."email",
+                      public."user"."username",
+                      public."user"."points"
+                 FROM  public."answer", public."question", public."user"
+                 WHERE public."answer"."ownerId"=${id}
+                   AND public."user"."id"=${id}
+                   AND public."question"."id"=public."answer"."questionId"
+                   AND to_char(public."answer"."created_at", 'YYYY-MM')='${params.year}-${params.month}'`,
+      );
+    }
+    else if (params.year && !params.month) {
+      return this.manager.query(
+        `SELECT DISTINCT public."question"."id",
+                      public."question"."title",
+                      public."question"."text",
+                      public."question"."created_at",
+                      public."question"."updated_at",
+                      public."user"."id" as ownerId,
+                      public."user"."email",
+                      public."user"."username",
+                      public."user"."points"
+                 FROM  public."answer", public."question", public."user"
+                 WHERE public."answer"."ownerId"=${id}
+                   AND public."user"."id"=${id}
+                   AND public."question"."id"=public."answer"."questionId"
+                   AND to_char(public."answer"."created_at", 'YYYY')='${params.year}'`,
+        );
+    }
+    else {
+      return this.manager.query(
+        `SELECT DISTINCT public."question"."id",
+                      public."question"."title",
+                      public."question"."text",
+                      public."question"."created_at",
+                      public."question"."updated_at",
+                      public."user"."id" as ownerId,
+                      public."user"."email",
+                      public."user"."username",
+                      public."user"."points"
+                 FROM  public."answer", public."question", public."user"
+                 WHERE public."answer"."ownerId"=${id}
+                   AND public."user"."id"=${id}
+                   AND public."question"."id"=public."answer"."questionId"`,
+        );
+    }
   }
 }

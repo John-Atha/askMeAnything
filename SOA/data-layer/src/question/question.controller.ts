@@ -27,8 +27,18 @@ export class QuestionController {
   }
 
   @Get('one')
-  findOne(@Query() reqParams) {
+  findOne(@Query() reqParams: any) {
     return this.questionService.findOne(reqParams);
+  }
+
+  @Get()
+  find(@Query() reqParams: any) {
+    return this.questionService.find(reqParams);
+  }
+
+  @Post('count-ups')
+  countUpvotes(@Body() body: any) {
+    return this.questionService.questionsCountUpvotes(body);
   }
 
   @Patch(':id')
