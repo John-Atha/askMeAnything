@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
   ClassSerializerInterceptor,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { AnswerUpvoteService } from './answer-upvote.service';
 import { CreateAnswerUpvoteDto } from './dto/create-answer-upvote.dto';
@@ -20,12 +21,18 @@ export class AnswerUpvoteController {
   constructor(private readonly answerUpvoteService: AnswerUpvoteService) {}
 
   @Post()
-  create(@Request() req, @Body() createAnswerUpvoteDto: CreateAnswerUpvoteDto) {
-    return this.answerUpvoteService.create(req, createAnswerUpvoteDto);
+  create(@Body() createAnswerUpvoteDto: any) {
+    return this.answerUpvoteService.create(createAnswerUpvoteDto);
   }
 
   @Delete(':id')
-  remove(@Request() req, @Param('id', ParseIntPipe) id: number) {
-    return this.answerUpvoteService.remove(req, id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.answerUpvoteService.remove(id);
   }
+
+  @Get('one')
+  findOne(@Query() reqParams: any) {
+    return this.answerUpvoteService.findOne(reqParams);  
+  }
+
 }

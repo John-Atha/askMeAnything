@@ -1,3 +1,4 @@
+import { CreateAnswerUpvoteDto } from "src/answer-upvote/dto/create-answer-upvote.dto";
 import { CreateAnswerDto } from "src/answer/dto/create-answer.dto";
 
 const axios = require('axios');
@@ -25,4 +26,20 @@ export const updAnswerText = (id: number, text: string) => {
 
 export const deleteAnswer = (id: number) => {
     return axios.delete(dataLayerUrl+`/answers/${id}`);
+}
+
+export const createAnswerUpvote = (createAnswerUpvoteDto: any) => {
+    return axios.post(dataLayerUrl+`/answer-upvotes`, createAnswerUpvoteDto);
+}
+
+export const getOneAnswerUpvote = (params: any) => {
+    return axios.get(dataLayerUrl+`/answer-upvotes/one`, { params });
+}
+
+export const deleteAnswerUpvote = (id: number) => {
+    return axios.delete(dataLayerUrl+`/answer-upvotes/${id}`);
+}
+
+export const answerIsUpvoted = (user_id: number, answer_id: number) => {
+    return axios.get(dataLayerUrl+`/answers/${answer_id}/upvoted/${user_id}`);
 }

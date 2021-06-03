@@ -21,7 +21,7 @@ export class AnswerService {
       let relations = [];
       if (params.owner) relations.push('owner');
       answer = await this.manager.findOne(Answer, params.id, { relations });
-      console.log(answer);
+      //console.log(answer);
       if (answer) {
         const count = await this.manager.query(
         `SELECT COUNT(*) FROM public."answer_upvote" WHERE public."answer_upvote"."answerId"=${params.id}`,
