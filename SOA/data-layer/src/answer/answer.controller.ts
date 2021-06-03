@@ -32,6 +32,11 @@ export class AnswerController {
     return this.answerService.answersAndQuestionsCountUpvotes(body);
   }
 
+  @Post('count-ups-only')
+  countUpvotesAnswersOnly(@Body() body: any) {
+    return this.answerService.answersCountUpvotes(body);
+  }
+
   @Get(':id/upvotes')
   findOneUpvotes(@Param('id', ParseIntPipe) id: number) {
     return this.answerService.findOneUpvotes(id);

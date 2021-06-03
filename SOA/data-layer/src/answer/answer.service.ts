@@ -83,7 +83,7 @@ export class AnswerService {
   }
 
   async answersAndQuestionsCountUpvotes(body: any): Promise<Answer[]> {
-    const answers = body.answers;
+    const answers = body.answers || [];
     for (let i = 0; i < answers.length; i++) {
       const count = await this.manager.query(
         `SELECT COUNT(*) FROM public."answer_upvote" WHERE public."answer_upvote"."answerId"=${answers[i].id}`,
@@ -94,6 +94,17 @@ export class AnswerService {
         `SELECT COUNT(*) FROM public."question_upvote" WHERE public."question_upvote"."questionId"=${question.id}`,
       );
       question['upvotesCount'] = await parseInt(count2[0]['count']);
+    }
+    return answers;
+  }
+
+  async answersCountUpvotes(body: any): Promise<Answer[]> {
+    const answers = body.answers || [];
+    for (let i = 0; i < answers.length; i++) {
+      const count = await this.manager.query(
+        `SELECT COUNT(*) FROM public."answer_upvote" WHERE public."answer_upvote"."answerId"=${answers[i].id}`,
+      );
+      answers[i]['upvotesCount'] = await parseInt(count[0]['count']);
     }
     return answers;
   }
