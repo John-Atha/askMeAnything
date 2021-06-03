@@ -5,13 +5,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { CreateAnswerUpvoteDto } from './dto/create-answer-upvote.dto';
-import { QuestionUpvote } from '../question-upvote/entities/question-upvote.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { verify } from '../../general-methods/methods';
-import { User } from '../user/entities/user.entity';
-import { Answer } from '../answer/entities/answer.entity';
-import { AnswerUpvote } from './entities/answer-upvote.entity';
 import { answerIsUpvoted, createAnswerUpvote, deleteAnswerUpvote, getOneAnswer, getOneAnswerUpvote, getOneUser } from 'async_calls/async_calls';
 
 @Injectable()

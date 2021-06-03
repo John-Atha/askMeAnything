@@ -8,9 +8,6 @@ import { CreateQuestionUpvoteDto } from './dto/create-question-upvote.dto';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { verify } from '../../general-methods/methods';
-import { User } from '../user/entities/user.entity';
-import { Question } from '../question/entities/question.entity';
-import { QuestionUpvote } from './entities/question-upvote.entity';
 import { questionIsUpvoted, getOneQuestion, getOneUser, createQuestionUpvote, getOneQuestionUpvote, deleteQuestionUpvote } from 'async_calls/async_calls';
 
 @Injectable()
