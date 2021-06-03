@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { CreateQuestionUpvoteDto } from './dto/create-question-upvote.dto';
-import { InjectEntityManager } from '@nestjs/typeorm';
+import { getEntityManagerToken, InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { verify } from '../../general_methods/methods';
 import { User } from '../user/entities/user.entity';
@@ -16,29 +16,31 @@ import { QuestionUpvote } from './entities/question-upvote.entity';
 export class QuestionUpvoteService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
-  async create(
-    req,
-    createQuestionUpvoteDto: CreateQuestionUpvoteDto,
-  ): Promise<QuestionUpvote> {
+  async findOne(params: any): Promise<any> {
+    let upvote = null;
+    if (params.id) {
+      let relations = [];
+      if (params.owner) relations.push('owner');
+      if (params.question) relations.push('question');
+      if (params.questionOwner) relations.push('question.owner');
+      upvote = await this.manager.findOne(QuestionUpvote, params.id, { relations });
+    }
+    return upvote;
+  }
+
+  async create(createQuestionUpvoteDto: any): Promise<QuestionUpvote> {
     return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+      const user_id = await createQuestionUpvoteDto.owner.id;
       const user = await manager.findOne(User, user_id);
-      if (!user) {
-        throw new UnauthorizedException();
-      }
+      console.log(`user:`)
+      console.log(user);
       const question_id = createQuestionUpvoteDto.question.id;
       const question = await manager.findOne(Question, question_id, { relations: ['owner'] });
-      if (!question) {
-        throw new NotFoundException(`Question '${question_id}' not found.`);
-      }
-      const allowed = await this.validateCreate(user, question);
-      if (!allowed) {
-        throw new BadRequestException(`You have already upvoted this question.`);
-      }
-      createQuestionUpvoteDto['owner'] = {
-        id: user.id,
-      };
+      console.log(`question:`);
+      console.log(question);
       const upvote = await manager.create(QuestionUpvote, createQuestionUpvoteDto);
+      console.log('upvote:');
+      console.log(upvote);
       upvote.owner = user;
       upvote.question = question;
       const owner = question.owner;
@@ -48,22 +50,11 @@ export class QuestionUpvoteService {
     });
   }
 
-  async remove(req, id: number) {
+  async remove(id: number) {
     return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
-      const user = await manager.findOne(User, user_id);
-      if (!user) {
-        throw new UnauthorizedException();
-      }
       const upvote = await manager.findOne(QuestionUpvote, id, {
         relations: ['owner', 'question', 'question.owner'],
       });
-      if (!upvote) {
-        throw new NotFoundException(`Upvote '${id}' not found.`);
-      }
-      if (user.id !== upvote.owner.id) {
-        throw new BadRequestException(`You cannot delete another user's upvote.`);
-      }
       const question = upvote.question;
       const owner = question.owner;
       if (owner.points) owner.points--;

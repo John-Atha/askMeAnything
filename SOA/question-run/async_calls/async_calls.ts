@@ -43,3 +43,19 @@ export const deleteAnswerUpvote = (id: number) => {
 export const answerIsUpvoted = (user_id: number, answer_id: number) => {
     return axios.get(dataLayerUrl+`/answers/${answer_id}/upvoted/${user_id}`);
 }
+
+export const questionIsUpvoted = (user_id: number, quest_id: number) => {
+    return axios.get(dataLayerUrl+`/questions/${quest_id}/upvoted/${user_id}`);
+}
+
+export const createQuestionUpvote = (createQuestionUpvoteDto: any) => {
+    return axios.post(dataLayerUrl+`/question-upvotes`, createQuestionUpvoteDto);
+}
+
+export const getOneQuestionUpvote = (params: any) => {
+    return axios.get(dataLayerUrl+`/question-upvotes/one`, { params });
+}
+
+export const deleteQuestionUpvote = (id: number) => {
+    return axios.delete(dataLayerUrl+`/question-upvotes/${id}`);
+}

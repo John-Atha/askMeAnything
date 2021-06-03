@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Query,
   Param,
   Request,
   Delete,
@@ -20,12 +20,17 @@ export class QuestionUpvoteController {
   constructor(private readonly questionUpvoteService: QuestionUpvoteService) {}
 
   @Post()
-  create(@Request() req, @Body() createQuestionUpvoteDto: CreateQuestionUpvoteDto) {
-    return this.questionUpvoteService.create(req, createQuestionUpvoteDto);
+  create(@Body() createQuestionUpvoteDto: any) {
+    return this.questionUpvoteService.create(createQuestionUpvoteDto);
   }
 
   @Delete(':id')
   remove(@Request() req, @Param('id', ParseIntPipe) id: number) {
-    return this.questionUpvoteService.remove(req, id);
+    return this.questionUpvoteService.remove(id);
+  }
+
+  @Get('one')
+  findOne(@Query() reqParams: any) {
+    return this.questionUpvoteService.findOne(reqParams);  
   }
 }
