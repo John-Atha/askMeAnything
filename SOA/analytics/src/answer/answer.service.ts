@@ -2,14 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { paginate } from '../../general-methods/methods';
 import { EntityManager } from 'typeorm';
-import { Answer } from './entities/answer.entity';
 import { countAnswersUpvotes, getAnswers } from 'async_calls/async_calls';
 
 @Injectable()
 export class AnswerService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
-  async findMonthly(params, year: number, month: number): Promise<Answer[]> {
+  async findMonthly(params, year: number, month: number): Promise<any> {
     return this.manager.transaction(async (manager) => {
       //let answers = await manager.find(Answer, { relations: ['owner'] });
       let answers = await getAnswers({ owner: true });
@@ -32,7 +31,7 @@ export class AnswerService {
     params,
     year: number,
     month: number,
-  ): Promise<Answer[]> {
+  ): Promise<any> {
     return this.manager.transaction(async (manager) => {
       //let answers = await manager.find(Answer, { relations: ['owner'] });
       let answers = await getAnswers({ owner: true });
