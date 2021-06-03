@@ -49,8 +49,8 @@ export const createKeyword = (createKeywordDto: CreateKeywordDto) => {
     return axios.post(dataLayerUrl+`/keywords`, createKeywordDto);
 }
 
-export const getOneAnswer = (id: number) => {
-    return axios.get(dataLayerUrl+`/answers/${id}`);
+export const getOneAnswer = (params: any) => {
+    return axios.get(dataLayerUrl+`/answers/one`, { params });
 }
 
 export const getAnswerUpvotes = (id: number) => {

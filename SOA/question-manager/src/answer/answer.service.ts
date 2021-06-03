@@ -27,7 +27,7 @@ export class AnswerService {
       if (!user.data) {
         throw new UnauthorizedException();
       }
-      const answer = await getOneAnswer(id);
+      const answer = await getOneAnswer({ id });
       if (!answer.data) {
         throw new NotFoundException(`Answer '${id}' not found.`);
       }
@@ -45,7 +45,7 @@ export class AnswerService {
   }
 
   async findOne(id: number): Promise<any> {
-    const answer = await getOneAnswer(id);
+    const answer = await getOneAnswer({ id, owner: true });
     if (!answer.data) {
       throw new NotFoundException(`Answer ${id} not found.`);
     }

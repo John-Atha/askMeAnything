@@ -5,13 +5,11 @@ import {
   Body,
   Patch,
   Param,
-  Request,
   Delete,
   ClassSerializerInterceptor,
-  UseInterceptors, ParseIntPipe,
+  UseInterceptors, ParseIntPipe, Query,
 } from '@nestjs/common';
 import { AnswerService } from './answer.service';
-import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 
 @Controller('answers')
@@ -19,9 +17,9 @@ import { UpdateAnswerDto } from './dto/update-answer.dto';
 export class AnswerController {
   constructor(private readonly answerService: AnswerService) {}
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.answerService.findOne(id);
+  @Get('one')
+  findOne(@Query() reqParams) {
+    return this.answerService.findOne(reqParams);
   }
   @Get(':id/upvotes')
   findOneUpvotes(@Param('id', ParseIntPipe) id: number) {
@@ -34,17 +32,17 @@ export class AnswerController {
     return this.answerService.isUpvoted(answer_id, user_id);
   }
   @Post()
-  create(@Request() req, @Body() createAnswerDto: CreateAnswerDto) {
-    return this.answerService.create(req, createAnswerDto);
+  create(@Body() body: any) {
+    return this.answerService.create(body);
   }
 
   @Patch(':id')
-  update(@Request() req, @Param('id', ParseIntPipe) id: number, @Body() updateAnswerDto: UpdateAnswerDto) {
-    return this.answerService.update(req, id, updateAnswerDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateAnswerDto: UpdateAnswerDto) {
+    return this.answerService.update(id, updateAnswerDto);
   }
 
   @Delete(':id')
-  remove(@Request() req, @Param('id', ParseIntPipe) id: number) {
-    return this.answerService.remove(req, id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.answerService.remove(id);
   }
 }
