@@ -2,11 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { Question } from '../question/entities/question.entity';
 import { EntityManager } from 'typeorm';
-import { Keyword } from './entities/keyword.entity';
 import {
   paginate,
   withCountQuestionsUpvotes,
 } from '../../general-methods/methods';
+import { countQuestionsUpvotes, getOneKeyword } from 'async_calls/async_calls';
 
 @Injectable()
 export class KeywordService {
@@ -14,55 +14,74 @@ export class KeywordService {
 
   async findQuestionsMonthly(params, id, year, month): Promise<Question[]> {
     return this.manager.transaction(async (manager) => {
-      const keyword = await manager.findOne(Keyword, id, {
+      /*const keyword = await manager.findOne(Keyword, id, {
         relations: ['questions', 'questions.owner'],
-      });
-      if (!keyword) {
+      });*/
+      const query_params = {
+        id,
+        questions: true,
+        questionsOwner: true,
+      }
+      const keyword = await getOneKeyword(query_params);
+      if (!keyword.data) {
         throw new NotFoundException(`Keyword '${id}' not found.`);
       }
-      let questions = keyword.questions;
+      let questions = keyword.data.questions;
       questions = questions.filter((question) => {
+        const date = new Date(question.updated_at);
         return (
-          question.updated_at.getFullYear() === year &&
-          question.updated_at.getMonth() === month
+          date.getFullYear() === year &&
+          date.getMonth() === month
         );
       });
       questions = paginate(questions, params);
-      return withCountQuestionsUpvotes(questions, manager);
+      //return withCountQuestionsUpvotes(questions, manager);
+      questions = await countQuestionsUpvotes(questions);
+      return questions.data;
     });
   }
 
   async findAll(
-    params,
+    params: any,
     id: number,
     year: number,
     month: number
   ): Promise<Question[]> {
     return this.manager.transaction(async (manager) => {
-      const keyword = await manager.findOne(Keyword, id, {
+      /*const keyword = await manager.findOne(Keyword, id, {
         relations: ['questions', 'questions.owner'],
-      });
-      if (!keyword) {
+      });*/
+      const query_params = {
+        id,
+        questions: true,
+        questionsOwner: true,
+      };
+      const keyword = await getOneKeyword(query_params);
+      if (!keyword.data) {
         throw new NotFoundException(`Keyword '${id}' not found.`);
       }
-      let questions = keyword.questions;
+      let questions = keyword.data.questions;
       if (year && month) {
         questions = questions.filter((question) => {
+          const date = new Date(question.updated_at);
           return (
-            question.updated_at.getFullYear() === year &&
-            question.updated_at.getMonth() === month
+            date.getFullYear() === year &&
+            date.getMonth() === month
           );
         });  
       }
       else if (year && !month) {
         questions = questions.filter((question) => {
+          const date = new Date(question.updated_at);
           return (
-            question.updated_at.getFullYear() === year
+            date.getFullYear() === year
           );
         });
       }
       questions = paginate(questions, params);
-      return withCountQuestionsUpvotes(questions, manager);
+      //return withCountQuestionsUpvotes(questions, manager);
+      questions = await countQuestionsUpvotes(questions);
+      return questions.data;
     });
   }
 

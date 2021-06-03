@@ -30,6 +30,7 @@ export class KeywordService {
     let keyword = null;
     let relations = [];
     if (params.questions) relations.push('questions');
+    if (params.questionsOwner) relations.push('questions.owner');
     if (params.id) {
       keyword = await this.manager.findOne(Keyword, params.id, { relations });
     }

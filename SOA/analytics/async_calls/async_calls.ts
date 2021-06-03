@@ -28,3 +28,7 @@ export const countAnswersAndQuestionsUpvotes = (answers) => {
 export const getUserAnswered = (id: number, params: any) => {
     return axios.get(dataLayerUrl+`/users/${id}/answered`, { params })
 }
+
+export const getOneKeyword = (params: any) => {
+    return axios.get(dataLayerUrl+`/keywords/one`, { params });
+}
