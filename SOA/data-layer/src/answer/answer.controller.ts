@@ -61,4 +61,14 @@ export class AnswerController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.answerService.remove(id);
   }
+
+  @Get('stats/monthly')
+  findAnswersStatsMonthly() {
+    return this.answerService.findStatsMonthly();
+  }
+
+  @Get('stats/daily')
+  findAnswersStatsDaily(@Param('id') id: string) {
+    return this.answerService.findStatsDaily();
+  }
 }

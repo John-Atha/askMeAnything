@@ -4,7 +4,8 @@ import {
   Post,
   Body,
   Query,
-  Request,
+  Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { KeywordService } from './keyword.service';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
@@ -26,5 +27,15 @@ export class KeywordController {
   @Get('one')
   findOne(@Query() reqParams) {
     return this.keywordService.findOne(reqParams);
+  }
+
+  @Get(':id/stats/monthly')
+  findKeywordsStatsMonthly(@Param('id', ParseIntPipe) id: number) {
+    return this.keywordService.findStatsMonthly(id);
+  }
+
+  @Get(':id/stats/daily')
+  findKeywordsStatsDaily(@Param('id', ParseIntPipe) id: number) {
+    return this.keywordService.findStatsDaily(id);
   }
 }

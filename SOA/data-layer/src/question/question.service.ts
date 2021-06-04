@@ -141,4 +141,21 @@ export class QuestionService {
     const res = await this.manager.findOne(Question, { title: title });
     return !res || (res && res['id'] === id);
   }
+
+  async findStatsMonthly(): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."question"."created_at", 'YYYY-MM') as month,
+                      COUNT(*) as questions
+               FROM public."question"
+               GROUP BY month`,
+    );
+  }
+  async findStatsDaily(): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."question"."created_at", 'FMDay') as day,
+                    COUNT(*) as questions
+              FROM public."question"
+              GROUP BY day`,
+    );
+  }
 }

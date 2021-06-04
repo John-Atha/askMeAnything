@@ -44,4 +44,26 @@ export class KeywordService {
     const keyword = await this.manager.find(Keyword, { name: name });
     return !keyword.length;
   }
+
+  async findStatsMonthly(id: number): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."question"."created_at", 'YYYY-MM') as month,
+                    COUNT(*) as questions
+             FROM public."question", public."question_keywords_keyword" 
+             WHERE public."question_keywords_keyword"."keywordId"=${id}
+               AND public."question_keywords_keyword"."questionId"=public."question"."id"
+             GROUP BY month`,
+    );
+  }
+
+  async findStatsDaily(id: number): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."question"."created_at", 'FMDay') as day,
+                    COUNT(*) as questions
+             FROM public."question", public."question_keywords_keyword" 
+             WHERE public."question_keywords_keyword"."keywordId"=${id}
+               AND public."question_keywords_keyword"."questionId"=public."question"."id"
+             GROUP BY day`,
+    );
+  }
 }

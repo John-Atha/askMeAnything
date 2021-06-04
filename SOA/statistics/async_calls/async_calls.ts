@@ -5,19 +5,23 @@ export const getOneUser = (params) => {
     return axios.get(dataLayerUrl+`/users/one`, { params });
 }
 
-export const getQuestionsStatsMonthly = (id: number) => {
+export const getOneKeyword = (params) => {
+    return axios.get(dataLayerUrl+`/keywords/one`, { params });
+}
+
+export const getUserQuestionsStatsMonthly = (id: number) => {
     return axios.get(dataLayerUrl+`/users/${id}/questions/stats/monthly`);
 }
 
-export const getAnswersStatsMonthly = (id: number) => {
+export const getUserAnswersStatsMonthly = (id: number) => {
     return axios.get(dataLayerUrl+`/users/${id}/answers/stats/monthly`);
 }
 
-export const getQuestionsStatsDaily = (id: number) => {
+export const getUserQuestionsStatsDaily = (id: number) => {
     return axios.get(dataLayerUrl+`/users/${id}/questions/stats/daily`);
 }
 
-export const getAnswersStatsDaily = (id: number) => {
+export const getUserAnswersStatsDaily = (id: number) => {
     return axios.get(dataLayerUrl+`/users/${id}/answers/stats/daily`);
 }
 
@@ -25,10 +29,34 @@ export const getRanking = () => {
     return axios.get(dataLayerUrl+`/users/ranking`);
 }
 
-export const getAnsweredStatsDaily = (id: number) => {
+export const getUserAnsweredStatsDaily = (id: number) => {
     return axios.get(dataLayerUrl+`/users/${id}/answered/stats/daily`);
 }
 
-export const getAnsweredStatsMonthly = (id: number) => {
+export const getUserAnsweredStatsMonthly = (id: number) => {
     return axios.get(dataLayerUrl+`/users/${id}/answered/stats/monthly`);
+}
+
+export const getQuestionsStatsMonthly = () => {
+    return axios.get(dataLayerUrl+`/questions/stats/monthly`);
+}
+
+export const getQuestionsStatsDaily = () => {
+    return axios.get(dataLayerUrl+`/questions/stats/daily`);
+}
+
+export const getAnswersStatsMonthly = () => {
+    return axios.get(dataLayerUrl+`/answers/stats/monthly`);
+}
+
+export const getAnswersStatsDaily = () => {
+    return axios.get(dataLayerUrl+`/answers/stats/daily`);
+}
+
+export const getKeywordStatsMonthly = (id: number) => {
+    return axios.get(dataLayerUrl+`/keywords/${id}/stats/monthly`);
+}
+
+export const getKeywordStatsDaily = (id: number) => {
+    return axios.get(dataLayerUrl+`/keywords/${id}/stats/daily`);
 }

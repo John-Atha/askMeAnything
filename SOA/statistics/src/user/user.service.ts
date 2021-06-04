@@ -2,14 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { daysComplete, paginate, monthlyCountsParseInt, verify } from "../../general-methods/methods";
-import { getAnswersStatsDaily,
-         getQuestionsStatsDaily,
-         getAnswersStatsMonthly,
+import { getUserAnswersStatsDaily,
+         getUserQuestionsStatsDaily,
+         getUserAnswersStatsMonthly,
          getOneUser,
-         getQuestionsStatsMonthly, 
+         getUserQuestionsStatsMonthly, 
          getRanking,
-         getAnsweredStatsMonthly,
-         getAnsweredStatsDaily} from '../../async_calls/async_calls';
+         getUserAnsweredStatsMonthly,
+         getUserAnsweredStatsDaily} from '../../async_calls/async_calls';
 
 @Injectable()
 export class UserService {
@@ -29,7 +29,7 @@ export class UserService {
                WHERE public."question"."ownerId"=${id}
                GROUP BY month`,
       );*/
-      const data = await getQuestionsStatsMonthly(id);
+      const data = await getUserQuestionsStatsMonthly(id);
       return monthlyCountsParseInt(data.data, 'questions');
     });
   }
@@ -48,7 +48,7 @@ export class UserService {
                WHERE public."answer"."ownerId"=${id}
                GROUP BY month`,
       );*/
-      const data = await getAnswersStatsMonthly(id);
+      const data = await getUserAnswersStatsMonthly(id);
       return monthlyCountsParseInt(data.data, 'answers');
     });
   }
@@ -67,7 +67,7 @@ export class UserService {
                  WHERE public."question"."ownerId"=${id}
                  GROUP BY day`,
       );*/
-      const data = await getQuestionsStatsDaily(id);
+      const data = await getUserQuestionsStatsDaily(id);
       return daysComplete(data.data, 'questions');
     });
   }
@@ -86,7 +86,7 @@ export class UserService {
                WHERE public."answer"."ownerId"=${id}
                GROUP BY day`,
       );*/
-      const data = await getAnswersStatsDaily(id);
+      const data = await getUserAnswersStatsDaily(id);
       return daysComplete(data.data, 'answers');
     });
   }
@@ -139,7 +139,7 @@ export class UserService {
            AND public."question"."id"=public."answer"."questionId"
          GROUP BY month`,
       );*/
-      const data = await getAnsweredStatsMonthly(id);
+      const data = await getUserAnsweredStatsMonthly(id);
       return monthlyCountsParseInt(data.data, 'answered'); 
     })
   }
@@ -160,7 +160,7 @@ export class UserService {
            AND public."question"."id"=public."answer"."questionId"
          GROUP BY day`,
       );*/
-      const data = await getAnsweredStatsDaily(id);
+      const data = await getUserAnsweredStatsDaily(id);
       return daysComplete(data.data, 'answered');
     })
   }

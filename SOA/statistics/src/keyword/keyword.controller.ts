@@ -11,7 +11,7 @@ export class KeywordController {
   }
 
   @Get(':id/stats/daily')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findKeywordsStatsDaily(@Param('id', ParseIntPipe) id: number) {
     return this.keywordService.findStatsDaily(id);
   }
 }

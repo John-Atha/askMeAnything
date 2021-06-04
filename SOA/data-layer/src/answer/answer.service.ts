@@ -108,4 +108,22 @@ export class AnswerService {
     }
     return answers;
   }
+
+  async findStatsMonthly(): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."answer"."created_at", 'YYYY-MM') as month,
+                    COUNT(*) as answers
+               FROM public."answer"
+               GROUP BY month`,
+    );
+  }
+
+  async findStatsDaily(): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."answer"."created_at", 'FMDay') as day,
+                    COUNT(*) as answers
+              FROM public."answer"
+              GROUP BY day`,
+    );
+  }
 }

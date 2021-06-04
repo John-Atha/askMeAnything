@@ -83,4 +83,14 @@ export class QuestionController {
     return this.questionService.updKeywords(quest_id, keywords);
   }
 
+  @Get('/stats/monthly')
+  findQuestionsStatsMonthly() {
+    return this.questionService.findStatsMonthly();
+  }
+
+  @Get('/stats/daily')
+  findQuestionsStatsDaily() {
+    return this.questionService.findStatsDaily();
+  }
+
 }
