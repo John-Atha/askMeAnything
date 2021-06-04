@@ -2,7 +2,6 @@ import {Injectable, NotFoundException} from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { daysComplete, monthlyCountsParseInt } from '../../general-methods/methods';
 import { EntityManager } from 'typeorm';
-import {Keyword} from "./entities/keyword.entity";
 import { getKeywordStatsDaily, getKeywordStatsMonthly, getOneKeyword } from 'async_calls/async_calls';
 
 @Injectable()
