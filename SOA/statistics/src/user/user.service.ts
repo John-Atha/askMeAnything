@@ -1,78 +1,93 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { User } from './entities/user.entity';
-import { daysComplete, paginate,monthlyCountsParseInt, verify } from "../../general-methods/methods";
+import { daysComplete, paginate, monthlyCountsParseInt, verify } from "../../general-methods/methods";
+import { getAnswersStatsDaily,
+         getQuestionsStatsDaily,
+         getAnswersStatsMonthly,
+         getOneUser,
+         getQuestionsStatsMonthly, 
+         getRanking,
+         getAnsweredStatsMonthly,
+         getAnsweredStatsDaily} from '../../async_calls/async_calls';
 
 @Injectable()
 export class UserService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
   async findQuestionsStatsMonthly(id: number): Promise<any> {
-    return this.manager.transaction(async (manager) => {
-      const user = await manager.findOne(User, id);
-      if (!user) {
+    return this.manager.transaction(async () => {
+      //const user = await manager.findOne(User, id);
+      const user = await getOneUser({ id });
+      if (!user.data) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      const data = await this.manager.query(
+      /*const data = await this.manager.query(
         `SELECT to_char(public."question"."created_at", 'YYYY-MM') as month,
                       COUNT(*) as questions
                FROM public."question"
                WHERE public."question"."ownerId"=${id}
                GROUP BY month`,
-      );
-      return monthlyCountsParseInt(data, 'questions');
+      );*/
+      const data = await getQuestionsStatsMonthly(id);
+      return monthlyCountsParseInt(data.data, 'questions');
     });
   }
 
   async findAnswersStatsMonthly(id: number): Promise<any> {
-    return this.manager.transaction(async (manager) => {
-      const user = await manager.findOne(User, id);
-      if (!user) {
+    return this.manager.transaction(async () => {
+      //const user = await manager.findOne(User, id);
+      const user = await getOneUser({ id });
+      if (!user.data) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      const data = await this.manager.query(
+      /*const data = await this.manager.query(
         `SELECT to_char(public."answer"."created_at", 'YYYY-MM') as month,
                       COUNT(*) as answers
                FROM public."answer"
                WHERE public."answer"."ownerId"=${id}
                GROUP BY month`,
-      );
-      return monthlyCountsParseInt(data, 'answers');
+      );*/
+      const data = await getAnswersStatsMonthly(id);
+      return monthlyCountsParseInt(data.data, 'answers');
     });
   }
 
   async findQuestionsStatsDaily(id: number): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user = manager.findOne(User, id);
-      if (!user) {
+      //const user = await manager.findOne(User, id);
+      const user = await getOneUser({ id });
+      if (!user.data) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      const data = await manager.query(
+      /*const data = await manager.query(
         `SELECT to_char(public."question"."created_at", 'FMDay') as day,
                         COUNT(*) as questions
                  FROM public."question"
                  WHERE public."question"."ownerId"=${id}
                  GROUP BY day`,
-      );
-      return daysComplete(data, 'questions');
+      );*/
+      const data = await getQuestionsStatsDaily(id);
+      return daysComplete(data.data, 'questions');
     });
   }
 
   async findAnswersStatsDaily(id: number): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user = await manager.findOne(User, id);
-      if (!user) {
+      //const user = await manager.findOne(User, id);
+      const user = await getOneUser({ id });
+      if (!user.data) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      const data = await manager.query(
+      /*const data = await manager.query(
         `SELECT to_char(public."answer"."created_at", 'FMDay') as day,
                        COUNT(*) as answers
                FROM public."answer"
                WHERE public."answer"."ownerId"=${id}
                GROUP BY day`,
-      );
-      return daysComplete(data, 'answers');
+      );*/
+      const data = await getAnswersStatsDaily(id);
+      return daysComplete(data.data, 'answers');
     });
   }
 
@@ -85,13 +100,15 @@ export class UserService {
     catch {
       ;
     }
-    const users = await this.manager
+    /*const users = await this.manager
       .createQueryBuilder()
       .select('user')
       .from(User, 'user')
       .orderBy('user.points', 'DESC')
       .addOrderBy('user.username', 'ASC')
-      .getMany();
+      .getMany();*/
+      let users = await getRanking();
+      users = users.data;
     if (user_id) {
       for (let i=0; i<users.length; i++) {
         if (users[i].id===user_id) {
@@ -108,11 +125,12 @@ export class UserService {
 
   async findAnsweredStatsMonthly(id: number): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user = await manager.findOne(User, id);
-      if (!user) {
+      //const user = await manager.findOne(User, id);
+      const user = await getOneUser({ id });
+      if (!user.data) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      const data = await manager.query(
+      /*const data = await manager.query(
         `SELECT COUNT (DISTINCT public."question"."id") as answered,
                 to_char(public."answer"."created_at", 'YYYY-MM') as month
          FROM  public."answer", public."question", public."user"
@@ -120,18 +138,20 @@ export class UserService {
            AND public."user"."id"=${id}
            AND public."question"."id"=public."answer"."questionId"
          GROUP BY month`,
-      );
-      return monthlyCountsParseInt(data, 'answered'); 
+      );*/
+      const data = await getAnsweredStatsMonthly(id);
+      return monthlyCountsParseInt(data.data, 'answered'); 
     })
   }
 
   async findAnsweredStatsDaily(id: number): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user = await manager.findOne(User, id);
-      if (!user) {
+      //const user = await manager.findOne(User, id);
+      const user = await getOneUser({ id });
+      if (!user.data) {
         throw new NotFoundException(`User '${id}' not found.`);
       }
-      const data = await this.manager.query(
+      /*const data = await this.manager.query(
         `SELECT COUNT (DISTINCT public."question"."id") as answered,
                 to_char(public."answer"."created_at", 'FMDay') as day
          FROM  public."answer", public."question", public."user"
@@ -139,8 +159,9 @@ export class UserService {
            AND public."user"."id"=${id}
            AND public."question"."id"=public."answer"."questionId"
          GROUP BY day`,
-      );
-      return daysComplete(data, 'answered');
+      );*/
+      const data = await getAnsweredStatsDaily(id);
+      return daysComplete(data.data, 'answered');
     })
   }
 }

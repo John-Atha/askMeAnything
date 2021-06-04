@@ -68,7 +68,7 @@ export class UserService {
     return this.manager.delete(User, id);
   }
 
-  async findAnswered(id: number, params: any) {
+  async findAnswered(id: number, params: any): Promise<any> {
     console.log(id);
     console.log(params);
     if (params.year && params.month) {
@@ -125,5 +125,77 @@ export class UserService {
                    AND public."question"."id"=public."answer"."questionId"`,
         );
     }
+  }
+
+  async findQuestionsStatsMonthly(id: number): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."question"."created_at", 'YYYY-MM') as month,
+              COUNT(*) as questions
+      FROM public."question"
+      WHERE public."question"."ownerId"=${id}
+      GROUP BY month`,
+    );
+  }
+
+  async findAnswersStatsMonthly(id: number): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."answer"."created_at", 'YYYY-MM') as month,
+                    COUNT(*) as answers
+             FROM public."answer"
+             WHERE public."answer"."ownerId"=${id}
+             GROUP BY month`,
+    );
+  }
+  async findQuestionsStatsDaily(id: number): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."question"."created_at", 'FMDay') as day,
+                      COUNT(*) as questions
+               FROM public."question"
+               WHERE public."question"."ownerId"=${id}
+               GROUP BY day`,
+    );
+  }
+  async findAnswersStatsDaily(id: number): Promise<any> {
+    return this.manager.query(
+      `SELECT to_char(public."answer"."created_at", 'FMDay') as day,
+                     COUNT(*) as answers
+             FROM public."answer"
+             WHERE public."answer"."ownerId"=${id}
+             GROUP BY day`,
+    );
+  }
+
+  async ranking(): Promise<User[]> {
+    return this.manager
+      .createQueryBuilder()
+      .select('user')
+      .from(User, 'user')
+      .orderBy('user.points', 'DESC')
+      .addOrderBy('user.username', 'ASC')
+      .getMany();
+  }
+
+  async findAnsweredStatsMonthly(id: number): Promise<any> {
+    return this.manager.query(
+      `SELECT COUNT (DISTINCT public."question"."id") as answered,
+              to_char(public."answer"."created_at", 'YYYY-MM') as month
+       FROM  public."answer", public."question", public."user"
+       WHERE public."answer"."ownerId"=${id}
+         AND public."user"."id"=${id}
+         AND public."question"."id"=public."answer"."questionId"
+       GROUP BY month`,
+    );
+  }
+
+  async findAnsweredStatsDaily(id: number): Promise<any> {
+    return this.manager.query(
+      `SELECT COUNT (DISTINCT public."question"."id") as answered,
+              to_char(public."answer"."created_at", 'FMDay') as day
+       FROM  public."answer", public."question", public."user"
+       WHERE public."answer"."ownerId"=${id}
+         AND public."user"."id"=${id}
+         AND public."question"."id"=public."answer"."questionId"
+       GROUP BY day`,
+    );
   }
 }
