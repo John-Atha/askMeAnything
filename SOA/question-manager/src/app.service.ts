@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  needsAuth(reqParams: any): any {
+  description(reqParams: any): any {
     if (!reqParams.url || !reqParams.method) {
       throw new BadRequestException('Url / method not given');
     }

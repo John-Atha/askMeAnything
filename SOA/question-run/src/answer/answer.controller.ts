@@ -20,7 +20,7 @@ export class AnswerController {
   constructor(private readonly answerService: AnswerService) {}
 
   @Post()
-  create(@Request() req, @Body() createAnswerDto: CreateAnswerDto) {
+  create(@Request() req: any, @Body() createAnswerDto: CreateAnswerDto) {
     return this.answerService.create(req, createAnswerDto);
   }
 

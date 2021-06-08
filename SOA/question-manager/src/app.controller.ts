@@ -6,7 +6,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  needsAuth(@Query() reqParams: any): string {
-    return this.appService.needsAuth(reqParams);
+  description(@Query() reqParams: any): string {
+    return this.appService.description(reqParams);
   }
 }
