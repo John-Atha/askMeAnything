@@ -4,7 +4,7 @@ import { questionIsUpvoted, questionUpvote, questionUnUpvote, getOneQuestion } f
 import { createNotification } from '../createNotification';
 
 import './styles.css';
-import arrow1 from '../images/arrow1.png'
+import arrow1 from '../images/arrow1 -upvotes.png'
 import arrow1_blue from '../images/arrow1_blue.png'
 
 function QuestionUpvotes(props) {
@@ -81,7 +81,7 @@ function QuestionUpvotes(props) {
     return(
         <div className="center-content">
             <input type='image' className="upvotes-icon" src={isUpvoted ? arrow1_blue : arrow1} alt="upvotes" style={{'border': 'none'}} onClick={updUpvote} />
-            <div style={{'fontSize': '30px', 'color': (isUpvoted?'#1d98f5':'black')}} className="center-content">{upvotes}</div>
+            <div style={{'fontSize': '25px', 'color': (isUpvoted?'#1d98f5':'black')}} className="center-content">{upvotes}</div>
         </div>
     )
 }

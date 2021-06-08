@@ -9,7 +9,7 @@ function QuestionKeywords(props) {
     const [keywords, setKeywords] = useState([]);
 
     useEffect(()=> {
-        console.log(`I am asking for my keywords.`);
+        //console.log(`I am asking for my keywords.`);
         getQuestionKeywords(id)
         .then(response => {
             //console.log(response);

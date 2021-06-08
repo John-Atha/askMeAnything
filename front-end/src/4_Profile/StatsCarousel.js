@@ -13,7 +13,7 @@ function StatsCarousel(props) {
     };
   
     return (
-      <Carousel activeIndex={index} onSelect={handleSelect} className='carousel'>
+      <Carousel activeIndex={index} onSelect={handleSelect} className='carousel' id='carousel-responsive'>
         {props.case==='questions' &&
             <Carousel.Item interval={5000}>
                 <DailyStats case='questions-user' id={props.user.id}/>

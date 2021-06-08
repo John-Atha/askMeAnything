@@ -153,6 +153,15 @@ textarea:focus {
     white-space: pre-wrap;
     position: relative; 
 }
+.break-text {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.break-lines {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
 
 /* title */
 .main-title-container {

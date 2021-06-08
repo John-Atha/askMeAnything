@@ -19,7 +19,7 @@ function DailyStats(props) {
         });
         let stats = [];
         res.forEach((day) => {
-            console.log(day);
+            //console.log(day);
             stats.push({
                 y: Math.round((day[key]/sum)*100*100)/100,
                 label: day.day,
@@ -54,12 +54,12 @@ function DailyStats(props) {
         }
         func(props.id)
         .then(response => {
-            console.log(response);
+            //console.log(response);
             fixData(response.data);
             checkEmpty(response.data);
         })
         .catch(err => {
-            console.log(err);
+            //console.log(err);
             setErr(true);
         })
     }, [props.id])

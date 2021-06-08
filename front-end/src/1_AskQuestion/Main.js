@@ -133,6 +133,7 @@ function Main() {
                         }
                     });
                     createNotification('success', 'Hello,', 'Question posted successfully.');
+                    setTimeout(()=>{window.location.href='/'}, 500);
                 })
                 .catch(err => {
                     console.log(err);

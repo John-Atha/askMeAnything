@@ -15,7 +15,7 @@ function MonthlyStats(props) {
     const fixData = (res) => {
         const stats = [];
         res.forEach((obj) => {
-            console.log(obj);
+            //console.log(obj);
             const date = obj['month'].split('-');
             stats.push({
                 x: new Date(date[0], date[1], 1),
@@ -51,12 +51,12 @@ function MonthlyStats(props) {
         }
         func(props.id)
         .then(response => {
-            console.log(response);
+            //console.log(response);
             fixData(response.data);
             checkEmpty(response.data);
         })
         .catch(err => {
-            console.log(err);
+            //console.log(err);
             setErr(true);
         })
     }, [props.id])

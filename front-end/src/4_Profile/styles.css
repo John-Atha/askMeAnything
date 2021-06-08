@@ -18,3 +18,13 @@
 .carousel {
     flex-basis: 50%;
 }
+@media only screen and (max-width: 800px) {
+    #carousel-responsive {
+        flex-basis: 100%;
+    }
+}
+@media only screen and (min-width: 800px) {
+    #carousel-responsive {
+        flex-basis: 50%;
+    }
+}

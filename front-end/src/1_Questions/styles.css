@@ -7,10 +7,11 @@
 .question-title {
     font-size: x-large;
     font-weight: bold;
+    width: 80%;
 }
 .upvotes-icon {
-    height: 50px;
-    width: 50px;
+    height: 20px;
+    width: 30px;
 }
 .keyword-pill {
     background-color: lightgrey !important;

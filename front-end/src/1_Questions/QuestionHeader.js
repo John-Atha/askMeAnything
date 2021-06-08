@@ -6,8 +6,8 @@ function QuestionHeader(props) {
     const [date, setDate] = useState(props.date);
     const [title, setTitle] = useState(props.title);*/
     return(
-        <div>
-            <div className="question-title">{props.title[0].toUpperCase()+(props.title.slice(1))}</div>
+        <div style={{'width': '80%'}}>
+            <div className="question-title break-lines">{props.title[0].toUpperCase()+(props.title.slice(1))}</div>
             <div className="flex-layout">
                 <div className="with-whitespace">Asked by </div>
                 <a href={`/users/${props.owner.id}`}>{props.owner.username}</a>

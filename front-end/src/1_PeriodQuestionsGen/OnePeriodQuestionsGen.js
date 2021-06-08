@@ -17,6 +17,7 @@ function OnePeriodQuestionsGen(props) {
     const [noData, setNoData] = useState(false);
     const [showData, setShowData] = useState(true);
     const [first, setFirst] = useState(true);
+
     useEffect(() => {
         setId(props.id);
     }, [props.id])
@@ -34,11 +35,13 @@ function OnePeriodQuestionsGen(props) {
                 func = getUserAnsweredPeriod;
                 break;
         }
-        console.log(`Asking with start: ${start} and end:${end}`);
+        console.log(`Asking for questions ${props.id} with start: ${start} and end:${end}`);
         func(props.id, start, end, props.monthNum, props.year)
         .then(response => {
-            console.log(response);
+            //console.log(response);
             if (response.data.length) {
+                //console.log(`At month ${props.monthNum}:`);
+                //console.log(response.data);
                 setQuestions(questions.concat(response.data));
                 setNoData(!response.data.length);
             }
@@ -87,7 +90,7 @@ function OnePeriodQuestionsGen(props) {
                         })}
                         { showData && !noData && 
                             <Button variant="outline-primary"
-                                    onClick={()=>{if (first) {setStart(start+5);setEnd(end+10);setFirst(false)} else {setStart(start+5);setEnd(end+5);}}}>
+                                    onClick={()=>{if (first) {setStart(start+1);setEnd(end+5);setFirst(false)} else {setStart(start+5);setEnd(end+5);}}}>
                                         See more
                             </Button>
                         }

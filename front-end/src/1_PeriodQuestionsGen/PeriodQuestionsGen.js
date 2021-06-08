@@ -94,6 +94,8 @@ function PeriodQuestionsGen(props) {
         .then(response => {
             setStatsList([]);
             setStatsList(response.data);
+            //console.log("AAAAAAAAA");
+            //console.log(response.data);
             setNoData(!response.data.length);
             sumCompute(response.data);
         })

@@ -34,8 +34,9 @@ function OneQuestion(props) {
     return(
         <div className="one-question-container flex-layout">
             <QuestionUpvotes upvotes={props.upvotes} userId={props.userId} id={props.id} />
+            <QuestionHeader owner={props.owner} date={props.date} title={props.title} />
+            <div className="break"></div>
             <div>
-                <QuestionHeader owner={props.owner} date={props.date} title={props.title} />
                 <hr></hr>
                 <QuestionBody text={props.text} />
                 <QuestionKeywords id={props.id} />

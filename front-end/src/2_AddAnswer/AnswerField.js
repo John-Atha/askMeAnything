@@ -19,6 +19,7 @@ function AnswerField(props) {
                 .then(response => {
                     console.log(response);
                     createNotification('success', 'Hello,', 'Answer posted successfully.');
+                    setTimeout(()=>{window.location.href='/'}, 500)
                 })
                 .catch(err => {
                     console.log(err);
