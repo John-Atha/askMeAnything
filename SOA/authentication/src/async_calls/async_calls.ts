@@ -5,7 +5,6 @@ const axios = require('axios');
 const dataLayerUrl = 'http://localhost:3006';
 
 export const getAllUsers = () => {
-    //const params = { start, end };
     return axios.get(dataLayerUrl+`/users`);
 }
 

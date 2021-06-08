@@ -60,8 +60,8 @@ export class QuestionController {
   }
 
   @Get(':id/upvotes')
-  Upvotes(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
-    return this.questionService.findUpvotes(id, reqParams);
+  Upvotes(@Param('id', ParseIntPipe) id: number) {
+    return this.questionService.findUpvotes(id);
   }
 
   @Get(':quest_id/upvoted/:user_id')

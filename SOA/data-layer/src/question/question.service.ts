@@ -1,19 +1,14 @@
 import {
-  BadRequestException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
-import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Question } from './entities/question.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { User } from '../user/entities/user.entity';
-import { Answer } from '../answer/entities/answer.entity';
 import { QuestionUpvote } from '../question-upvote/entities/question-upvote.entity';
 import { Keyword } from '../keyword/entities/keyword.entity';
-import { paginate, verify } from '../../general_methods/methods';
 
 @Injectable()
 export class QuestionService {
@@ -87,12 +82,12 @@ export class QuestionService {
     );
   }
 
-  async findUpvotes(id: number, params): Promise<QuestionUpvote> {
+  async findUpvotes(id: number): Promise<QuestionUpvote[]> {
     const question = await this.manager.findOne(Question, id, { relations: ['upvotes', 'upvotes.owner'] });
     if (!question) {
       throw new NotFoundException(`Question ${id} not found.`);
     }
-    return paginate(question.upvotes, params);
+    return question.upvotes;
   }
 
   async findKeywords(id: number): Promise<Keyword[]> {

@@ -1,13 +1,10 @@
 import {
-  BadRequestException,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
 import { Keyword } from './entities/keyword.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { paginate, verify } from '../../general_methods/methods';
 const jwt = require('jsonwebtoken');
 
 @Injectable()

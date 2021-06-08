@@ -27,7 +27,7 @@ export class UserController {
   }
 
   @Get()
-  async findAll(@Query() reqParam) {
+  async findAll(@Query() reqParam: any) {
     return this.userService.findAll(reqParam);
   }
 

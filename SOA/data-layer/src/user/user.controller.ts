@@ -28,8 +28,8 @@ export class UserController {
   }
 
   @Get()
-  async findAll(@Query() reqParam) {
-    return this.userService.findAll(reqParam);
+  async findAll() {
+    return this.userService.findAll();
   }
 
   @Get('one')

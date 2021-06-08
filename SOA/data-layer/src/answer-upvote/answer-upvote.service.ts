@@ -1,13 +1,8 @@
 import {
-  BadRequestException,
   Injectable,
-  NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
-import { CreateAnswerUpvoteDto } from './dto/create-answer-upvote.dto';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { verify } from '../../general_methods/methods';
 import { User } from '../user/entities/user.entity';
 import { Answer } from '../answer/entities/answer.entity';
 import { AnswerUpvote } from './entities/answer-upvote.entity';

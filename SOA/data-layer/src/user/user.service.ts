@@ -6,9 +6,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { paginate } from 'general_methods/methods';
-import { Console } from 'console';
-import { ENGINE_METHOD_PKEY_ASN1_METHS } from 'constants';
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -24,9 +21,8 @@ export class UserService {
       return this.manager.save(user);
   }
 
-  async findAll(params): Promise<User[]> {
-    const res = await this.manager.find(User);
-    return paginate(res, params);
+  async findAll(): Promise<User[]> {
+    return this.manager.find(User);
   }
 
   async findOne(conditions: any): Promise<User> {
