@@ -2,20 +2,47 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
-declare const module: any;
-
 async function bootstrap() {
+  const myPort = 3003;
+  const myAddress = `http://localhost:${myPort}`;
+  const ESBAddress = 'http://localhost:3007';
+
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
-    origin: 'http://localhost:3007',
+    origin: ESBAddress,
   });
-  await app.listen(3003);
 
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
+  /* config redis connection with ESB */
+  const REDIS_PORT = 6379;
+  const REDIS_HOST = 'localhost';
+  const TotalConnections = 20
+
+  const pool = require('redis-connection-pool')('myRedisPool', {
+    host: REDIS_HOST,
+    port: REDIS_PORT,
+    max_clients: TotalConnections,
+    perform_checks: false,
+    database: 0,
+  });
+  console.log('connected to redis');
+
+  /* ensure that I am subscribed to the service bus channel */
+  pool.hget('channel', 'subscribers', async (err: any, data: any) => {
+    const subscribers = JSON.parse(data);
+    const subscribed = subscribers.includes(myAddress);
+    if (!subscribed) {
+      subscribers.push(myAddress);
+      pool.hset('channel', 'subscribers', JSON.stringify(subscribers), () => {
+        console.log('Subscribed successfully.');
+      });
+    }
+    else {
+      console.log('Already subscribed.');
+    }
+  })
+
+  await app.listen(myPort); 
   
 }
 bootstrap();
