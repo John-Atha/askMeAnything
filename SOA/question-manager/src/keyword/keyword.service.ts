@@ -16,7 +16,7 @@ export class KeywordService {
 
   async create(req, createKeywordDto: CreateKeywordDto): Promise<any> {
     return this.manager.transaction( async () => {
-      const user_id = verify(req);
+      const user_id = await verify(req);
       const allowed = await this.validateCreate(createKeywordDto.name);
       console.log(allowed);
       if (!allowed) {

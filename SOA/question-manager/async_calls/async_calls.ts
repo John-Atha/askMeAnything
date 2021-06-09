@@ -4,6 +4,8 @@ import { UpdateQuestionDto } from "src/question/dto/update-question.dto";
 
 const axios = require('axios');
 const dataLayerUrl = 'http://localhost:3006';
+const EsbUrl = 'http://localhost:3007';
+const authUrl = 'http://localhost:3002';
 
 export const getOneQuestion = (params) => {
     return axios.get(dataLayerUrl+`/questions/one`, { params });
@@ -59,4 +61,15 @@ export const getAnswerUpvotes = (id: number) => {
 
 export const answerIsUpvoted = (user_id: number, answer_id: number) => {
     return axios.get(dataLayerUrl+`/answers/${answer_id}/upvoted/${user_id}`);
+}
+
+export const isLogged = (token: any) => {
+    const params = { 
+        url: authUrl+`/users/logged`,
+    };
+    const headers = {
+        "Authorization": `Bearer ${token}`,
+    };
+    //console.log(`get from ${params.url} with header ${headers.Authorization}`)
+    return axios.post(EsbUrl, {}, { params, headers });
 }

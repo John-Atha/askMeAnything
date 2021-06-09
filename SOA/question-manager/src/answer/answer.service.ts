@@ -22,7 +22,7 @@ export class AnswerService {
 
   async isUpvoted(id: number, req): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+      const user_id = await verify(req);
       const user = await getOneUser({ id: user_id });
       if (!user.data) {
         throw new UnauthorizedException();

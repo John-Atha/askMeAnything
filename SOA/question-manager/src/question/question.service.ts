@@ -15,13 +15,14 @@ import { answerCountUpvotes, updateQuestionKeywords, createQuestion, deleteQuest
 export class QuestionService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
-  async create(req, createQuestionDto: CreateQuestionDto): Promise<any> {
-    const user_id = verify(req);
-    const allowed = await this.validateCreate(createQuestionDto.title);
-    if (!allowed) {
-      throw new BadRequestException('Title already exists.');
-    }
-    return this.manager.transaction(async (manager) => {
+  async create(req: any, createQuestionDto: CreateQuestionDto): Promise<any> {
+    return this.manager.transaction(async () => {
+      const user_id = await verify(req);
+      console.log(`I see user ${user_id}`);
+      const allowed = await this.validateCreate(createQuestionDto.title);
+      if (!allowed) {
+        throw new BadRequestException('Title already exists.');
+      }
       //const owner = await manager.findOne(User, user_id);
       const owner = await getOneUser({ id: user_id });
       if (!owner.data) {
@@ -33,6 +34,7 @@ export class QuestionService {
       const question = await manager.create(Question, createQuestionDto);
       question.owner = owner;
       return manager.save(question);*/
+      console.log('I am creating question.')
       const question = await createQuestion(createQuestionDto, owner.data);
       return question.data;
     });
@@ -61,13 +63,13 @@ export class QuestionService {
     return question.data;
   }
 
-  async update(req, id: number, updateQuestionDto: UpdateQuestionDto): Promise<any> {
-    const user_id = verify(req);
-    const allowed = await this.validateUpdate(id, updateQuestionDto.title);
-    if (!allowed) {
-      throw new BadRequestException('Title already exists.');
-    }
-    return this.manager.transaction(async (manager) => {
+  async update(req: any, id: number, updateQuestionDto: UpdateQuestionDto): Promise<any> {
+    return this.manager.transaction(async () => {
+      const user_id = await verify(req);
+      const allowed = await this.validateUpdate(id, updateQuestionDto.title);
+      if (!allowed) {
+        throw new BadRequestException('Title already exists.');
+      }
       const params = {
         id,
         owner: true,
@@ -92,9 +94,9 @@ export class QuestionService {
     });
   }
 
-  async remove(req, id: number): Promise<any> {
-    const user_id = verify(req);
-    return this.manager.transaction(async (manager) => {
+  async remove(req: any, id: number): Promise<any> {
+    return this.manager.transaction(async () => {
+      const user_id = await verify(req);
       const params = {
         id,
         owner: true,
@@ -171,9 +173,9 @@ export class QuestionService {
     return question.data.keywords;
   }
 
-  async attachKeyword(req, question_id: number, keyword_id: number) {
-    return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+  async attachKeyword(req: any, question_id: number, keyword_id: number) {
+    return this.manager.transaction(async () => {
+      const user_id = await verify(req);
       //const user = await manager.findOne(User, user_id);
       const user = await getOneUser({ id: user_id });
       if (!user.data) {
@@ -209,9 +211,9 @@ export class QuestionService {
     });
   }
 
-  async detachKeyword(req, question_id: number, keyword_id: number) {
-    return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+  async detachKeyword(req: any, question_id: number, keyword_id: number) {
+    return this.manager.transaction(async () => {
+      const user_id = await verify(req);
       //const user = await manager.findOne(User, user_id);
       const user = await getOneUser({ id: user_id });
       if (!user.data) {
@@ -264,9 +266,9 @@ export class QuestionService {
     });
   }
 
-  async isUpvoted(req, id: number): Promise<any> {
-    return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+  async isUpvoted(req: any, id: number): Promise<any> {
+    return this.manager.transaction(async () => {
+      const user_id = await verify(req);
       //const user = await manager.findOne(User, user_id);
       const user = await getOneUser({ id: user_id });
       if (!user.data) {

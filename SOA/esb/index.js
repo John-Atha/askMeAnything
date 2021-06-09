@@ -30,6 +30,20 @@ const pool = require('redis-connection-pool')('myRedisPool', {
 });
 console.log('connected to redis');
 
+const getToken = (req) => {
+  const headers = req['rawHeaders'];
+  let token = '';
+  headers.forEach((header) => {
+    if (header.startsWith('Bearer')) {
+      token = header.slice(7);
+    }
+  });
+  console.log(`token: ${token}`);
+  return token;
+}
+
+
+
 /* function to detect the target service from the request URL query param */
 const findService = (url) => {
   let dst = null;
@@ -52,9 +66,14 @@ const findService = (url) => {
 }
 
 /* function to forward the requests from the esb to the services */
-async function send_without_auth(method, url, req, res) {
+async function sendResponse(method, url, req, res) {
+  const token = getToken(req);
+  const headers = {
+    "Authorization": token ? "Bearer "+ token : 'dummy',
+  };
+  console.log(`--------${method} to ${url} with token ${token}----`);
   if (method === 'get') {
-    axios.get(url, { params: req.query })
+    axios.get(url, { params: req.query, headers })
     .then(response => {
       console.log('Sent response.');
       res.send(response.data);
@@ -67,7 +86,19 @@ async function send_without_auth(method, url, req, res) {
   else if (method === 'post' || method === 'patch') {
     const body = req.body;
     const func = method==='post' ? axios.post : axios.patch;
-    func(url, body)
+    func(url, body, { headers })
+    .then(response => {
+      console.log('Sent response.');
+      res.send(response.data);
+    })
+    .catch(err => {
+      console.log('Sent error.');
+      //console.log(err);
+      res.send(err.response.data);
+    })
+  }
+  else /*if (method === 'delete') */ {
+    axios.delete(url, { headers })
     .then(response => {
       console.log('Sent response.');
       res.send(response.data);
@@ -77,20 +108,10 @@ async function send_without_auth(method, url, req, res) {
       res.send(err.response.data);
     })
   }
-  else /*if (method === 'delete') */ {
-    axios.delete(url)
-    .then(response => {
-      console.log('Sent response.');
-      res.send(response.data);
-    })
-    .catch(err => {
-      console.log('Sent error.');
-      res.send(err.response.data);
-    })
-  }}
+}
 
 /* main function to receive the requests  */
-async function req_send(req, method, res) {
+async function requestProcess(req, method, res) {
 
   /* validate target service */
   const url = req.query.url;
@@ -103,8 +124,8 @@ async function req_send(req, method, res) {
   /* add message to queue and forward to target service */
   pool.hget('bus', 'messages', async (err, data) => {
     const currMessages = JSON.parse(data) || [];
-    console.log('Current messages of the queue:');
-    console.log(currMessages);
+    //console.log('Current messages of the queue:');
+    //console.log(currMessages);
     const newMessage = {
       id: currMessages ? currMessages.length+1 : 1,
       req: {
@@ -140,20 +161,55 @@ async function req_send(req, method, res) {
             console.log(response.data);
             if (!exists) res.status(404).send('Service\'s endpoint not found.');
             /* if endpoint exists  */
-            if (!needsAuth) {
+            //if (!needsAuth) {
               /* if no auth is needed, forward the request */
-              console.log('No need for auth.');
-              send_without_auth(method, url, req, res);
-            }
-            else {
-              /* if auth is needed, forward the request to the auth component to retrieve request_user_id */
+              //console.log('No need for auth.');
+              sendResponse(method, url, req, res);
+            //}
+            /*
+              else {
+                // if auth is needed, forward the request bearer token to the auth component to retrieve request_user_id 
+                pool.hget('bus', 'messages', async (err, data) => {
+                  const currMessages = JSON.parse(data) || [];
+                  const newMessage = {
+                    id: currMessages ? currMessages.length+1 : 1,
+                    req: {
+                      query: req.query,
+                      headers: req.headers,
+                      body: req.body,
+                    },
+                    timestamp: Date.now(),
+                    targetService: dstService,
+                  };
+                  console.log('New message:')
+                  console.log(newMessage);
+                  currMessages.push(newMessage);
+                  console.log('I pushed the new message.');
+                  pool.hset('bus', 'messages', JSON.stringify(currMessages), () => {
+                    pool.hget('channel', 'subscribers', (err, data) => {
+                      const subscribers = JSON.parse(data);
+                      const authServiceIsActive = subscribers.includes(urls.authUrl);
+                      if (!authServiceIsActive) res.status(401).send('Unauthorized');
+                      
+                    })
+                  })
+                })
+              
 
-              /* unauthorized -> return error  */
 
-              /* authorized -> add request_user_id to request header and forward it to the target service  */
+                // unauthorized -> return error  
 
-              return res.status(401).send('Needs authorization.');
-            }  
+
+
+
+                // authorized -> add request_user_id to request header and forward it to the target service  
+
+
+
+
+                return res.status(401).send('Needs authorization.');
+              }
+            */
           })
           .catch(err => {
             console.log(err.response);
@@ -162,31 +218,27 @@ async function req_send(req, method, res) {
         }
         else {
           console.log('No need for auth.');
-          send_without_auth(method, url, req, res);
+          sendResponse(method, url, req, res);
         }
       })
     })
   })
-
-
-  
-
 }
 
 app.get('/', (req, res) => {
-  return req_send(req, 'get', res);
+  return requestProcess(req, 'get', res);
 });
 
 app.post('/', (req, res) => {
-  return req_send(req, 'post', res);
+  return requestProcess(req, 'post', res);
 });
 
 app.delete('/', (req, res) => {
-  return req_send(req, 'delete', res);
+  return requestProcess(req, 'delete', res);
 });
 
 app.patch('/', (req, res) => {
-  return req_send(req, 'patch', res);
+  return requestProcess(req, 'patch', res);
 });
 
 app.listen(port, () => {
