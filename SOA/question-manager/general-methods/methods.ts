@@ -34,7 +34,6 @@ export const paginate = (res, params) => {
 };
 
 export async function verify(req: any): Promise<number> {
-  console.log('I am verify');
   const headers = req['rawHeaders'];
   let token = '';
   headers.forEach((header: any) => {
@@ -42,20 +41,9 @@ export async function verify(req: any): Promise<number> {
       token = header.slice(7);
     }
   });
-  console.log(`token: ${token}`)
   if (!token) throw new UnauthorizedException();
   const response = await isLogged(token);
-
-  /*let decoded = {};
-  try {
-    decoded = jwt.verify(token, jwtConstants.secret);
-  } catch (error) {
-    console.log(error);
-    throw new UnauthorizedException();
-  }*/
-
   const res = response.data;
-  console.log('logged:');
   console.log(res);
   if (!res) throw new UnauthorizedException();
   return res['id'];

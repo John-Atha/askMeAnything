@@ -3,6 +3,8 @@ import { CreateAnswerDto } from "src/answer/dto/create-answer.dto";
 
 const axios = require('axios');
 const dataLayerUrl = 'http://localhost:3006';
+const EsbUrl = 'http://localhost:3007';
+const authUrl = 'http://localhost:3002';
 
 export const getOneUser = (params: any) => {
     return axios.get(dataLayerUrl+'/users/one', { params });
@@ -58,4 +60,15 @@ export const getOneQuestionUpvote = (params: any) => {
 
 export const deleteQuestionUpvote = (id: number) => {
     return axios.delete(dataLayerUrl+`/question-upvotes/${id}`);
+}
+
+export const isLogged = (token: any) => {
+    const params = { 
+        url: authUrl+`/users/logged`,
+    };
+    const headers = {
+        "Authorization": `Bearer ${token}`,
+    };
+    //console.log(`get from ${params.url} with header ${headers.Authorization}`)
+    return axios.post(EsbUrl, {}, { params, headers });
 }

@@ -3,10 +3,10 @@ const express = require('express');
 const axios = require('axios');
 //const redis = require('redis');
 
-const app = express()
-const port = 3007
-app.use(bodyParser.json())
-
+const app = express();
+const port = 3007;
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const REDIS_PORT = 6379;
 const REDIS_HOST = 'localhost';
@@ -69,7 +69,7 @@ const findService = (url) => {
 async function sendResponse(method, url, req, res) {
   const token = getToken(req);
   const headers = {
-    "Authorization": token ? "Bearer "+ token : 'dummy',
+    "Authorization": token ? ("Bearer "+ token) : 'dummy',
   };
   console.log(`--------${method} to ${url} with token ${token}----`);
   if (method === 'get') {
@@ -86,6 +86,7 @@ async function sendResponse(method, url, req, res) {
   else if (method === 'post' || method === 'patch') {
     const body = req.body;
     const func = method==='post' ? axios.post : axios.patch;
+    console.log(body);
     func(url, body, { headers })
     .then(response => {
       console.log('Sent response.');
@@ -154,72 +155,24 @@ async function requestProcess(req, method, res) {
         }
         /* validate endpoint from service description */
         const explore_params = { url, method };
-        if (newMessage.targetService !== urls.authUrl) {
+        //if (newMessage.targetService !== urls.authUrl) {
+          //console.log('Target service is not auth.')
           axios.get(newMessage.targetService, { params: explore_params })
           .then(response => {
             const { exists, needsAuth } = response.data;
             console.log(response.data);
             if (!exists) res.status(404).send('Service\'s endpoint not found.');
-            /* if endpoint exists  */
-            //if (!needsAuth) {
-              /* if no auth is needed, forward the request */
-              //console.log('No need for auth.');
-              sendResponse(method, url, req, res);
-            //}
-            /*
-              else {
-                // if auth is needed, forward the request bearer token to the auth component to retrieve request_user_id 
-                pool.hget('bus', 'messages', async (err, data) => {
-                  const currMessages = JSON.parse(data) || [];
-                  const newMessage = {
-                    id: currMessages ? currMessages.length+1 : 1,
-                    req: {
-                      query: req.query,
-                      headers: req.headers,
-                      body: req.body,
-                    },
-                    timestamp: Date.now(),
-                    targetService: dstService,
-                  };
-                  console.log('New message:')
-                  console.log(newMessage);
-                  currMessages.push(newMessage);
-                  console.log('I pushed the new message.');
-                  pool.hset('bus', 'messages', JSON.stringify(currMessages), () => {
-                    pool.hget('channel', 'subscribers', (err, data) => {
-                      const subscribers = JSON.parse(data);
-                      const authServiceIsActive = subscribers.includes(urls.authUrl);
-                      if (!authServiceIsActive) res.status(401).send('Unauthorized');
-                      
-                    })
-                  })
-                })
-              
-
-
-                // unauthorized -> return error  
-
-
-
-
-                // authorized -> add request_user_id to request header and forward it to the target service  
-
-
-
-
-                return res.status(401).send('Needs authorization.');
-              }
-            */
+            sendResponse(method, url, req, res);
           })
           .catch(err => {
             console.log(err.response);
             return res.status(400).send('Service unavailable');
           })
-        }
-        else {
-          console.log('No need for auth.');
-          sendResponse(method, url, req, res);
-        }
+        //}
+        //else {
+        //  console.log('Target service is auth.');
+        //  sendResponse(method, url, req, res);
+        //}
       })
     })
   })

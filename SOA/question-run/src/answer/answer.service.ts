@@ -17,7 +17,7 @@ export class AnswerService {
 
   async create(req, createAnswerDto: CreateAnswerDto): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+      const user_id = await verify(req);
       //const owner = await manager.findOne(User, user_id);
       const owner = await getOneUser({id: user_id});
       if (!owner.data) {
@@ -43,7 +43,7 @@ export class AnswerService {
 
   async update(req: any, id: number, updateAnswerDto: UpdateAnswerDto): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+      const user_id = await verify(req);
       //const user = await manager.findOne(User, user_id);
       const user = await getOneUser({ id: user_id });
       if (!user.data) {
@@ -74,7 +74,7 @@ export class AnswerService {
 
   async remove(req: any, id: number): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+      const user_id = await verify(req);
       //const user = await manager.findOne(User, user_id);
       const user = await getOneUser({ id: user_id });
       if (!user.data) {

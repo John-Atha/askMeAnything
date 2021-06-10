@@ -15,8 +15,8 @@ export class QuestionUpvoteService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
   async create(req, createQuestionUpvoteDto: CreateQuestionUpvoteDto): Promise<any> {
-    return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+    return this.manager.transaction(async () => {
+      const user_id = await verify(req);
       //const user = await manager.findOne(User, user_id);
       const user = await getOneUser({ id: user_id });
       if (!user.data) {
@@ -52,8 +52,8 @@ export class QuestionUpvoteService {
   }
 
   async remove(req, id: number) {
-    return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+    return this.manager.transaction(async () => {
+      const user_id = await verify(req);
       //const user = await manager.findOne(User, user_id);
       const user = await getOneUser({ id: user_id });
       if (!user.data) {

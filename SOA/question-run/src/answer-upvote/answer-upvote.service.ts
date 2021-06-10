@@ -16,7 +16,7 @@ export class AnswerUpvoteService {
 
   async create(req, createAnswerUpvoteDto: CreateAnswerUpvoteDto): Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+      const user_id = await verify(req);
       //const owner = await manager.findOne(User, user_id);
       const owner = await getOneUser({id: user_id});
       if (!owner.data) {
@@ -50,7 +50,7 @@ export class AnswerUpvoteService {
 
   async remove(req, id: number) : Promise<any> {
     return this.manager.transaction(async (manager) => {
-      const user_id = verify(req);
+      const user_id = await verify(req);
       //const owner = await manager.findOne(User, user_id);
       const owner = await getOneUser({id: user_id});
       if (!owner.data) {
