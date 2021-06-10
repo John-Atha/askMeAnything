@@ -38,11 +38,9 @@ const getToken = (req) => {
       token = header.slice(7);
     }
   });
-  console.log(`token: ${token}`);
+  //console.log(`token: ${token}`);
   return token;
 }
-
-
 
 /* function to detect the target service from the request URL query param */
 const findService = (url) => {
@@ -71,7 +69,7 @@ async function sendResponse(method, url, req, res) {
   const headers = {
     "Authorization": token ? ("Bearer "+ token) : 'dummy',
   };
-  console.log(`--------${method} to ${url} with token ${token}----`);
+  console.log(`${method} to ${url} with token ${token}`);
   if (method === 'get') {
     axios.get(url, { params: req.query, headers })
     .then(response => {
@@ -86,7 +84,7 @@ async function sendResponse(method, url, req, res) {
   else if (method === 'post' || method === 'patch') {
     const body = req.body;
     const func = method==='post' ? axios.post : axios.patch;
-    console.log(body);
+    //console.log(body);
     func(url, body, { headers })
     .then(response => {
       console.log('Sent response.');
@@ -116,10 +114,10 @@ async function requestProcess(req, method, res) {
 
   /* validate target service */
   const url = req.query.url;
-  console.log('-------------');
-  console.log(`asked url: ${url}`);
+  console.log('---------------------------------');
+  //console.log(`asked url: ${url}`);
   const dstService = findService(url);
-  console.log(`Dst service: ${dstService}`);
+  //console.log(`Dst service: ${dstService}`);
   if (!dstService) return res.status(404).send('Service not found.');
 
   /* add message to queue and forward to target service */
@@ -138,7 +136,16 @@ async function requestProcess(req, method, res) {
       targetService: dstService,
     };
     console.log('New message:')
-    console.log(newMessage);
+    console.log({
+      id: newMessage.id,
+      req: {
+        query: newMessage.req.query,
+        body: newMessage.req.body,
+      },
+      timestamp: newMessage.timestamp,
+      targetService: newMessage.targetService,
+    })
+    //console.log(newMessage);
     currMessages.push(newMessage);
     console.log('I pushed the new message.');
     pool.hset('bus', 'messages', JSON.stringify(currMessages), () => {
@@ -155,24 +162,17 @@ async function requestProcess(req, method, res) {
         }
         /* validate endpoint from service description */
         const explore_params = { url, method };
-        //if (newMessage.targetService !== urls.authUrl) {
-          //console.log('Target service is not auth.')
-          axios.get(newMessage.targetService, { params: explore_params })
-          .then(response => {
-            const { exists, needsAuth } = response.data;
-            console.log(response.data);
-            if (!exists) res.status(404).send('Service\'s endpoint not found.');
-            sendResponse(method, url, req, res);
-          })
-          .catch(err => {
-            console.log(err.response);
-            return res.status(400).send('Service unavailable');
-          })
-        //}
-        //else {
-        //  console.log('Target service is auth.');
-        //  sendResponse(method, url, req, res);
-        //}
+        axios.get(newMessage.targetService, { params: explore_params })
+        .then(response => {
+          const { exists, needsAuth } = response.data;
+          console.log(response.data);
+          if (!exists) res.status(404).send('Service\'s endpoint not found.');
+          sendResponse(method, url, req, res);
+        })
+        .catch(err => {
+          console.log(err.response);
+          return res.status(400).send('Service unavailable');
+        })
       })
     })
   })
