@@ -33,7 +33,7 @@ export const paginate = (res, params) => {
   return res.slice(start, end);
 };
 
-export async function verify(req: any): Promise<number> {
+export async function verify(req: any): Promise<any> {
   const headers = req['rawHeaders'];
   let token = '';
   headers.forEach((header: any) => {
@@ -42,9 +42,14 @@ export async function verify(req: any): Promise<number> {
     }
   });
   if (!token) throw new UnauthorizedException();
-  const response = await isLogged(token);
-  const res = response.data;
-  console.log(res);
-  if (!res) throw new UnauthorizedException();
-  return res['id'];
+  isLogged(token)
+  .then(response => {
+    const res = response.data;
+    console.log(res);
+    if (!res) throw new UnauthorizedException();
+    return res['id'];  
+  })
+  .catch(err => {
+    throw new UnauthorizedException();
+  })
 };

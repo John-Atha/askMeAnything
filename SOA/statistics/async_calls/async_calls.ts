@@ -1,5 +1,7 @@
 const axios = require('axios');
 const dataLayerUrl = 'http://localhost:3006';
+const EsbUrl = 'http://localhost:3007';
+const authUrl = 'http://localhost:3002';
 
 export const getOneUser = (params) => {
     return axios.get(dataLayerUrl+`/users/one`, { params });
@@ -59,4 +61,15 @@ export const getKeywordStatsMonthly = (id: number) => {
 
 export const getKeywordStatsDaily = (id: number) => {
     return axios.get(dataLayerUrl+`/keywords/${id}/stats/daily`);
+}
+
+export const isLogged = (token: any) => {
+    const params = { 
+        url: authUrl+`/users/logged`,
+    };
+    const headers = {
+        "Authorization": `Bearer ${token}`,
+    };
+    //console.log(`get from ${params.url} with header ${headers.Authorization}`)
+    return axios.post(EsbUrl, {}, { params, headers });
 }

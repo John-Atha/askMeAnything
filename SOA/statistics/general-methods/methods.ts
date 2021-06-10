@@ -1,6 +1,5 @@
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
-import { jwtConstants } from '../constants';
-const jwt = require('jsonwebtoken');
+import { isLogged } from 'async_calls/async_calls';
 
 export const validateParams = (params) => {
   if (params.start !== undefined) {
@@ -34,22 +33,25 @@ export const paginate = (res, params) => {
   return res.slice(start, end);
 };
 
-export const verify = (req) => {
+export async function verify(req: any): Promise<any> {
   const headers = req['rawHeaders'];
   let token = '';
-  headers.forEach((header) => {
+  headers.forEach((header: any) => {
     if (header.startsWith('Bearer')) {
       token = header.slice(7);
     }
   });
-  let decoded = {};
-  try {
-    decoded = jwt.verify(token, jwtConstants.secret);
-  } catch (error) {
-    console.log(error);
+  if (!token) throw new UnauthorizedException();
+  isLogged(token)
+  .then(response => {
+    const res = response.data;
+    console.log(res);
+    if (!res) throw new UnauthorizedException();
+    return res['id'];  
+  })
+  .catch(err => {
     throw new UnauthorizedException();
-  }
-  return decoded['sub'];
+  })
 };
 
 export const daysComplete = (data, key) => {

@@ -7,7 +7,7 @@ const cors = require('cors');
 const app = express();
 const port = 3007;
 const corsOptions = {
-  origin: ['http://localhost:3000'],
+  origin: "*",
 };
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -79,11 +79,11 @@ async function sendResponse(method, url, req, res) {
     axios.get(url, { params: req.query, headers })
     .then(response => {
       console.log('Sent response.');
-      res.send(response.data);
+      return res.send(response.data);
     })
     .catch(err => {
       console.log('Sent error.');
-      res.status(err.response.data.statusCode).send(err.response.data);
+      return res.status(err.response.data.statusCode).send(err.response.data);
     })
   }
   else if (method === 'post' || method === 'patch') {
@@ -93,23 +93,23 @@ async function sendResponse(method, url, req, res) {
     func(url, body, { headers })
     .then(response => {
       console.log('Sent response.');
-      res.send(response.data);
+      return res.send(response.data);
     })
     .catch(err => {
       console.log('Sent error.');
       //console.log(err);
-      res.status(err.response.data.statusCode).send(err.response.data);
+      return res.status(err.response.data.statusCode).send(err.response.data);
     })
   }
   else /*if (method === 'delete') */ {
     axios.delete(url, { headers })
     .then(response => {
       console.log('Sent response.');
-      res.send(response.data);
+      return res.send(response.data);
     })
     .catch(err => {
       console.log('Sent error.');
-      res.status(err.response.data.statusCode).send(err.response.data);
+      return res.status(err.response.data.statusCode).send(err.response.data);
     })
   }
 }
