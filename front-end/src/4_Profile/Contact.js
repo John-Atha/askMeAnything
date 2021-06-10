@@ -16,15 +16,15 @@ function Contact(props) {
     const [userId, setUserId] = useState(null);
 
     const [email, setEmail] = useState(props.user.email);
-    const [editEmail, setEditEmail] = useState(false);
+    const [isEdittingEmail, setIsEdittingEmail] = useState(false);
     const [initEmail, setInitEmail] = useState(props.user.email);
 
     const [github, setGithub] = useState(props.user.github_username);
-    const [editGithub, setEditGithub] = useState(false);
+    const [isEdittingGithub, setIsEdittingGithub] = useState(false);
     const [initGithub, setInitGithub] = useState(props.user.github_username);
 
     const [website, setWebsite] = useState(props.user.site_url);
-    const [editWebsite, setEditWebsite] = useState(false);
+    const [isEdittingWebsite, setIsEdittingWebsite] = useState(false);
     const [initWebsite, setInitWebsite] = useState(props.user.site_url);
 
     useEffect(()=>{
@@ -88,11 +88,23 @@ function Contact(props) {
                     keyword = 'Website';
                     break;
             }
-            createNotification('success', 'Hello', `${keyword} updated successfully`);
+            createNotification('success', 'Hello', `${keyword} updated successfully.`);
         })
         .catch(err => {
             console.log(err);
-            createNotification('danger', 'Sorry,', 'We could not update your info');
+            createNotification('danger', 'Sorry', 'We could not update your info.');
+            switch(key) {
+                case 'github':
+                    setGithub(initGithub);
+                    break;
+                case 'email':
+                    setEmail(initEmail);
+                    break;
+                case 'web':
+                    setWebsite(initWebsite);
+                    break;
+            }
+
         })
         
     }
@@ -109,25 +121,25 @@ function Contact(props) {
                         <div className='contact-item' style={{'textAlign': 'left'}}>Email</div>
                     </td>
                     <td>
-                        { editEmail &&
+                        { isEdittingEmail &&
                             <input type='text' className='contact-item profile-input' style={{'textAlign': 'left'}} value={email} onChange={(event)=>{setEmail(event.target.value)}} />
                         }
-                        { !editEmail &&
+                        { !isEdittingEmail &&
                             <div className='contact-item' style={{'textAlign': 'left'}}>{email}</div>
                         }
                     </td>
                     { userId === props.user.id &&
                         <td className='flex-layout' style={{'width': '80px'}}>
-                            { !editEmail &&
-                                <input type='image' onClick={()=>{setEditEmail(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                            { !isEdittingEmail &&
+                                <input type='image' onClick={()=>{setIsEdittingEmail(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ edit_icon } />
                             }
-                            { editEmail &&
-                                <input type='image' onClick={()=>{setEditEmail(false);update('email');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                            { isEdittingEmail &&
+                                <input type='image' onClick={()=>{setIsEdittingEmail(false);update('email');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ save_icon } />                        
                             }
-                            { editEmail &&
-                                <input type='image' onClick={()=>{setEditEmail(false);setEmail(initEmail)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
+                            { isEdittingEmail &&
+                                <input type='image' onClick={()=>{setIsEdittingEmail(false);setEmail(initEmail)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
                                 src={ discard_icon } />
                             }
                         </td>            
@@ -141,10 +153,10 @@ function Contact(props) {
                         <div className='contact-item' style={{'textAlign': 'left'}}>Github</div>                    
                     </td>
                     <td style={{'textAlign': 'left'}}>
-                        { editGithub &&
+                        { isEdittingGithub &&
                             <input type='text' className='contact-item profile-input' style={{'textAlign': 'left'}} value={github} onChange={(event)=>{setGithub(event.target.value)}} />
                         }
-                        { !editGithub &&
+                        { !isEdittingGithub &&
                             <a className='contact-item'
                                 rel = 'noopener noreferrer'
                                 target='_blank'
@@ -155,16 +167,16 @@ function Contact(props) {
                     </td>
                     { userId === props.user.id &&
                         <td className='flex-layout'>
-                            { !editGithub &&
-                                <input type='image' onClick={()=>{setEditGithub(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                            { !isEdittingGithub &&
+                                <input type='image' onClick={()=>{setIsEdittingGithub(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ edit_icon } />
                             }
-                            { editGithub &&
-                                <input type='image' onClick={()=>{setEditGithub(false);update('github');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                            { isEdittingGithub &&
+                                <input type='image' onClick={()=>{setIsEdittingGithub(false);update('github');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ save_icon } />                        
                             }
-                            { editGithub &&
-                                <input type='image' onClick={()=>{setEditGithub(false);setGithub(initGithub)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
+                            { isEdittingGithub &&
+                                <input type='image' onClick={()=>{setIsEdittingGithub(false);setGithub(initGithub)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
                                 src={ discard_icon } />
                             }
                         </td>
@@ -178,10 +190,10 @@ function Contact(props) {
                         <div className='contact-item' style={{'textAlign': 'left'}}>Website</div>
                     </td>
                     <td style={{'textAlign': 'left'}}>
-                        { editWebsite &&
+                        { isEdittingWebsite &&
                             <input type='text' className='contact-item profile-input' style={{'textAlign': 'left'}} value={website} onChange={(event)=>{setWebsite(event.target.value)}} />
                         }
-                        { !editWebsite &&
+                        { !isEdittingWebsite &&
                             <a className='contact-item' style={{'textAlign': 'left'}}
                                 rel = 'noopener noreferrer'
                                 target='_blank'
@@ -191,16 +203,16 @@ function Contact(props) {
                     </td>
                     { userId === props.user.id &&
                         <td className='flex-layout'>
-                            { !editWebsite &&
-                                <input type='image' onClick={()=>{setEditWebsite(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                            { !isEdittingWebsite &&
+                                <input type='image' onClick={()=>{setIsEdittingWebsite(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ edit_icon } />
                             }
-                            { editWebsite &&
-                                <input type='image' onClick={()=>{setEditWebsite(false);update('web');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                            { isEdittingWebsite &&
+                                <input type='image' onClick={()=>{setIsEdittingWebsite(false);update('web');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ save_icon } />                        
                             }
-                            { editWebsite &&
-                                    <input type='image' onClick={()=>{setEditWebsite(false);setWebsite(initWebsite)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
+                            { isEdittingWebsite &&
+                                    <input type='image' onClick={()=>{setIsEdittingWebsite(false);setWebsite(initWebsite)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
                                     src={ discard_icon } />
                             }
                         </td>
