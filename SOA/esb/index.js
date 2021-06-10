@@ -1,16 +1,21 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors');
 //const redis = require('redis');
 
 const app = express();
 const port = 3007;
+const corsOptions = {
+  origin: ['http://localhost:3000'],
+};
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cors(corsOptions));
 const REDIS_PORT = 6379;
 const REDIS_HOST = 'localhost';
 const TotalConnections = 20
+
 
 const urls = {
   questManUrl: "http://localhost:3001",
@@ -78,7 +83,7 @@ async function sendResponse(method, url, req, res) {
     })
     .catch(err => {
       console.log('Sent error.');
-      res.send(err.response.data);
+      res.status(err.response.data.statusCode).send(err.response.data);
     })
   }
   else if (method === 'post' || method === 'patch') {
@@ -93,7 +98,7 @@ async function sendResponse(method, url, req, res) {
     .catch(err => {
       console.log('Sent error.');
       //console.log(err);
-      res.send(err.response.data);
+      res.status(err.response.data.statusCode).send(err.response.data);
     })
   }
   else /*if (method === 'delete') */ {
@@ -104,7 +109,7 @@ async function sendResponse(method, url, req, res) {
     })
     .catch(err => {
       console.log('Sent error.');
-      res.send(err.response.data);
+      res.status(err.response.data.statusCode).send(err.response.data);
     })
   }
 }
@@ -178,19 +183,19 @@ async function requestProcess(req, method, res) {
   })
 }
 
-app.get('/', (req, res) => {
+app.get('/', cors(corsOptions), (req, res) => {
   return requestProcess(req, 'get', res);
 });
 
-app.post('/', (req, res) => {
+app.post('/', cors(corsOptions), (req, res) => {
   return requestProcess(req, 'post', res);
 });
 
-app.delete('/', (req, res) => {
+app.delete('/', cors(corsOptions), (req, res) => {
   return requestProcess(req, 'delete', res);
 });
 
-app.patch('/', (req, res) => {
+app.patch('/', cors(corsOptions), (req, res) => {
   return requestProcess(req, 'patch', res);
 });
 
