@@ -18,37 +18,38 @@ import StatsPage from './3_Statistics/Pages/StatsPage';
 import KeywordPage from './1_KeywordsQuestions/KeywordPage';
 import ProfileSkeleton from './4_Profile/ProfileSkeleton';
 import Ranking from './Ranking/Ranking';
+import NotFound from './0_MainPages/NotFound';
 
 const FindAdd = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   return <AddSkeleton id={id} />;
 }
 const FindKeyword = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   return <KeywordPage id={id} />;
 }
 const FindUserQuestions = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   return <PeriodQuestionsGenSkeleton case='user' id={id} />
 }
 const FindUserAnswered = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   return <PeriodQuestionsGenSkeleton case='user-answered' id={id} />;
 }
 const FindUserQuestStats = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   return <StatsPage case='questions-user' id={id} />;
 }
 const FindUserStats = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   return <StatsPage case='all-user' id={id} />;
 }
 const FindKeywordStats = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   return <StatsPage case='keyword' id={id} />;
 }
 const FindProfile = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   return <ProfileSkeleton id={id} />;
 }
 
@@ -72,7 +73,7 @@ ReactDOM.render(
         <Route path="/ask" exact>
           <AskSkeleton />
         </Route>
-        <Route path="/answer/:id" exact>
+        <Route path="/questions/:id" exact>
           <FindAdd />
         </Route>
         <Route path="/keywords" exact>
@@ -113,6 +114,9 @@ ReactDOM.render(
         </Route>
         <Route path="/ranking" exact>
           <Ranking />
+        </Route>
+        <Route path="*">
+          <NotFound />
         </Route>
       </Switch>
     </BrowserRouter>
