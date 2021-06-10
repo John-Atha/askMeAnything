@@ -41,7 +41,7 @@ function Answers (props) {
                                 id={value.id} 
                                 owner={value.owner}
                                 text={value.text}
-                                date={value.updated_at}
+                                date={value.created_at}
                                 upvotes={value.upvotesCount}
                                 userId={props.userId} />
                     )

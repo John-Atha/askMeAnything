@@ -3,11 +3,7 @@
 }
 .contact-container {
     padding: 10px;
-    display: grid;
-    width: 400px;
-    grid-template-columns: 40px 70px 300px;
-    grid-template-rows: min-content min-content min-content min-content;
-    border-collapse: collapse;
+    width: 450px;
 }
 .carousel-indicators li {
     background-color: black !important;
@@ -27,4 +23,10 @@
     #carousel-responsive {
         flex-basis: 50%;
     }
+}
+.profile-input {
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid grey;
+    width: 200px;
 }

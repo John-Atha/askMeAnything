@@ -22,7 +22,7 @@ function AddMain(props) {
             setText(response.data.text);
             setQuestionError(false);
             setOwner(response.data.owner);
-            setDate(response.data.updated_at);
+            setDate(response.data.created_at);
             setUpvotes(response.data.upvotes);
         })
         .catch(err => {

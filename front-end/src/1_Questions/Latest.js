@@ -53,7 +53,7 @@ function Latest() {
                     <OneQuestion key={index}
                                  id={value.id}
                                  owner={value.owner}
-                                 date={value.updated_at}
+                                 date={value.created_at}
                                  title={value.title}
                                  text={value.text}
                                  upvotes={value.upvotesCount}

@@ -207,9 +207,7 @@ export const getGeneralQuestionsPeriod = (dummy, start, end, month, year) => {
 export const getUserQuestionsStatsMonthly = (id) => {
     const requestUrl = statsUrl+`/users/${id}/questions/stats/monthly`;
     const params = { url: requestUrl };
-    return axios.get(esbUrl, {   validateStatus: function (status) {
-        return status >= 200 && status < 300; // default
-      }, params });
+    return axios.get(esbUrl, { params });
 }
 
 export const getUserQuestionsPeriod = (id, start, end, month, year) => {
@@ -271,4 +269,12 @@ export const getUsersRanking = (start, end) => {
     const requestUrl = statsUrl+'/users/ranking';
     const params = { start, end, url: requestUrl };
     return axios.get(esbUrl, { params, headers });
+}
+
+
+export const updateUser = (obj, id) => {
+    const headers = buildAuthHeader();
+    const requestUrl = authUrl+`/users/${id}`;
+    const params = { url: requestUrl };
+    return axios.patch(esbUrl, obj, { params, headers });
 }
