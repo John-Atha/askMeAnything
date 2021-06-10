@@ -29,8 +29,8 @@ async function bootstrap() {
 
   /* ensure that I am subscribed to the service bus channel */
   pool.hget('channel', 'subscribers', async (err: any, data: any) => {
-    const subscribers = JSON.parse(data);
-    const subscribed = subscribers.includes(myAddress);
+    const subscribers = JSON.parse(data) || [];
+    const subscribed = subscribers ? subscribers.includes(myAddress) : false;
     if (!subscribed) {
       subscribers.push(myAddress);
       pool.hset('channel', 'subscribers', JSON.stringify(subscribers), () => {
