@@ -89,19 +89,24 @@ function PeriodQuestionsGen(props) {
             case 'user-answered':
                 func = getUserAnsweredStats;
                 break;
-        } 
-        func(props.id)
-        .then(response => {
-            setStatsList([]);
-            setStatsList(response.data);
-            //console.log("AAAAAAAAA");
-            //console.log(response.data);
-            setNoData(!response.data.length);
-            sumCompute(response.data);
-        })
-        .catch(err => {
+        }
+        if (props.id!==undefined) {
+            func(props.id)
+            .then(response => {
+                setStatsList([]);
+                setStatsList(response.data);
+                //console.log("AAAAAAAAA");
+                //console.log(response.data);
+                setNoData(!response.data.length);
+                sumCompute(response.data);
+            })
+            .catch(err => {
+                setNoData(true);
+            })
+        }
+        else {
             setNoData(true);
-        })
+        }
     }
 
     useEffect(() => {

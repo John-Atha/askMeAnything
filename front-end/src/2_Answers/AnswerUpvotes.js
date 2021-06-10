@@ -13,17 +13,23 @@ function AnswerUpvotes(props) {
     const [upvoteId, setUpvoteId] = useState(null);
 
     const checkUpvoted = () => {
-        answerIsUpvoted(props.id)
-        .then(response => {
-            //console.log(response);
-            setIsUpvoted(response.data.upvoted);
-            setUpvoteId(response.data.id);
-        })
-        .catch(err => {
-            console.log(err);
+        if (props.id !== undefined) {
+            answerIsUpvoted(props.id)
+            .then(response => {
+                //console.log(response);
+                setIsUpvoted(response.data.upvoted);
+                setUpvoteId(response.data.id);
+            })
+            .catch(err => {
+                console.log(err);
+                setIsUpvoted(false);
+                setUpvoteId(null);
+            })    
+        }
+        else {
             setIsUpvoted(false);
             setUpvoteId(null);
-        })
+        }
     }
 
     const upvote = () => {

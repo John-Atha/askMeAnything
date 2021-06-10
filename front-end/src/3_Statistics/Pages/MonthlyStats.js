@@ -49,16 +49,22 @@ function MonthlyStats(props) {
                 func = getKeywordsStatsMonthly;
                 break;
         }
-        func(props.id)
-        .then(response => {
-            //console.log(response);
-            fixData(response.data);
-            checkEmpty(response.data);
-        })
-        .catch(err => {
-            //console.log(err);
+        if (props.id!==undefined) {
+            console.log(`user_id: ${props.id}`);
+            func(props.id)
+            .then(response => {
+                //console.log(response);
+                fixData(response.data);
+                checkEmpty(response.data);
+            })
+            .catch(err => {
+                //console.log(err);
+                setErr(true);
+            })
+        }
+        else {
             setErr(true);
-        })
+        }
     }, [props.id])
 
     return(
