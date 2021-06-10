@@ -42,7 +42,7 @@ export async function verify(req: any): Promise<any> {
     }
   });
   if (!token) throw new UnauthorizedException();
-  isLogged(token)
+  return isLogged(token)
   .then(response => {
     const res = response.data;
     console.log(res);

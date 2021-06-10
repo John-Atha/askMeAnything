@@ -48,7 +48,7 @@ export class UserService {
     /*if (!user) {
       throw new NotFoundException(`User not found.`);
     }*/
-    user['pass'] = user['password'];
+    if (user) user['pass'] = user['password'];
     return user;
   }
   

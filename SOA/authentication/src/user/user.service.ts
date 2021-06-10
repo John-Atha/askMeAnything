@@ -127,6 +127,10 @@ export class UserService {
       console.log(error);
       throw new UnauthorizedException();
     }
+    console.log({ 
+      username: decoded['username'],
+      id: decoded['sub'],
+    });
     return { 
       username: decoded['username'],
       id: decoded['sub'],
