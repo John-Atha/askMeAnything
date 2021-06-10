@@ -23,6 +23,7 @@ function QuestionUpvotes(props) {
             setIsUpvoted(false);
         })
     } 
+    
     const upvote = () => {
         console.log("I am upvoting it.");
         questionUpvote(props.id)
@@ -42,6 +43,7 @@ function QuestionUpvotes(props) {
             createNotification('danger', 'Sorry', 'We could not post your upvote.');
         })
     }
+    
     const unUpvote = () => {
         console.log("I am un-upvoting it.");
         questionUnUpvote(upvoteId)
@@ -61,9 +63,11 @@ function QuestionUpvotes(props) {
             createNotification('danger', 'Sorry', 'We could not update your upvote.');
         })
     }
+    
     useEffect(()=>{
         checkUpvoted();
-    }, [])
+    }, [props.id])
+
     const updUpvote = () => {
         if (props.userId) {
             if (isUpvoted) {
