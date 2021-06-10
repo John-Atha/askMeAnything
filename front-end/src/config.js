@@ -1,6 +1,7 @@
 /* SOA back-end */
 
 module.exports = {
+    esbUrl: "http://localhost:3007",
     questManUrl: "http://localhost:3001",
     authUrl: "http://localhost:3002",
     questRunUrl: "http://localhost:3003",

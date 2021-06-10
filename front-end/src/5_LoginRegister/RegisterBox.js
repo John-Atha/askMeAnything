@@ -118,7 +118,7 @@ function RegisterBox() {
                 <input placeholder="Re-type your password..." className="margin-top-smaller" value={confirmation} type="password" onChange={handlePass} />
                 <div className="break"></div>
                 <Button type="submit" className="margin" variant="outline-primary" onClick={handleSubmit}>Submit</Button>
-                <Button className="margin" variant="outline-danger" onClick={(e)=>{setUsername("");setPassword("");setConfirmation("");setSuccess(null);setError(null);e.preventDefault();}}>Clear</Button>
+                <Button className="margin" variant="outline-danger" onClick={(e)=>{setUsername("");setPassword("");setConfirmation("");setEmail("");setSuccess(null);setError(null);e.preventDefault();}}>Clear</Button>
             </form>
             <div className="margin-top-small">
                 <div>Already have an account?</div>
