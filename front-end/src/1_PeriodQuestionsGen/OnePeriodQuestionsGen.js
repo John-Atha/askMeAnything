@@ -88,7 +88,7 @@ function OnePeriodQuestionsGen(props) {
                                             userId={props.userId} />
                             )
                         })}
-                        { showData && !noData && 
+                        { showData && !noData && questions.length<props.count &&
                             <Button variant="outline-primary"
                                     onClick={()=>{if (first) {setStart(start+1);setEnd(end+5);setFirst(false)} else {setStart(start+5);setEnd(end+5);}}}>
                                         See more

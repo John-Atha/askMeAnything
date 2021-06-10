@@ -24,7 +24,7 @@ function OneQuestion(props) {
     
     const answer = () => {
         if (props.userId) {
-            window.location.href=`/answer/${props.id}`;
+            window.location.href=`/questions/${props.id}`;
         }
         else {
             createNotification('danger', 'Sorry,', 'You cannot add an answer without an account');

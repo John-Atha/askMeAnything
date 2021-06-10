@@ -11,8 +11,9 @@ function OneAnswer(props) {
     return(
         <div className="one-answer-container bordered-input flex-layout padding-bottom break-text">
             <AnswerUpvotes upvotes={props.upvotes} id={props.id} userId={props.userId} />
+            <AnswerHeader owner={props.owner} date={props.date} />
+            <div className='break' />
             <div style={{'marginLeft': '10px'}}>
-                <AnswerHeader owner={props.owner} date={props.date} />
                 <hr></hr>
                     <AnswerBody text={props.text} />
             </div>
