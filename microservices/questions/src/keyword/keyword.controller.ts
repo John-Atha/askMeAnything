@@ -1,28 +1,32 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  ParseIntPipe,
+  Request,
+} from '@nestjs/common';
 import { KeywordService } from './keyword.service';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
 
-@Controller('keyword')
+@Controller('keywords')
 export class KeywordController {
   constructor(private readonly keywordService: KeywordService) {}
 
   @Post()
-  create(@Body() createKeywordDto: CreateKeywordDto) {
-    return this.keywordService.create(createKeywordDto);
+  create(@Request() req, @Body() createKeywordDto: CreateKeywordDto) {
+    return this.keywordService.create(req, createKeywordDto);
   }
 
   @Get()
-  findAll() {
-    return this.keywordService.findAll();
+  findAll(@Query() reqParams) {
+    return this.keywordService.findAll(reqParams);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.keywordService.findOne(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.keywordService.remove(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.keywordService.findOne(id);
   }
 }

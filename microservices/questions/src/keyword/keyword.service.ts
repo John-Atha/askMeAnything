@@ -1,21 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { EntityManager } from 'typeorm';
+import { addNestedOwnerToObj, paginate, verify } from '../../general_methods/methods';
+import { Keyword } from './entities/keyword.entity';
+
+const jwt = require('jsonwebtoken');
 
 @Injectable()
 export class KeywordService {
-  create(createKeywordDto: CreateKeywordDto) {
-    return 'This action adds a new keyword';
+  constructor(@InjectEntityManager() private manager: EntityManager) {}
+
+  async create(req, createKeywordDto: CreateKeywordDto): Promise<any> {
+    return this.manager.transaction( async (manager) => {
+      const user_id = await verify(req);
+      const allowed = await this.validateCreate(createKeywordDto.name);
+      console.log(allowed);
+      if (!allowed) {
+        throw new BadRequestException(
+          `Keyword '${createKeywordDto.name}' already exists.`,
+        );
+      }
+      const keyword = await manager.create(Keyword, createKeywordDto);
+      return manager.save(keyword);
+    })
   }
 
-  findAll() {
-    return `This action returns all keyword`;
+  async findAll(params: any): Promise<any> {
+    const keywords = await this.manager.find(Keyword);
+    return paginate(keywords, params);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} keyword`;
+  async findOne(id: number): Promise<any> {
+    const keyword = await this.manager.findOne(Keyword, id, { relations: ['questions'] });
+    if (!keyword) {
+      throw new NotFoundException(`Keyword '${id}' not found.`);
+    }
+    return keyword;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} keyword`;
+  async validateCreate(name: string): Promise<boolean> {
+    const keyword = await this.manager.find(Keyword, { name });
+    return !keyword.length;
   }
 }

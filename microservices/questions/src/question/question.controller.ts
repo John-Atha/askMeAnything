@@ -1,34 +1,80 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Request,
+  Query,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 
-@Controller('question')
+@Controller('questions')
+@UseInterceptors(ClassSerializerInterceptor)
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Post()
-  create(@Body() createQuestionDto: CreateQuestionDto) {
-    return this.questionService.create(createQuestionDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.questionService.findAll();
+  create(@Request() req, @Body() createQuestionDto: CreateQuestionDto) {
+    return this.questionService.create(req, createQuestionDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.questionService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
-    return this.questionService.update(+id, updateQuestionDto);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.questionService.findOne(id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.questionService.remove(+id);
+  remove(@Request() req, @Param('id', ParseIntPipe) id: number) {
+    return this.questionService.remove(req, id);
+  }
+
+  @Patch(':id')
+  update(
+    @Request() req,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateQuestionDto: UpdateQuestionDto,
+  ) {
+    return this.questionService.update(req, id, updateQuestionDto);
+  }
+
+  @Get(':id/upvotes')
+  Upvotes(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
+    return this.questionService.findUpvotes(id, reqParams);
+  }
+
+  @Get(':id/upvoted')
+  Upvoted(@Request() req, @Param('id', ParseIntPipe) id: number) {
+    return this.questionService.isUpvoted(req, id);
+  }
+
+  @Get(':id/keywords')
+  Keywords(@Param('id', ParseIntPipe) id: number) {
+    return this.questionService.findKeywords(id);
+  }
+
+  @Post(':quest_id/keywords/:key_id')
+  AttachKeyword(
+    @Request() req,
+    @Param('quest_id', ParseIntPipe) quest_id: number,
+    @Param('key_id', ParseIntPipe) key_id: number,
+  ) {
+    return this.questionService.attachKeyword(req, quest_id, key_id);
+  }
+
+  @Delete(':quest_id/keywords/:key_id')
+  DetachKeyword(
+    @Request() req,
+    @Param('quest_id', ParseIntPipe) quest_id: number,
+    @Param('key_id', ParseIntPipe) key_id: number,
+  ) {
+    return this.questionService.detachKeyword(req, quest_id, key_id);
   }
 }
