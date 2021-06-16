@@ -42,6 +42,16 @@ export class UserController {
     return this.userService.update(id, updateUserDto, req);
   }
 
+  @Patch(':id/points/incr')
+  pointsIncr(@Request() req, @Param('id', ParseIntPipe) id: number) {
+    return this.userService.pointsUpd(req, id, 'incr');
+  }
+
+  @Patch(':id/points/decr')
+  pointsDecr(@Request() req, @Param('id', ParseIntPipe) id: number) {
+    return this.userService.pointsUpd(req, id, 'decr');
+  }
+
   //@UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Request() req, @Param('id', ParseIntPipe) id: number) {

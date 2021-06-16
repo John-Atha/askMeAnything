@@ -77,6 +77,19 @@ export class UserService {
     });
   }
 
+  async pointsUpd(req:any, id: number, how: string): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      const user_id = verify(req); 
+      const user = await manager.findOne(User, id);
+      if (!user) {
+        throw new NotFoundException(`User ${id} not found.`);
+      }
+      if (how==='incr') user.points++;
+      else if (user.points>0) user.points--;
+      return manager.save(user);  
+    });
+  }
+
   async remove(id: number, req: any): Promise<any> {
     return this.manager.transaction(async (manager) => {
       const req_user_id = verify(req);
