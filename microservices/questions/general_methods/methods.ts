@@ -59,3 +59,15 @@ export async function addNestedOwnerToObj(obj: any, user_id: number): Promise<an
   obj['owner'] = fullOwner.data;
   return obj;
 }
+
+export const getToken = (req: any) => {
+  const headers = req['rawHeaders'];
+  let token = '';
+  headers.forEach((header) => {
+    if (header.startsWith('Bearer')) {
+      token = header.slice(7);
+    }
+  });
+  //console.log(`token: ${token}`);
+  return token;
+}

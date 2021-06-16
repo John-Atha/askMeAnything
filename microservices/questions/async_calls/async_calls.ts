@@ -12,3 +12,11 @@ export const isLogged = (token: any) => {
     }
     return axios.post(authMicroUrl+`/users/logged`, {}, { headers });
 }
+
+export const pointsUpd = (id: number, token: any, how: string) => {
+    const headers = {
+        "Authorization": `Bearer ${token}`,
+    }
+    console.log('Patching at: '+authMicroUrl+`/users/points/${how}`);
+    return axios.patch(authMicroUrl+`/users/${id}/points/${how}`, {}, { headers })
+}
