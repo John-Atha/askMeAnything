@@ -1,34 +1,95 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ClassSerializerInterceptor,
+  Query,
+  UseInterceptors,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller('user')
+@Controller('users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  @Get(':id/questions/monthly/:year/:month')
+  findUsersQuestionsMonthly(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year:number,
+    @Param('month', ParseIntPipe) month: number,
+  ) {
+    return this.userService.findAllQuestions(reqParams, id, year, month-1);
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Get(':id/questions/yearly/:year')
+  findUsersQuestionsYearly(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year:number,
+  ) {
+    return this.userService.findAllQuestions(reqParams, id, year, null);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @Get(':id/questions')
+  findUsersQuestions(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number
+  ) {
+    return this.userService.findAllQuestions(reqParams, id, null, null);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Get(':id/answers/monthly/:year/:month')
+  findUsersAnswersMonthly(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year: number,
+    @Param('month', ParseIntPipe) month: number,
+  ) {
+    return this.userService.findAllAnswers(reqParams, id, year, month-1);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @Get(':id/answers/yearly/:year/')
+  findUsersAnswersYearly(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year: number,
+  ) {
+    return this.userService.findAllAnswers(reqParams, id, year, null);
   }
+
+  @Get(':id/answers')
+  findUsersAnswers(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.userService.findAllAnswers(reqParams, id, null, null);
+  }
+
+  @Get(':id/answered/monthly/:year/:month')
+  findUsersAnsweredMonthly(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year: number,
+    @Param('month', ParseIntPipe) month: number,
+  ) {
+    return this.userService.findAllAnsweredQuestions(reqParams, id, year, month);
+  }
+
+  @Get(':id/answered/yearly/:year')
+  findUsersAnsweredYearly(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year: number,
+  ) {
+    return this.userService.findAllAnsweredQuestions(reqParams, id, year, null);
+  }
+
+  @Get(':id/answered')
+  findUsersAnswered(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
+    return this.userService.findAllAnsweredQuestions(reqParams, id, null, null);
+  }
+
 }

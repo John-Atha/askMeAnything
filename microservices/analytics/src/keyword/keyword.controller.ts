@@ -1,34 +1,44 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import { KeywordService } from './keyword.service';
-import { CreateKeywordDto } from './dto/create-keyword.dto';
-import { UpdateKeywordDto } from './dto/update-keyword.dto';
 
-@Controller('keyword')
+@Controller('keywords')
+@UseInterceptors(ClassSerializerInterceptor)
 export class KeywordController {
   constructor(private readonly keywordService: KeywordService) {}
 
-  @Post()
-  create(@Body() createKeywordDto: CreateKeywordDto) {
-    return this.keywordService.create(createKeywordDto);
+  @Get(':id/questions/monthly/:year/:month')
+  findKeywordQuestionsMonthly(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year: number,
+    @Param('month', ParseIntPipe) month: number,
+  ) {
+    return this.keywordService.findAll(reqParams, id, year, month-1);
   }
 
-  @Get()
-  findAll() {
-    return this.keywordService.findAll();
+  @Get(':id/questions/yearly/:year')
+  findKeywordQuestionsYearly(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('year', ParseIntPipe) year: number,
+  ) {
+    return this.keywordService.findAll(reqParams, id, year, null);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.keywordService.findOne(+id);
+  @Get(':id/questions')
+  findKeywordQuestionsAll(
+    @Query() reqParams,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.keywordService.findAll(reqParams, id, null, null);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateKeywordDto: UpdateKeywordDto) {
-    return this.keywordService.update(+id, updateKeywordDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.keywordService.remove(+id);
-  }
 }

@@ -1,34 +1,38 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  Query,
+  ParseIntPipe,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AnswerService } from './answer.service';
-import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UpdateAnswerDto } from './dto/update-answer.dto';
 
-@Controller('answer')
+@Controller('answers')
+@UseInterceptors(ClassSerializerInterceptor)
 export class AnswerController {
   constructor(private readonly answerService: AnswerService) {}
 
-  @Post()
-  create(@Body() createAnswerDto: CreateAnswerDto) {
-    return this.answerService.create(createAnswerDto);
+  @Get('monthly/:year/:month')
+  findMonthly(
+    @Query() reqParams,
+    @Param('year', ParseIntPipe) year: number,
+    @Param('month', ParseIntPipe) month: number
+  ) {
+    return this.answerService.findAll(reqParams, year, month-1);
+  }
+
+  @Get('yearly/:year')
+  findYearly(
+    @Query() reqParams,
+    @Param('year', ParseIntPipe) year: number,
+  ) {
+    return this.answerService.findAll(reqParams, year, null);
   }
 
   @Get()
-  findAll() {
-    return this.answerService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.answerService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAnswerDto: UpdateAnswerDto) {
-    return this.answerService.update(+id, updateAnswerDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.answerService.remove(+id);
+  findAll(@Query() reqParams) {
+    return this.answerService.findAll(reqParams, null, null);
   }
 }

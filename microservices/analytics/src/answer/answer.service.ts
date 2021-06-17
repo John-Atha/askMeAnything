@@ -1,26 +1,58 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UpdateAnswerDto } from './dto/update-answer.dto';
-
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { addNestedOwnerToObjList, countAnswersUpvotes, paginate } from '../../general_methods/methods';
+import { EntityManager } from 'typeorm';
+import { Answer } from './entities/answer.entity';
 @Injectable()
 export class AnswerService {
-  create(createAnswerDto: CreateAnswerDto) {
-    return 'This action adds a new answer';
+  constructor(@InjectEntityManager() private manager: EntityManager) {}
+
+  async findMonthly(params, year: number, month: number): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      let answers = await manager.find(Answer, { relations: ['owner'] });
+      answers = answers.filter((answer) => {
+        const date = new Date(answer.updated_at);
+        return (
+          date.getFullYear() === year &&
+          date.getMonth() === month
+        );
+      });
+      answers = paginate(answers, params);
+      answers = await countAnswersUpvotes(answers);
+      answers = await addNestedOwnerToObjList(answers);
+      return answers;
+    });
   }
 
-  findAll() {
-    return `This action returns all answer`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} answer`;
-  }
-
-  update(id: number, updateAnswerDto: UpdateAnswerDto) {
-    return `This action updates a #${id} answer`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} answer`;
+  async findAll(
+    params,
+    year: number,
+    month: number,
+  ): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      let answers = await manager.find(Answer, { relations: ['owner'] });
+      if (year && month) {
+        answers = answers.filter((answer) => {
+          const date = new Date(answer.updated_at);
+          return (
+            date.getFullYear() === year &&
+            date.getMonth() === month
+          );
+        });
+      }
+      else if (year && !month) {
+        answers = answers.filter((answer) => {
+          const date = new Date(answer.updated_at);
+          return (
+            date.getFullYear() === year
+          );
+        });
+      }
+      answers.sort((a, b) => (a.created_at > b.created_at) ? -1 : 1 );
+      answers = paginate(answers, params);
+      answers = await countAnswersUpvotes(answers);
+      answers = await addNestedOwnerToObjList(answers);
+      return answers;
+    });
   }
 }
