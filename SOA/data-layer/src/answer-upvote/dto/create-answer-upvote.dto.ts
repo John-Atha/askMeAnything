@@ -1,4 +1,4 @@
-import { IsDefined, IsNotEmpty, ValidateNested } from 'class-validator';
+import { IsDefined, ValidateNested } from 'class-validator';
 import { ObjectWithId } from '../../validation';
 import { Type } from 'class-transformer';
 
