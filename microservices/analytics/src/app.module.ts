@@ -5,9 +5,18 @@ import { UserModule } from './user/user.module';
 import { QuestionModule } from './question/question.module';
 import { AnswerModule } from './answer/answer.module';
 import { KeywordModule } from './keyword/keyword.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [UserModule, QuestionModule, AnswerModule, KeywordModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      keepConnectionAlive: true,
+    }),
+    UserModule,
+    QuestionModule,
+    AnswerModule,
+    KeywordModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

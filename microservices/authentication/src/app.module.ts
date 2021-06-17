@@ -7,7 +7,13 @@ import { AuthModule } from './auth/auth.module';
 
 
 @Module({
-  imports: [UserModule, TypeOrmModule.forRoot(), AuthModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      keepConnectionAlive: true,
+    }),
+    UserModule,
+    AuthModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

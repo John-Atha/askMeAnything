@@ -1,6 +1,8 @@
 const axios = require('axios');
 
 const authMicroUrl = 'http://localhost:3008';
+const myUrl = 'http://localhost:3009';
+const choreoUrl = 'http://localhost:30013';
 
 export const getOneUser = (id: number) => {
     return axios.get(authMicroUrl+`/users/${id}`);
@@ -19,4 +21,9 @@ export const pointsUpd = (id: number, token: any, how: string) => {
     }
     console.log('Patching at: '+authMicroUrl+`/users/points/${how}`);
     return axios.patch(authMicroUrl+`/users/${id}/points/${how}`, {}, { headers })
+}
+
+export const choreoPost = (action: string, object: any, id: number, targetEntity: string) => {
+    const obj = { action, object, id, src: myUrl, targetEntity };
+    return axios.post(choreoUrl+'/choreo', obj);
 }
