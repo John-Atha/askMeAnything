@@ -1,28 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Request,
+  ParseIntPipe,
+  ClassSerializerInterceptor,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AnswerUpvoteService } from './answer-upvote.service';
 import { CreateAnswerUpvoteDto } from './dto/create-answer-upvote.dto';
 
-@Controller('answer-upvote')
+@Controller('answer-upvotes')
+@UseInterceptors(ClassSerializerInterceptor)
 export class AnswerUpvoteController {
   constructor(private readonly answerUpvoteService: AnswerUpvoteService) {}
 
   @Post()
-  create(@Body() createAnswerUpvoteDto: CreateAnswerUpvoteDto) {
-    return this.answerUpvoteService.create(createAnswerUpvoteDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.answerUpvoteService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.answerUpvoteService.findOne(+id);
+  create(@Request() req, @Body() createAnswerUpvoteDto: CreateAnswerUpvoteDto) {
+    return this.answerUpvoteService.create(req, createAnswerUpvoteDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.answerUpvoteService.remove(+id);
+  remove(@Request() req, @Param('id', ParseIntPipe) id: number) {
+    return this.answerUpvoteService.remove(req, id);
   }
 }

@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   Body,
   Patch,
   Param,
@@ -18,6 +19,21 @@ import { UpdateAnswerDto } from './dto/update-answer.dto';
 @UseInterceptors(ClassSerializerInterceptor)
 export class AnswerController {
   constructor(private readonly answerService: AnswerService) {}
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.answerService.findOne(id);
+  }
+  
+  @Get(':id/upvotes')
+  findOneUpvotes(@Query() reqParams, @Param('id', ParseIntPipe) id: number) {
+    return this.answerService.findOneUpvotes(id, reqParams);
+  }
+
+  @Get(':id/upvoted')
+  IsUpvoted(@Request() req, @Param('id', ParseIntPipe) id: number) {
+    return this.answerService.isUpvoted(id, req);
+  }
 
   @Post()
   create(@Request() req: any, @Body() createAnswerDto: CreateAnswerDto) {
