@@ -115,6 +115,18 @@ export class AnswerService {
     return paginate(answer.upvotes, params);
   }
 
+  async countOneUpvotes(id: number): Promise<any> {
+    const answer = await this.manager.findOne(Answer, id);
+    if (!answer) {
+      throw new NotFoundException(`Answer '${id}' not found.`);
+    }
+    let count = await this.manager.query(
+      `SELECT COUNT(*) FROM public."answer_upvote" WHERE public."answer_upvote"."answerId"=${id}`,
+    );
+    count = await parseInt(count[0]['count']);
+    return { upvotes: count };
+  }
+
   async isUpvoted(id: number, req): Promise<any> {
     return this.manager.transaction(async (manager) => {
       const user_id = await verify(req);

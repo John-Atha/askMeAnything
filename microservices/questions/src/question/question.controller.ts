@@ -50,6 +50,11 @@ export class QuestionController {
     return this.questionService.findUpvotes(id, reqParams);
   }
 
+  @Get(':id/upvotes/count')
+  UpvotesCount(@Param('id', ParseIntPipe) id: number) {
+    return this.questionService.countUpvotes(id);
+  }
+
   @Get(':id/upvoted')
   Upvoted(@Request() req, @Param('id', ParseIntPipe) id: number) {
     return this.questionService.isUpvoted(req, id);

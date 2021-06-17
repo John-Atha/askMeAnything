@@ -30,6 +30,11 @@ export class AnswerController {
     return this.answerService.findOneUpvotes(id, reqParams);
   }
 
+  @Get(':id/upvotes/count')
+  CountOneUpvotes(@Param('id', ParseIntPipe) id: number) {
+    return this.answerService.countOneUpvotes(id);
+  }
+
   @Get(':id/upvoted')
   IsUpvoted(@Request() req, @Param('id', ParseIntPipe) id: number) {
     return this.answerService.isUpvoted(id, req);

@@ -1,4 +1,4 @@
-import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { isLogged } from 'async_calls/async_calls';
 import { getOneUser } from 'async_calls/async_calls';
 export const validateParams = (params) => {
@@ -55,9 +55,14 @@ export async function verify(req: any): Promise<any> {
 };
 
 export async function addNestedOwnerToObj(obj: any, user_id: number): Promise<any> {
-  const fullOwner = await getOneUser(user_id);
-  obj['owner'] = fullOwner.data;
-  return obj;
+  return getOneUser(user_id)
+  .then(response => {
+      obj['owner'] = response.data;
+      return obj;
+  })
+  .catch(err => {
+      throw new NotFoundException(`User '${user_id}' not found.`);
+  })
 }
 
 export const getToken = (req: any) => {

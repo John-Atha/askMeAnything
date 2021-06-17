@@ -58,6 +58,18 @@ export class QuestionService {
     return addNestedOwnerToObj(question, question.owner.id);
   }
 
+  async countUpvotes(id: number): Promise<any> {
+    const question = await this.manager.findOne(Question, id);
+    if (!question) {
+      throw new NotFoundException(`Question '${id}' not found.`);
+    }
+    let count = await this.manager.query(
+      `SELECT COUNT(*) FROM public."question_upvote" WHERE public."question_upvote"."questionId"=${id}`,
+    );
+    count = await parseInt(count[0]['count']);
+    return { upvotes: count };
+  }
+
   async update(req: any, id: number, updateQuestionDto: UpdateQuestionDto): Promise<any> {
     return this.manager.transaction(async (manager) => {
       const user_id = await verify(req);
