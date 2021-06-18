@@ -15,6 +15,10 @@ export const getOneUser = (id: number) => {
     return axios.get(authMicroUrl+`/users/${id}`);
 }
 
+export const getOneQuestion = (id: number) => {
+    return axios.get(questionsMicroUrl+`/questions/${id}`);
+}
+
 export const countOneQuestionUpvotes = (id: number) => {
     return axios.get(questionsMicroUrl+`/questions/${id}/upvotes/count`);
 }

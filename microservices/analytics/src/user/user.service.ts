@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { addNestedOwnerToObjList, paginate, countQuestionsUpvotes, countAnswersUpvotes, addNestedOwnerToObj } from '../../general_methods/methods';
+import { addNestedOwnerToObjList, paginate, countQuestionsUpvotes, countAnswersUpvotes, addNestedOwnerToObj, addNestedQuestionToObjList } from '../../general_methods/methods';
 import { Question } from '../question/entities/question.entity';
 import { User } from '../user/entities/user.entity';
 import { Answer } from '../answer/entities/answer.entity';
@@ -95,6 +95,7 @@ export class UserService {
       }
       answers = paginate(answers, params);
       answers = await addNestedOwnerToObjList(answers);
+      answers = await addNestedQuestionToObjList(answers);
       answers = await countAnswersUpvotes(answers);
       return answers;
     });
@@ -120,7 +121,7 @@ export class UserService {
                         public."question"."text",
                         public."question"."created_at",
                         public."question"."updated_at",
-                        public."user"."id" as ownerId,
+                        public."user"."id" as ownerId
                    FROM  public."answer", public."question", public."user"
                    WHERE public."answer"."ownerId"=${id}
                      AND public."user"."id"=${id}
@@ -135,7 +136,7 @@ export class UserService {
                         public."question"."text",
                         public."question"."created_at",
                         public."question"."updated_at",
-                        public."user"."id" as ownerId,
+                        public."user"."id" as ownerId
                    FROM  public."answer", public."question", public."user"
                    WHERE public."answer"."ownerId"=${id}
                      AND public."user"."id"=${id}
@@ -150,7 +151,7 @@ export class UserService {
                         public."question"."text",
                         public."question"."created_at",
                         public."question"."updated_at",
-                        public."user"."id" as ownerId,
+                        public."user"."id" as ownerId
                    FROM  public."answer", public."question", public."user"
                    WHERE public."answer"."ownerId"=${id}
                      AND public."user"."id"=${id}

@@ -1,5 +1,5 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { countOneAnswerUpvotes, countOneQuestionUpvotes, getOneUser } from 'async_calls/async_calls';
+import { countOneAnswerUpvotes, countOneQuestionUpvotes, getOneQuestion, getOneUser } from 'async_calls/async_calls';
 
 export const validateParams = (params) => {
   if (params.start !== undefined) {
@@ -75,4 +75,22 @@ export async function countAnswersUpvotes(objects: any): Promise<any> {
         })
     }
     return objects;
+}
+
+export async function addNestedQuestionToObj(obj: any, question_id: number): Promise<any> {
+  return getOneQuestion(question_id)
+  .then(response => {
+      obj['question'] = response.data;
+      return obj;
+  })
+  .catch(err => {
+      throw new NotFoundException(`Question '${question_id}' not found.`);
+  })
+}
+
+export async function addNestedQuestionToObjList(objects: any): Promise<any> {
+  for (let i=0; i<objects.length; i++) {
+      objects[i] = await addNestedQuestionToObj(objects[i], objects[i].question.id);
+  }
+  return objects;
 }
