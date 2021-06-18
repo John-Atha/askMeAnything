@@ -2,7 +2,7 @@ const axios = require('axios');
 
 const authMicroUrl = 'http://localhost:3008';
 const myUrl = 'http://localhost:3009';
-const choreoUrl = 'http://localhost:30013';
+const choreoUrl = 'http://localhost:3013';
 
 export const getOneUser = (id: number) => {
     return axios.get(authMicroUrl+`/users/${id}`);

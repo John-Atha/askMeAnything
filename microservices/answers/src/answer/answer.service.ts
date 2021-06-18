@@ -13,6 +13,7 @@ import { User } from '../user/entities/user.entity';
 import { Answer } from './entities/answer.entity';
 import { Question } from 'src/question/entities/question.entity';
 import { AnswerUpvote } from 'src/answer-upvote/entities/answer-upvote.entity';
+import { choreoPost } from 'async_calls/async_calls';
 @Injectable()
 export class AnswerService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
@@ -38,7 +39,16 @@ export class AnswerService {
       /* add nested owner and question objects and save */
       answer = await addNestedOwnerToObj(answer, user_id);
       answer = await addNestedQuestionToObj(answer, question_id);
-      return manager.save(answer);
+      const res = await manager.save(answer);
+      /* SEND IT TO THE CHOREOGRAPHER */
+      choreoPost('post', res, -1, 'answer')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      return res;
     });
   }
 
@@ -67,7 +77,16 @@ export class AnswerService {
         return answer;
       }
       answer.text = text;
-      return manager.save(answer);
+      const res = await manager.save(answer);
+      /* SEND IT TO THE CHOREOGRAPHER */
+      choreoPost('patch', res, id, 'answer')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      return res;
     });
   }
 
@@ -89,7 +108,16 @@ export class AnswerService {
         );
       }
       /* delete answer */
-      return manager.delete(Answer, id);
+      const res = await manager.delete(Answer, id);
+      /* SEND IT TO THE CHOREOGRAPHER */
+      choreoPost('delete', { id }, id, 'answer')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      return res;
     });
   }
 

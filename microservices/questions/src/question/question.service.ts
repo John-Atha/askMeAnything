@@ -14,6 +14,7 @@ import { Question } from '../question/entities/question.entity';
 import { User } from '../user/entities/user.entity';
 import { QuestionUpvote } from '../question-upvote/entities/question-upvote.entity';
 import { Keyword } from '../keyword/entities/keyword.entity';
+import { choreoPost } from 'async_calls/async_calls';
 
 @Injectable()
 export class QuestionService {
@@ -39,6 +40,14 @@ export class QuestionService {
       const question = await manager.create(Question, createQuestionDto);
       question.owner = owner;
       const newQuest = await manager.save(question);
+      /* SEND IT TO THE CHOREOGRAPHER */
+      choreoPost('post', newQuest, -1, 'question')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
       /* add nested owner json */
       return addNestedOwnerToObj(newQuest, user_id);
     });
@@ -91,6 +100,14 @@ export class QuestionService {
       }
       manager.merge(Question, question, updateQuestionDto);
       const newQuest = await manager.save(question);
+      /* SEND IT TO THE CHOREOGRAPHER */
+      choreoPost('patch', newQuest, id, 'question')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
       return addNestedOwnerToObj(newQuest, user_id);
     });
   }
@@ -109,7 +126,16 @@ export class QuestionService {
           "You cannot delete another user's question.",
         );
       }
-      return manager.delete(Question, id);
+      const res = await manager.delete(Question, id);
+      /* SEND IT TO THE CHOREOGRAPHER */
+      choreoPost('delete', { id }, id, 'question')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      return res;
     });
   }
 
@@ -160,6 +186,7 @@ export class QuestionService {
 
   async attachKeyword(req: any, question_id: number, keyword_id: number) {
     return this.manager.transaction(async (manager) => {
+      /* validate user, question, keyword */
       const user_id = await verify(req);
       const user = await manager.findOne(User, user_id);
       if (!user) {
@@ -178,10 +205,31 @@ export class QuestionService {
       if (!keyword) {
         throw new NotFoundException(`Keyword '${keyword_id} not found.`);
       }
+      /* add it if not already in */
       const old_keywords = question.keywords;
-      old_keywords.push(keyword);
+      console.log(old_keywords);
+      console.log(keyword);
+      let already_in = false;
+      for (let i=0; i<old_keywords.length; i++) {
+        if (old_keywords[i].id===keyword.id) {
+          already_in = true;
+        }
+      }
+      if (!already_in) {
+        console.log('New, I am adding it.');
+        old_keywords.push(keyword);
+      }
       question.keywords = old_keywords;
-      const newQuest = manager.save(question);
+      /* save question */
+      const newQuest = await manager.save(question);
+      /* SEND IT TO THE CHOREOGRAPHER */
+      choreoPost('patch', old_keywords, question_id, 'question-keywords')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
       return addNestedOwnerToObj(newQuest, user_id);
     });
   }
@@ -221,9 +269,17 @@ export class QuestionService {
         question.keywords = question.keywords
           .slice(0, index)
           .concat(question.keywords.slice(index + 1, question.keywords.length));
-          const newQuestion = await this.manager.save(question);
-          return addNestedOwnerToObj(question, user_id);
-          }
+        const newQuestion = await this.manager.save(question);
+        /* SEND IT TO THE CHOREOGRAPHER */
+        choreoPost('patch', question.keywords, question_id, 'question-keywords')
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        return addNestedOwnerToObj(newQuestion, user_id);
+      }
       else {
         throw new BadRequestException(
           `Keyword '${keyword_id}' not in question '${question_id}'`,

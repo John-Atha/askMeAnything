@@ -56,7 +56,7 @@ async function requestProcess(req, res) {
             entryId: body.id,
             src: body.src,
             targetEntity: body.targetEntity,
-            timestamp: Date.now(),
+            timestamp: Date.now().toString(),
         };
         console.log('New message:');
         console.log(newMessage);

@@ -11,6 +11,7 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { paginate, verify } from '../../general_methods/methods';
 import { jwtConstants } from '../../constants';
+import { choreoPost } from 'async_calls/async_calls';
 const jwt = require('jsonwebtoken');
 
 const bcrypt = require('bcrypt');
@@ -28,7 +29,14 @@ export class UserService {
         const hash = bcrypt.hashSync(user.password, saltRounds);
         user.password = hash;
         const res = await this.manager.save(user);
-        /* ----------------- HERE I WILL BROADCAST IT TO CHOREOGRAPHER CHANNEL -------------------- */
+        /* ----------------- SEND IT TO CHOREOGRAPHER CHANNEL -------------------- */
+        choreoPost('post', { id: res.id }, -1, 'user')
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(err => {
+          console.log(err);
+        })
         /* ---------------------------------------------------------------------------------------- */
         return res;
       }
@@ -100,10 +108,16 @@ export class UserService {
       else if (id!==req_user_id /* || user.data.username!==req_user.username*/) {
         throw new UnauthorizedException();
       }
-      //return deleteUser(id);
       const res = await manager.delete(User, id)
-        /* ----------------- HERE I WILL BROADCAST IT TO CHOREOGRAPHER CHANNEL -------------------- */
-        /* ---------------------------------------------------------------------------------------- */
+      /* ----------------- SEND IT TO CHOREOGRAPHER CHANNEL -------------------- */
+      choreoPost('delete', { id }, id, 'user')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      /* ---------------------------------------------------------------------------------------- */
         return res;
     });
   }

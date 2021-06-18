@@ -8,6 +8,7 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { addNestedOwnerToObj, paginate, verify } from '../../general_methods/methods';
 import { Keyword } from './entities/keyword.entity';
+import { choreoPost } from 'async_calls/async_calls';
 
 const jwt = require('jsonwebtoken');
 
@@ -26,7 +27,16 @@ export class KeywordService {
         );
       }
       const keyword = await manager.create(Keyword, createKeywordDto);
-      return manager.save(keyword);
+      const res = await manager.save(keyword);
+      /* SEND IT TO THE CHOREOGRAPHER */
+      choreoPost('post', res, -1, 'keyword')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      return res;
     })
   }
 
