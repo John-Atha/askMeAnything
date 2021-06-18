@@ -39,17 +39,27 @@ function Main() {
         })
     }, [])
     const add = (index) => {
+        console.log('I am add');
         const obj = suggestions[index];
         console.log('Picked:')
         console.log(obj);
-        setSuggestions(suggestions.slice(0, index).concat(suggestions.slice(index+1, suggestions.length)));
-        setPicked(picked.concat(obj));
-        console.log('Suggestions after:')
-        console.log(suggestions);
-        console.log('Picked after:')
-        setTimeout(()=>{console.log(picked)}, 100);
+        const tempSugg = suggestions;
+        setSuggestions([]);
+        setTimeout(() => {
+            setSuggestions(tempSugg.slice(0, index).concat(tempSugg.slice(index+1, tempSugg.length)));
+            setPicked(picked.concat(obj));
+            setTimeout(() => {
+                console.log('Suggestions after:')
+                console.log(suggestions);
+                console.log('Picked after:')
+                console.log(picked)
+                },
+            100);        
+        }, 0
+        );
     }
     const buttonAdd = () => {
+        console.log('I am button-add');
         console.log(suggestions);
         if (suggestions.length) {
             let found = false;

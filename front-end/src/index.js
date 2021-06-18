@@ -19,6 +19,7 @@ import KeywordPage from './1_KeywordsQuestions/KeywordPage';
 import ProfileSkeleton from './4_Profile/ProfileSkeleton';
 import Ranking from './Ranking/Ranking';
 import NotFound from './0_MainPages/NotFound';
+import About from './0_MainPages/About';
 
 const FindAdd = () => {
   const { id } = useParams();
@@ -114,6 +115,9 @@ ReactDOM.render(
         </Route>
         <Route path="/ranking" exact>
           <Ranking />
+        </Route>
+        <Route path="/about" exact>
+          <About />
         </Route>
         <Route path="*">
           <NotFound />

@@ -123,6 +123,11 @@ function RegisterBox() {
             <div className="margin-top-small">
                 <div>Already have an account?</div>
                 <a href="/login">Login</a>
+                <div className='break'/>
+                <div>or</div>
+                <div className='break'/>
+                <a href='/'>Continue without an account</a>
+
             </div>
 
         </div>

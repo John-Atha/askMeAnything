@@ -60,6 +60,10 @@ function LoginBox() {
             <div className="register-message margin-top-small">
                 <div>First time here?</div>
                 <a href="/register">Create an account</a>
+                <div className='break'/>
+                <div>or</div>
+                <div className='break'/>
+                <a href='/'>Continue without an account</a>
             </div>
         </div>
     )
