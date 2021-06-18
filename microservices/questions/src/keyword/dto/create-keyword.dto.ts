@@ -3,12 +3,10 @@ import {
     IsNotEmpty,
     IsString,
     MaxLength,
-    MinLength,
-  } from 'class-validator';
+} from 'class-validator';
   
   export class CreateKeywordDto {
-    @MinLength(2)
-    @MaxLength(30)
+    @MaxLength(50)
     @IsString()
     @IsNotEmpty()
     @IsDefined()
