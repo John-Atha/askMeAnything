@@ -1,5 +1,5 @@
 import {
-  Injectable,
+  Injectable, NotFoundException,
 } from '@nestjs/common';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { InjectEntityManager } from '@nestjs/typeorm';
@@ -62,6 +62,9 @@ export class AnswerService {
     return this.manager.transaction(async (manager) => {
       const owner = await manager.findOne(User, body.owner_id);
       const question = await manager.findOne(Question, body.question_id);
+      if (!question) {
+        throw new NotFoundException(`Question '${body.question_id}' not found.`);
+      }
       const answer = await manager.create(Answer, body.createAnswerDto);
       answer.owner = owner;
       answer.question = question;
@@ -72,6 +75,7 @@ export class AnswerService {
   async update(id: number, updateAnswerDto: UpdateAnswerDto): Promise<Answer> {
     return this.manager.transaction(async (manager) => {
       const answer = await manager.findOne(Answer, id, { relations: ['owner'] });
+      if (!answer) throw new NotFoundException(`Answer '${id}' not found.`);
       const text = updateAnswerDto.text;
       answer.text = text;
       return manager.save(answer);
@@ -79,7 +83,11 @@ export class AnswerService {
   }
 
   async remove(id: number): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      const answer = manager.findOne(Answer, id);
+      if (!answer) throw new NotFoundException(`Answer '${id}' not found.`);
       return this.manager.delete(Answer, id);
+    });
   }
 
   async answersAndQuestionsCountUpvotes(body: any): Promise<Answer[]> {

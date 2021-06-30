@@ -1,5 +1,6 @@
 import {
-  Injectable,
+  BadRequestException,
+  Injectable, NotFoundException,
 } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
@@ -27,15 +28,12 @@ export class QuestionUpvoteService {
     return this.manager.transaction(async (manager) => {
       const user_id = await createQuestionUpvoteDto.owner.id;
       const user = await manager.findOne(User, user_id);
-      console.log(`user:`)
-      console.log(user);
       const question_id = createQuestionUpvoteDto.question.id;
       const question = await manager.findOne(Question, question_id, { relations: ['owner'] });
-      console.log(`question:`);
-      console.log(question);
+      if (!question) throw new NotFoundException(`Question '${question_id}' not found.`);
+      const old = await manager.findOne(QuestionUpvote, { owner: user, question: question });
+      if (old) throw new BadRequestException(`You have already upvotes this question.`);
       const upvote = await manager.create(QuestionUpvote, createQuestionUpvoteDto);
-      console.log('upvote:');
-      console.log(upvote);
       upvote.owner = user;
       upvote.question = question;
       const owner = question.owner;
@@ -50,6 +48,7 @@ export class QuestionUpvoteService {
       const upvote = await manager.findOne(QuestionUpvote, id, {
         relations: ['owner', 'question', 'question.owner'],
       });
+      if (!upvote) throw new NotFoundException(`Upvote '${id}' not found.`);
       const question = upvote.question;
       const owner = question.owner;
       if (owner.points) owner.points--;
@@ -58,8 +57,4 @@ export class QuestionUpvoteService {
     });
   }
 
-  async validateCreate(user: User, question: Question): Promise<boolean> {
-    const upvotes = await this.manager.find(QuestionUpvote, { owner: user, question: question });
-    return !upvotes.length;
-  }
 }

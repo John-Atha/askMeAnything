@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
 } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
@@ -29,6 +30,8 @@ export class AnswerUpvoteService {
       if (createAnswerUpvoteDto.owner.id && createAnswerUpvoteDto.answer.id) {
         const owner = await manager.findOne(User, createAnswerUpvoteDto.owner.id);
         const answer = await manager.findOne(Answer, createAnswerUpvoteDto.answer.id, { relations: ['owner'] });
+        const old = await manager.findOne(AnswerUpvote, { owner, answer} );
+        if (old) throw new BadRequestException(`You have already upvoted this answer.`);
         const upvote = await manager.create(AnswerUpvote, createAnswerUpvoteDto);
         upvote.owner = owner;
         upvote.answer = answer;
@@ -44,15 +47,12 @@ export class AnswerUpvoteService {
   async remove(id: number): Promise<any> {
     return this.manager.transaction(async (manager) => {
       const upvote = await manager.findOne(AnswerUpvote, id, { relations: ['owner', 'answer', 'answer.owner'] });
+      if (!upvote) throw new BadRequestException(`Upvote '${id}' not found`);
       const answer_owner = upvote.answer.owner;
       if (answer_owner.points) answer_owner.points--;
       await manager.save(answer_owner);
       return manager.delete(AnswerUpvote, id);
     });
   }
-
-  async validateCreate(user: User, answer: Answer): Promise<boolean> {
-    const upvotes = await this.manager.find(AnswerUpvote, { owner: user, answer: answer});
-    return !upvotes.length;
-  }
+  
 }
