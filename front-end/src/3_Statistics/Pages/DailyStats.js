@@ -52,7 +52,7 @@ function DailyStats(props) {
                 func = getKeywordsStatsDaily;
                 break;
         }
-        if (props.id!==undefined) {
+        //if (props.id!==undefined) {
             func(props.id)
             .then(response => {
                 //console.log(response);
@@ -63,10 +63,10 @@ function DailyStats(props) {
                 //console.log(err);
                 setErr(true);
             })    
-        }
-        else {
-            setErr(true);
-        }
+        //}
+        //else {
+        //    setErr(true);
+        //}
     }, [props.id])
 
     return(

@@ -49,7 +49,7 @@ function MonthlyStats(props) {
                 func = getKeywordsStatsMonthly;
                 break;
         }
-        if (props.id!==undefined) {
+        //if (props.id!==undefined) {
             console.log(`user_id: ${props.id}`);
             func(props.id)
             .then(response => {
@@ -61,10 +61,10 @@ function MonthlyStats(props) {
                 //console.log(err);
                 setErr(true);
             })
-        }
-        else {
-            setErr(true);
-        }
+        //}
+        //else {
+        //    setErr(true);
+        //}
     }, [props.id])
 
     return(

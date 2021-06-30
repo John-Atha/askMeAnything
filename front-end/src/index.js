@@ -74,6 +74,9 @@ ReactDOM.render(
         <Route path="/ask" exact>
           <AskSkeleton />
         </Route>
+        <Route path="/questions/stats" exact>
+          <StatsPage case='questions-gen' />
+        </Route>
         <Route path="/questions/:id" exact>
           <FindAdd />
         </Route>
@@ -94,9 +97,6 @@ ReactDOM.render(
         </Route>
         <Route path="/questions" exact>
           <PeriodQuestionsGenSkeleton case='general' />
-        </Route>
-        <Route path="/questions/stats" exact>
-          <StatsPage case='questions-gen' />
         </Route>
         <Route path="/users/:id" exact>
           <FindProfile />

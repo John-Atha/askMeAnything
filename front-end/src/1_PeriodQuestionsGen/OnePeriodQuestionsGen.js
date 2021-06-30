@@ -38,7 +38,7 @@ function OnePeriodQuestionsGen(props) {
         console.log(`Asking for questions ${props.id} with start: ${start} and end:${end}`);
         func(props.id, start, end, props.monthNum, props.year)
         .then(response => {
-            //console.log(response);
+            console.log(response);
             if (response.data.length) {
                 //console.log(`At month ${props.monthNum}:`);
                 //console.log(response.data);

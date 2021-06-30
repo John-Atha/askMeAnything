@@ -5,6 +5,7 @@ import AskQuestion from './AskQuestion';
 import PeriodQuestions from './PeriodQuestions';
 import KeywordQuestions from './KeywordQuestions';
 import Carousel from 'react-bootstrap/Carousel';
+import StatsCarousel from '../4_Profile/StatsCarousel';
 
 function MainHome() {
     const [index, setIndex] = useState(0);
@@ -29,6 +30,8 @@ function MainHome() {
                     <KeywordQuestions />
                 </Carousel.Item>
             </Carousel>
+            <div className='margin-top' />
+            <StatsCarousel case='questions-gen' />
         </div>
     )
 }
