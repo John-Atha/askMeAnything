@@ -1,10 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import {
-  paginate,
-} from '../../general-methods/methods';
-import { countQuestionsUpvotes, getOneKeyword } from 'async_calls/async_calls';
+import { paginate, daysComplete, monthlyCountsParseInt } from '../../general-methods/methods';
+import { countQuestionsUpvotes, getOneKeyword, getKeywordStatsDaily, getKeywordStatsMonthly } from 'async_calls/async_calls';
 
 @Injectable()
 export class KeywordService {
@@ -80,6 +78,46 @@ export class KeywordService {
       //return withCountQuestionsUpvotes(questions, manager);
       questions = await countQuestionsUpvotes(questions);
       return questions.data;
+    });
+  }
+
+  async findStatsMonthly(id: number): Promise<any> {
+    return this.manager.transaction(async (manager) => {
+      //const keyword = await manager.findOne(Keyword, id);
+      const keyword = await getOneKeyword({ id });
+      if (!keyword.data) {
+        throw new NotFoundException(`Keyword '${id}' not found.`);
+      }
+      /*const data = await manager.query(
+        `SELECT to_char(public."question"."created_at", 'YYYY-MM') as month,
+                      COUNT(*) as questions
+               FROM public."question", public."question_keywords_keyword" 
+               WHERE public."question_keywords_keyword"."keywordId"=${id}
+                 AND public."question_keywords_keyword"."questionId"=public."question"."id"
+               GROUP BY month`,
+      );*/
+      const data = await getKeywordStatsMonthly(id);
+      return monthlyCountsParseInt(data.data, 'questions');
+    });
+  }
+
+  async findStatsDaily(id: number) {
+    return this.manager.transaction(async (manager) => {
+      //const keyword = await manager.findOne(Keyword, id);
+      const keyword = await getOneKeyword({ id });
+      if (!keyword.data) {
+        throw new NotFoundException(`Keyword '${id}' not found.`);
+      }
+      /*const data = await manager.query(
+        `SELECT to_char(public."question"."created_at", 'FMDay') as day,
+                      COUNT(*) as questions
+               FROM public."question", public."question_keywords_keyword" 
+               WHERE public."question_keywords_keyword"."keywordId"=${id}
+                 AND public."question_keywords_keyword"."questionId"=public."question"."id"
+               GROUP BY day`,
+      );*/
+      const data = await getKeywordStatsDaily(id);
+      return daysComplete(data.data, 'questions');
     });
   }
 

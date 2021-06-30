@@ -21,8 +21,7 @@ const urls = {
   questManUrl: "http://localhost:3001",
   authUrl: "http://localhost:3002",
   questRunUrl: "http://localhost:3003",
-  analsUrl: "http://localhost:3004",
-  statsUrl: "http://localhost:3005",
+  statsAnalsUrl: "http://localhost:3004",
   frontUrl: "http://localhost:3000",
 }
 
@@ -56,11 +55,8 @@ const findService = (url) => {
   else if (url.startsWith(urls.questRunUrl)) {
     dst = urls.questRunUrl;
   }
-  else if (url.startsWith(urls.analsUrl)) {
-    dst = urls.analsUrl;
-  }
-  else if (url.startsWith(urls.statsUrl)) {
-    dst = urls.statsUrl;
+  else if (url.startsWith(urls.statsAnalsUrl)) {
+    dst = urls.statsAnalsUrl;
   }
   else if (url.startsWith(urls.authUrl)) {
     dst = urls.authUrl;

@@ -35,4 +35,14 @@ export class QuestionController {
   findAll(@Query() reqParams) {
     return this.questionService.findAll(reqParams, null, null);
   }
+
+  @Get('/stats/monthly')
+  findQuestionsStatsMonthly() {
+    return this.questionService.findStatsMonthly();
+  }
+
+  @Get('/stats/daily')
+  findQuestionsStatsDaily() {
+    return this.questionService.findStatsDaily();
+  }
 }

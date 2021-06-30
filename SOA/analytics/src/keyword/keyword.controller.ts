@@ -41,4 +41,14 @@ export class KeywordController {
     return this.keywordService.findAll(reqParams, id, null, null);
   }
 
+  @Get(':id/stats/monthly')
+  findKeywordsStatsMonthly(@Param('id', ParseIntPipe) id: number) {
+    return this.keywordService.findStatsMonthly(id);
+  }
+
+  @Get(':id/stats/daily')
+  findKeywordsStatsDaily(@Param('id', ParseIntPipe) id: number) {
+    return this.keywordService.findStatsDaily(id);
+  }
+
 }

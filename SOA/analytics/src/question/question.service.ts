@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { paginate } from '../../general-methods/methods';
-import { countQuestionsUpvotes, getQuestions } from 'async_calls/async_calls';
+import { paginate, daysComplete, monthlyCountsParseInt } from '../../general-methods/methods';
+import { countQuestionsUpvotes, getQuestions, getQuestionsStatsDaily, getQuestionsStatsMonthly } from 'async_calls/async_calls';
 
 
 @Injectable()
@@ -37,6 +37,28 @@ export class QuestionService {
       questions = await countQuestionsUpvotes(questions);
       return questions.data;
     })
+  }
+
+  async findStatsMonthly(): Promise<any> {
+    /*const data = await this.manager.query(
+      `SELECT to_char(public."question"."created_at", 'YYYY-MM') as month,
+                      COUNT(*) as questions
+               FROM public."question"
+               GROUP BY month`,
+    );*/
+    const data = await getQuestionsStatsMonthly();
+    return monthlyCountsParseInt(data.data, 'questions');
+  }
+
+  async findStatsDaily(): Promise<any> {
+    /*const data = await this.manager.query(
+      `SELECT to_char(public."question"."created_at", 'FMDay') as day,
+                    COUNT(*) as questions
+              FROM public."question"
+              GROUP BY day`,
+    );*/
+    const data = await getQuestionsStatsDaily();
+    return daysComplete(data.data, 'questions');
   }
 
 }

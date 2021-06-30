@@ -31,6 +31,16 @@ export class AppService {
         needsAuth: false,
       },
       {
+        url: new RegExp('questions/stats/monthly'),
+        method: 'get',
+        needsAuth: false,
+      },
+      {
+        url: new RegExp('questions/stats/daily'),
+        method: 'get',
+        needsAuth: false,
+      },
+      {
         url: new RegExp('users/[0-9]+/questions/monthly/[0-9]+/[0-9]+'),
         method: 'get',
         needsAuth: false,
@@ -52,6 +62,16 @@ export class AppService {
       },
       {
         url: new RegExp('answers/yearly/[0-9]+'),
+        method: 'get',
+        needsAuth: false,
+      },
+      {
+        url: new RegExp('answers/stats/monthly'),
+        method: 'get',
+        needsAuth: false,
+      },
+      {
+        url: new RegExp('answers/stats/daily'),
         method: 'get',
         needsAuth: false,
       },
@@ -102,6 +122,16 @@ export class AppService {
       },
       {
         url: new RegExp('keywords/[0-9]+/questions'),
+        method: 'get',
+        needsAuth: false,
+      },
+      {
+        url: new RegExp('keywords/[0-9]+/stats/monthly'),
+        method: 'get',
+        needsAuth: false,
+      },
+      {
+        url: new RegExp('keywords/[0-9]+/stats/daily'),
         method: 'get',
         needsAuth: false,
       },

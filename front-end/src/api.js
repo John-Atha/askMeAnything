@@ -5,8 +5,7 @@ const {
     questManUrl,
     questRunUrl,
     authUrl,
-    analsUrl,
-    statsUrl,
+    statsAnalsUrl,
     esbUrl,
     microAuthUrl,
     microQuestUrl,
@@ -71,7 +70,7 @@ export const getOneUser = (id) => {
 }
 
 export const getQuestions = (start, end) => {
-    const requestUrl =  (using_SOA_Back_end() ? analsUrl : microAnalsUrl) + '/questions';
+    const requestUrl =  (using_SOA_Back_end() ? statsAnalsUrl : microAnalsUrl) + '/questions';
     const params = {
         start,
         end,
@@ -308,7 +307,7 @@ export const answerUnUpvote = (upvoteId) => {
 }
 
 export const getKeywordsStatsMonthly = (id) => {
-    const requestUrl = (using_SOA_Back_end() ? statsUrl : microStatsUrl) + `/keywords/${id}/stats/monthly`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + `/keywords/${id}/stats/monthly`;
     const params = { 
         url: using_SOA_Back_end() ? requestUrl : null,
     };
@@ -319,7 +318,7 @@ export const getKeywordsStatsMonthly = (id) => {
 }
 
 export const getKeywordQuestionsPeriod = (id, start, end, month, year) => {
-    const requestUrl = (using_SOA_Back_end() ? analsUrl : microAnalsUrl) + `/keywords/${id}/questions/monthly/${year}/${month}`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microAnalsUrl) + `/keywords/${id}/questions/monthly/${year}/${month}`;
     const params = {
         start,
         end,
@@ -332,7 +331,7 @@ export const getKeywordQuestionsPeriod = (id, start, end, month, year) => {
 }
 
 export const getGeneralQuestionStats = (dummy) => {
-    const requestUrl = (using_SOA_Back_end() ? statsUrl : microStatsUrl) + '/questions/stats/monthly';
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + '/questions/stats/monthly';
     const params = { 
         url: using_SOA_Back_end() ? requestUrl : null,
     };
@@ -343,7 +342,7 @@ export const getGeneralQuestionStats = (dummy) => {
 }
 
 export const getGeneralQuestionsPeriod = (dummy, start, end, month, year) => {
-    const requestUrl = (using_SOA_Back_end() ? analsUrl : microAnalsUrl) + `/questions/monthly/${year}/${month}`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microAnalsUrl) + `/questions/monthly/${year}/${month}`;
     const params = {
         start,
         end,
@@ -356,7 +355,7 @@ export const getGeneralQuestionsPeriod = (dummy, start, end, month, year) => {
 }
 
 export const getUserQuestionsStatsMonthly = (id) => {
-    const requestUrl = (using_SOA_Back_end() ? statsUrl : microStatsUrl) + `/users/${id}/questions/stats/monthly`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + `/users/${id}/questions/stats/monthly`;
     const params = { 
         url: using_SOA_Back_end() ? requestUrl : null,
     };
@@ -367,7 +366,7 @@ export const getUserQuestionsStatsMonthly = (id) => {
 }
 
 export const getUserQuestionsPeriod = (id, start, end, month, year) => {
-    const requestUrl = (using_SOA_Back_end() ? analsUrl : microAnalsUrl) + `/users/${id}/questions/monthly/${year}/${month}`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microAnalsUrl) + `/users/${id}/questions/monthly/${year}/${month}`;
     const params = {
         start,
         end,
@@ -380,7 +379,7 @@ export const getUserQuestionsPeriod = (id, start, end, month, year) => {
 }
 
 export const getUserAnsweredStats = (id) => {
-    const requestUrl = (using_SOA_Back_end() ? statsUrl : microStatsUrl) + `/users/${id}/answered/stats/monthly`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + `/users/${id}/answered/stats/monthly`;
     const params = { 
         url: using_SOA_Back_end() ? requestUrl : null,
     };
@@ -391,7 +390,7 @@ export const getUserAnsweredStats = (id) => {
 }
 
 export const getUserAnsweredPeriod = (id, start, end, month, year) => {
-    const requestUrl = (using_SOA_Back_end() ? analsUrl : microAnalsUrl) + `/users/${id}/answered/monthly/${year}/${month}`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microAnalsUrl) + `/users/${id}/answered/monthly/${year}/${month}`;
     const params = {
         start,
         end,
@@ -404,7 +403,7 @@ export const getUserAnsweredPeriod = (id, start, end, month, year) => {
 }
 
 export const getGeneralQuestionsStatsDaily = (dummy) => {
-    const requestUrl = (using_SOA_Back_end() ? statsUrl : microStatsUrl) + '/questions/stats/daily';
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + '/questions/stats/daily';
     const params = { 
         url: using_SOA_Back_end() ? requestUrl : null,
     };
@@ -415,7 +414,7 @@ export const getGeneralQuestionsStatsDaily = (dummy) => {
 }
 
 export const getUserQuestionsStatsDaily = (id) => {
-    const requestUrl = (using_SOA_Back_end() ? statsUrl : microStatsUrl) + `/users/${id}/questions/stats/daily`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + `/users/${id}/questions/stats/daily`;
     const params = { 
         url: using_SOA_Back_end() ? requestUrl : null,
     };
@@ -426,7 +425,7 @@ export const getUserQuestionsStatsDaily = (id) => {
 }
 
 export const getUserAnswersStatsDaily = (id) => {
-    const requestUrl = (using_SOA_Back_end() ? statsUrl : microStatsUrl) + `/users/${id}/answers/stats/daily`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + `/users/${id}/answers/stats/daily`;
     const params = { 
         url: using_SOA_Back_end() ? requestUrl : null,
     };
@@ -437,7 +436,7 @@ export const getUserAnswersStatsDaily = (id) => {
 }
 
 export const getKeywordsStatsDaily = (id) => {
-    const requestUrl = (using_SOA_Back_end() ? statsUrl : microStatsUrl) + `/keywords/${id}/stats/daily`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + `/keywords/${id}/stats/daily`;
     const params = { 
         url: using_SOA_Back_end() ? requestUrl : null,
     };
@@ -448,7 +447,7 @@ export const getKeywordsStatsDaily = (id) => {
 }
 
 export const getGeneralQuestionsStatsMonthly = (dummy) => {
-    const requestUrl = (using_SOA_Back_end() ? statsUrl : microStatsUrl) + `/questions/stats/monthly`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + `/questions/stats/monthly`;
     const params = { 
         url: using_SOA_Back_end() ? requestUrl : null,
     };
@@ -459,7 +458,7 @@ export const getGeneralQuestionsStatsMonthly = (dummy) => {
 }
 
 export const getUserAnswersStatsMonthly = (id) => {
-    const requestUrl = (using_SOA_Back_end() ? statsUrl : microStatsUrl) + `/users/${id}/answers/stats/monthly`;
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + `/users/${id}/answers/stats/monthly`;
     const params = { 
         url: using_SOA_Back_end() ? requestUrl : null,
     };
@@ -471,7 +470,7 @@ export const getUserAnswersStatsMonthly = (id) => {
 
 export const getUsersRanking = (start, end) => {
     const headers = buildAuthHeader();
-    const requestUrl = (using_SOA_Back_end() ? statsUrl : microStatsUrl) + '/users/ranking';
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + '/users/ranking';
     const params = {
         start,
         end,
