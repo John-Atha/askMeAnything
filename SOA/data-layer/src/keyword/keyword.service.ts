@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
 } from '@nestjs/common';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
@@ -13,6 +14,8 @@ export class KeywordService {
 
   async create(createKeywordDto: CreateKeywordDto): Promise<Keyword> {
     return this.manager.transaction(async (manager) => {
+      const other = await manager.findOne(Keyword, { name: createKeywordDto.name });
+      if (other) throw new BadRequestException(`Keyword with this name already exists.`) 
       const keyword = await manager.create(Keyword, createKeywordDto);
       return manager.save(keyword);
     });

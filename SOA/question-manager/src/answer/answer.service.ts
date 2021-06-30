@@ -1,5 +1,3 @@
-import { InjectEntityManager } from '@nestjs/typeorm';
-import { EntityManager } from 'typeorm';
 import {
   Injectable,
   NotFoundException,
@@ -10,7 +8,7 @@ import { answerIsUpvoted, getAnswerUpvotes, getOneAnswer, getOneUser } from 'asy
 
 @Injectable()
 export class AnswerService {
-  constructor(@InjectEntityManager() private manager: EntityManager) {}
+  constructor() {}
 
   async findOneUpvotes(id: number, params): Promise<any> {
     const answer = await getAnswerUpvotes(id);
@@ -21,27 +19,21 @@ export class AnswerService {
   }
 
   async isUpvoted(id: number, req): Promise<any> {
-    return this.manager.transaction(async (manager) => {
-      const user_id = await verify(req);
-      const user = await getOneUser({ id: user_id });
-      if (!user.data) {
-        throw new UnauthorizedException();
-      }
-      const answer = await getOneAnswer({ id });
-      if (!answer.data) {
-        throw new NotFoundException(`Answer '${id}' not found.`);
-      }
-      const upvote = await answerIsUpvoted(user_id, id);
-      if (!upvote.data.length) {
-        return {
-          upvoted: false,
-        };
-      }
+    const user_id = await verify(req);
+    const answer = await getOneAnswer({ id });
+    if (!answer.data) {
+      throw new NotFoundException(`Answer '${id}' not found.`);
+    }
+    const upvote = await answerIsUpvoted(user_id, id);
+    if (!upvote.data.length) {
       return {
-        upvoted: true,
-        id: upvote.data[0].id,
+        upvoted: false,
       };
-    });
+    }
+    return {
+      upvoted: true,
+      id: upvote.data[0].id,
+    };
   }
 
   async findOne(id: number): Promise<any> {

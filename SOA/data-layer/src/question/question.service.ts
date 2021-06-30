@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -15,11 +16,9 @@ export class QuestionService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
   async create(body: any): Promise<Question> {
-    console.log('createquestiondto:');
-    console.log(body.createQuestionDto);
-    console.log('owner:');
-    console.log(body.owner);
     return this.manager.transaction(async (manager) => {
+      const other = await manager.findOne(Question, { title: body.createQuestionDto.title });
+      if (other) throw new BadRequestException(`Question with this title already exists.`);
       const question = await manager.create(Question, body.createQuestionDto);
       question.owner = body.owner;
       console.log(question);
@@ -67,12 +66,19 @@ export class QuestionService {
   async update(id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
     return this.manager.transaction(async (manager) => {
       const question = await manager.findOne(Question, id);
+      if (!question) throw new BadRequestException(`Question ${id} nto found.`);
+      const other = await manager.findOne(Question, { title: updateQuestionDto.title });
+      if (other) {
+        if (other.id !== id) throw new BadRequestException(`Question with this title already exists.`);
+      }
       manager.merge(Question, question, updateQuestionDto);
       return manager.save(question);
     });
   }
 
   async remove(id: number): Promise<any> {
+    const question = await this.manager.findOne(Question, id);
+    if (!question) throw new BadRequestException(`Question ${id} nto found.`);
     return this.manager.delete(Question, id);
   }
 
@@ -101,6 +107,7 @@ export class QuestionService {
   async updKeywords(question_id: number, keywords: any) {
     return this.manager.transaction(async (manager) => {
       const question = await manager.findOne(Question, question_id, { relations: ['owner', 'keywords'] });
+      if (!question) throw new BadRequestException(`Question '${question_id}' does not exist.`);
       question.keywords = keywords;
       return manager.save(question);
     });
