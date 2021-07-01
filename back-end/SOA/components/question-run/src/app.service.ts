@@ -3,18 +3,18 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   description(reqParams: any): any {
-    if (!reqParams.url || !reqParams.method) {
+    /*if (!reqParams.url || !reqParams.method) {
       throw new BadRequestException('Url / method not given');
-    }
-    const url = reqParams.url;
-    const method = reqParams.method;
+    }*/
+    const url = reqParams.url || 'dummy';
+    const method = reqParams.method || 'get';
     console.log(reqParams.url);
     console.log(reqParams.method);
     let res = {
       exists: false,
       needsAuth: false,
     }
-    const urls = [
+    const urlsMatch = [
       {
         url: new RegExp('answers'),
         method: 'post',
@@ -50,15 +50,53 @@ export class AppService {
         method: 'delete',
         needsAuth: true,
       },
-    ]
-    for (let i=0; i<urls.length; i++) {
-      if (urls[i].url.test(url) && urls[i].method===method) {
+    ];
+    const urls = [
+      {
+        url: '/answers',
+        method: 'post',
+        needsAuth: true,
+      },
+      {
+        url: '/answers/[0-9]+' /*'questions/_'*/,
+        method: 'patch',
+        needsAuth: true,
+      },
+      {
+        url: '/answers/[0-9]+',
+        method: 'delete',
+        needsAuth: true,
+      },
+      {
+        url: '/answer-upvotes',
+        method: 'post',
+        needsAuth: true,
+      },
+      {
+        url: '/answer-upvotes/[0-9]+',
+        method: 'delete',
+        needsAuth: true,
+      },
+      {
+        url: '/question-upvotes',
+        method: 'post',
+        needsAuth: true,
+      },
+      {
+        url: '/question-upvotes/[0-9]+',
+        method: 'delete',
+        needsAuth: true,
+      },
+    ];  
+    for (let i=0; i<urlsMatch.length; i++) {
+      if (urlsMatch[i].url.test(url) && urlsMatch[i].method===method) {
         console.log('found at');
-        console.log(urls[i]);
+        console.log(urlsMatch[i]);
         res.exists = true;
-        res.needsAuth = urls[i].needsAuth;
+        res.needsAuth = urlsMatch[i].needsAuth;
       }
     }
+    res['endpoints'] = urls;
     return res;
   }
 }

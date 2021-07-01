@@ -11,7 +11,7 @@ import {
 
 export class CreateUserDto {
   @MinLength(4)
-  @MaxLength(20)
+  @MaxLength(40)
   @IsString()
   @IsNotEmpty()
   readonly username: string;
