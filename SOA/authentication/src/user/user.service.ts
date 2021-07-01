@@ -8,7 +8,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { createUser, deleteUser, getAllUsers, getOneUser, updateUser } from '../async_calls/async_calls';
 import { paginate, verify } from '../../general_methods/methods';
-import { jwtConstants } from '../../constants';
+import { jwtConstants } from '../../constants_auth';
 const jwt = require('jsonwebtoken');
 
 const bcrypt = require('bcrypt');

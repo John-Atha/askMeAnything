@@ -1,5 +1,5 @@
 #security 
-./constants.ts
+constants_auth.ts
 ormconfig.json
 
 # Logs

@@ -10,7 +10,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { paginate, verify } from '../../general_methods/methods';
-import { jwtConstants } from '../../constants';
+import { jwtConstants } from '../../constants_auth';
 import { choreoPost } from 'async_calls/async_calls';
 const jwt = require('jsonwebtoken');
 
