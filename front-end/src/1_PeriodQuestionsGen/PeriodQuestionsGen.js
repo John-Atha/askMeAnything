@@ -101,6 +101,7 @@ function PeriodQuestionsGen(props) {
                 sumCompute(response.data);
             })
             .catch(err => {
+                console.log(err);
                 setNoData(true);
             })
         //}

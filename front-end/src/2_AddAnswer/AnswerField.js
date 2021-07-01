@@ -19,7 +19,7 @@ function AnswerField(props) {
                 .then(response => {
                     console.log(response);
                     createNotification('success', 'Hello,', 'Answer posted successfully.');
-                    setTimeout(()=>{window.location.href='/'}, 500)
+                    setTimeout(()=>{window.location.href=`/questions/${props.id}`}, 500);
                 })
                 .catch(err => {
                     console.log(err);
@@ -35,7 +35,7 @@ function AnswerField(props) {
 
     return(
         <div>
-            <h5 style={{'fontWeight': 'bold'}}>Your answer</h5>
+            <h5 style={{'fontWeight': 'bold'}}>New answer</h5>
             <textarea className="answer-textarea" value={text} onChange={(event)=>{setText(event.target.value)}} />
             <div className="flex-layout" style={{'position': 'absolute', 'right': '10px', 'bottom': '-60px'}}>
                 <Button style={{'margin': '10px'}} variant="outline-primary" onClick={submit}>Submit</Button>

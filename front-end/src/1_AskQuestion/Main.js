@@ -61,25 +61,31 @@ function Main() {
     const buttonAdd = () => {
         console.log('I am button-add');
         console.log(suggestions);
-        if (suggestions.length) {
-            let found = false;
-            for (let i=0; i<suggestions.length; i++) {
-                if (match(suggestions[i].name)) {
-                    add(i);
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                const newObj = {
-                    name: sugg,
-                    id: null,
-                    new: true,
-                }
-                setPicked(picked.concat(newObj));
-                setSugg("");                
+        let found = false;
+        for (let i=0; i<suggestions.length; i++) {
+            if (match(suggestions[i].name)) {
+                add(i);
+                found = true;
+                break;
             }
         }
+        if (!found && sugg.length) {
+            for (let obj of picked) {
+                if (obj.name===sugg) {
+                    setSugg("");
+                    return;
+                }
+            }
+            console.log(picked);
+            console.log(sugg);
+            const newObj = {
+                name: sugg,
+                id: null,
+                new: true,
+            }
+            setPicked(picked.concat(newObj));                
+        }
+        setSugg("");
     }
     const removePicked = (index) => {
         const obj = picked[index];
@@ -89,17 +95,49 @@ function Main() {
         }
         //setTimeout(()=>{suggestionsReOrder()}, 300);
     }
-    const suggestionsReOrder = () => {
-        console.log(suggestions);
-        const copy = [];
-        suggestions.forEach(obj => {
-            copy.push(obj)
-        });
-        setSuggestions(copy.sort((a, b) => (a.name.charAt(0).toLowerCase()+a.name.slice(1)>b.name.charAt(0).toLowerCase()+b.name.slice(1)) ? 1 : -1));
-        console.log(suggestions);
+
+    const getErrMessageFromObj = (message) => {
+        if (typeof(message)==='string') return message;
+        return message[0];
     }
-    const submit = () => {
-        isLogged()
+
+    const checkIfLastKeyword = (l, index, id) => {
+        console.log(index);
+        console.log(l-1);
+        if (index === l-1) {
+            createNotification('success', 'Hello,', 'Question posted successfully.');
+            setTimeout(()=>{window.location.href=`/questions/${id}`}, 1000);                
+        }
+    }
+
+    const createKeywordAndAttach = async (obj, l, index, id) => {
+        return createKeyword(obj.name)
+        .then(async (response) => {
+            const newId = response.data.id;
+            return justAttachKeyword(obj, l, index, id, newId);
+        })
+        .catch(err => {
+            console.log(err);
+            createNotification('danger', 'Sorry,', getErrMessageFromObj(err.response.data.message));
+            checkIfLastKeyword(l, index, id);
+        })
+    }
+
+    const justAttachKeyword = async (obj, l , index, id, keyword_id) => {
+        return attachKeyword(id, keyword_id)
+        .then(response => {
+            console.log(response);
+            checkIfLastKeyword(l, index, id);
+        })
+        .catch(err => {
+            console.log(err);
+            createNotification('danger', 'Sorry,', `We could not attach keyword '${obj.name}'.`);
+            checkIfLastKeyword(l, index, id);
+        })
+    }
+
+    const submit = async () => {
+        return isLogged()
         .then(response => {
             const user = response.data;
             if (title.length===0 || text.length===0) {
@@ -107,47 +145,27 @@ function Main() {
             }
             else {
                 console.log(`User ${user.id} submitted a question.`);
-                postQuestion(title, text)
-                .then(response => {
+                return postQuestion(title, text)
+                .then(async (response) => {
                     console.log(response);
                     const id = response.data.id;
-                    picked.forEach(obj => {
+                    const l = picked.length;
+                    let index = 0;
+                    for (let i=0; i<picked.length; i++) {
+                        const obj = picked[i];
                         if (obj.new) {
-                            createKeyword(obj.name)
-                            .then(response=> {
-                                const newId = response.data.id;
-                                attachKeyword(id, newId)
-                                .then(response => {
-                                    console.log(response);
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                                    createNotification('danger', 'Sorry,', `We could not attach keyword '${obj.name}'.`);
-                                })
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                createNotification('danger', 'Sorry,', `We could not create keyword '${obj.name}'.`);
-                            })
+                            const temp = await createKeywordAndAttach(obj, l, index, id);
                         }
                         else {
                             const keyword_id = obj.id;
-                            attachKeyword(id, keyword_id)
-                            .then(response => {
-                                console.log(response);
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                createNotification('danger', 'Sorry,', `We could not attach keyword '${obj.name}'.`);
-                            })
+                            const temp = await justAttachKeyword(obj, l, index, id, keyword_id);                            
                         }
-                    });
-                    createNotification('success', 'Hello,', 'Question posted successfully.');
-                    setTimeout(()=>{window.location.href='/'}, 500);
+                        index++;
+                    }
                 })
                 .catch(err => {
                     console.log(err);
-                    createNotification('danger', 'Sorry', 'We could not post your question.');
+                    createNotification('danger', 'Sorry', getErrMessageFromObj(err.response.data.message));
                 })
             }
         })
@@ -203,7 +221,7 @@ function Main() {
                                 if (match(value.name)) {
                                     return (
                                         <button className="button-as-link"
-                                                key={index}
+                                                key={value.id}
                                                 onClick={()=>add(index)}>
                                                 {value.name}
                                         </button>
