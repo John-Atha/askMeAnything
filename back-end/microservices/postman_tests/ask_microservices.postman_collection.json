@@ -1,0 +1,2696 @@
+{
+	"info": {
+		"_postman_id": "5f9b96cb-e0a2-4b9d-9739-163f85fe2771",
+		"name": "ask_microservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth-microservice",
+			"item": [
+				{
+					"name": "users-rud",
+					"item": [
+						{
+							"name": "get all users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3008/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get one user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3008/users/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update success",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjoyLCJpYXQiOjE2MjQwMzAxNzEsImV4cCI6MTYyNDAzMzc3MX0.2JKr74AFvaVwJGfArJFa9EZfA8-hktfv9jsTTJOwSPk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bio\": \"NTUA ECE STUDENT\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3008/users/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update unauth",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyMzUwMjIzNSwiZXhwIjoxNjIzNTA1ODM1fQ.G94He91RSfPN7wBPe9ig1dQc7e2_AYrbAXTN_tRAa3E",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bio\": \"NTUA ECE STUDENT\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3008/users/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete success",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEzIiwic3ViIjozLCJpYXQiOjE2MjQwMzAxMzgsImV4cCI6MTYyNDAzMzczOH0.AzsINqWd_4gHgotKcMxgOPaRTbPCtXilelga56b1ooA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3008/users/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete unauth",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjoyLCJpYXQiOjE2MjM1MDI0NDEsImV4cCI6MTYyMzUwNjA0MX0.64dNXhM1KH0GOc8EgBYl0rk_vgrYdHhKES-fv6vFOKw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3008/users/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "increase points unauth",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3008/users/1/points/incr",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users",
+										"1",
+										"points",
+										"incr"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "increase points valid",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyMzg2NzExMiwiZXhwIjoxNjIzODcwNzEyfQ.YoHYBlvGrYeniT7H9GPZ0vxpX7OuhW_uYs3LBE6x4Yk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3008/users/1/points/incr",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users",
+										"1",
+										"points",
+										"incr"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "decrease points valid Copy",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyMzg2NzExMiwiZXhwIjoxNjIzODcwNzEyfQ.YoHYBlvGrYeniT7H9GPZ0vxpX7OuhW_uYs3LBE6x4Yk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3008/users/1/points/decr",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users",
+										"1",
+										"points",
+										"decr"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "atha5",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345",
+											"type": "text"
+										},
+										{
+											"key": "confirmation",
+											"value": "12345",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "atha5@gmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3008/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login success",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjoyLCJpYXQiOjE2MjQwMzAxNzEsImV4cCI6MTYyNDAzMzc3MX0.2JKr74AFvaVwJGfArJFa9EZfA8-hktfv9jsTTJOwSPk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "atha",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3008/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "is logged success",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyMzUwMjcyMiwiZXhwIjoxNjIzNTA2MzIyfQ.f_VdGiJPS4S3ePu7yJP6Lx2ULx2wbtBJNYOTI9VUVKo",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "atha2",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3008/users/logged",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users",
+										"logged"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "is logged failure",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "atha2",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "1234",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3008/users/logged",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"users",
+										"logged"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login fail",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "athaa",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "1234",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3008/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3008",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "questions-microservice",
+			"item": [
+				{
+					"name": "questions",
+					"item": [
+						{
+							"name": "get one valid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3009/questions/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"questions",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get one invalid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3009/questions/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"questions",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create unauth",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Test question 1\",\n    \"text\": \"This is just a test question\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3009/questions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"questions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create valid",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyNDAzMjY3OSwiZXhwIjoxNjI0MDM2Mjc5fQ.Zz_vKQgkvwNIxg_y9yN7hyE7XGtEm99AEhi6LWkLBeI",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Test question 9\",\n    \"text\": \"This is just the test question 9\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3009/questions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"questions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjoyLCJpYXQiOjE2MjQwMzA2NjMsImV4cCI6MTYyNDAzNDI2M30.y_90zvLFXhwfkR-Z0IZbs__ovZiaBReba06wVOaleJQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3009/questions/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"questions",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update valid",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGE0Iiwic3ViIjo0LCJpYXQiOjE2MjQwMzAzMjMsImV4cCI6MTYyNDAzMzkyM30.6cq0wq_IIpPNhi3EVhKoR6YWRkJJNEGdKlzKw1A4R1E",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Updated test question 9\",\n    \"text\": \"This is just the updated 9th test question\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3009/questions/9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"questions",
+										"9"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "upvotes",
+					"item": [
+						{
+							"name": "is upvoted",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyNDAzNTk4MSwiZXhwIjoxNjI0MDM5NTgxfQ.7wunlpgxYH9KhVJVq877jAf1Qml8fUDVtphU_UsPztI",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3009/questions/3/upvoted",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"questions",
+										"3",
+										"upvoted"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get one upvotes valid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3009/questions/1/upvotes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"questions",
+										"1",
+										"upvotes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count one upvotes valid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3009/questions/1/upvotes/count",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"questions",
+										"1",
+										"upvotes",
+										"count"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upvote",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyNDAzNTk4MSwiZXhwIjoxNjI0MDM5NTgxfQ.7wunlpgxYH9KhVJVq877jAf1Qml8fUDVtphU_UsPztI",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"question\": {\n        \"id\": 3\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3009/question-upvotes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"question-upvotes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "un-upvote",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyNDAzNTk4MSwiZXhwIjoxNjI0MDM5NTgxfQ.7wunlpgxYH9KhVJVq877jAf1Qml8fUDVtphU_UsPztI",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"question\": {\n        \"id\": 1\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3009/question-upvotes/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"question-upvotes",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "keywords",
+					"item": [
+						{
+							"name": "get all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3009/keywords",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"keywords"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get question keywords",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3009/questions/1/keywords",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"questions",
+										"1",
+										"keywords"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get one",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3009/keywords/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"keywords",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create unauth",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyMzg2NTA2NSwiZXhwIjoxNjIzODY4NjY1fQ.eF9ZU3w93bzh9MJM0c_nywhIf8z5EhioT0Jxouf8iwo",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"C++\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3009/keywords",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"keywords"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create valid",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjoyLCJpYXQiOjE2MjQwMzA2NjMsImV4cCI6MTYyNDAzNDI2M30.y_90zvLFXhwfkR-Z0IZbs__ovZiaBReba06wVOaleJQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Node\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3009/keywords",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3009",
+									"path": [
+										"keywords"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "attach keyword",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyNDAzMjY3OSwiZXhwIjoxNjI0MDM2Mjc5fQ.Zz_vKQgkvwNIxg_y9yN7hyE7XGtEm99AEhi6LWkLBeI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3009/questions/9/keywords/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3009",
+							"path": [
+								"questions",
+								"9",
+								"keywords",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "de-attach keyword",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyNDAzMjY3OSwiZXhwIjoxNjI0MDM2Mjc5fQ.Zz_vKQgkvwNIxg_y9yN7hyE7XGtEm99AEhi6LWkLBeI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3009/questions/9/keywords/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3009",
+							"path": [
+								"questions",
+								"9",
+								"keywords",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "answers-microservice",
+			"item": [
+				{
+					"name": "answers-cud",
+					"item": [
+						{
+							"name": "get",
+							"item": [
+								{
+									"name": "one valid",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3010/answers/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "one invalid",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3010/answers/5",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"5"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "post",
+							"item": [
+								{
+									"name": "create unauth",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"text\": \"Check the documentation\",\n    \"question\": {\n        \"id\": 1\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answers",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create valid",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjoyLCJpYXQiOjE2MjQwMzA2NjMsImV4cCI6MTYyNDAzNDI2M30.y_90zvLFXhwfkR-Z0IZbs__ovZiaBReba06wVOaleJQ",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"text\": \"Answer 2 to question 5\",\n    \"question\": {\n        \"id\": 5\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answers",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create with invalid question",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjozLCJpYXQiOjE2MjM5Mjc1NDYsImV4cCI6MTYyMzkzMTE0Nn0.UE24tT-_Zbwfk3VJ1d9-qcC9Z_ixli4B_oR2G-2pxhc",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"text\": \"Check the documentation\",\n    \"question\": {\n        \"id\": 3\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answers",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "patch",
+							"item": [
+								{
+									"name": "unauth",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"text\": \"Check the documentation\",\n    \"question\": {\n        \"id\": 1\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answers/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "valid",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjoyLCJpYXQiOjE2MjQwMzA2NjMsImV4cCI6MTYyNDAzNDI2M30.y_90zvLFXhwfkR-Z0IZbs__ovZiaBReba06wVOaleJQ",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"text\": \"Updated answer 10\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answers/10",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"10"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "invalid answer",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjozLCJpYXQiOjE2MjM5Mjc1NDYsImV4cCI6MTYyMzkzMTE0Nn0.UE24tT-_Zbwfk3VJ1d9-qcC9Z_ixli4B_oR2G-2pxhc",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"text\": \"Check the documentation\",\n    \"question\": {\n        \"id\": 3\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answers/2",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"2"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "valid",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjoyLCJpYXQiOjE2MjQwMzA2NjMsImV4cCI6MTYyNDAzNDI2M30.y_90zvLFXhwfkR-Z0IZbs__ovZiaBReba06wVOaleJQ",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"text\": \"Check the documentation again AGAIN!!!\",\n    \"question\": {\n        \"id\": 4\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answers/11",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"11"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "unauth",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"text\": \"Check the documentation\",\n    \"question\": {\n        \"id\": 1\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answers/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "invalid",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjozLCJpYXQiOjE2MjM5Mjc1NDYsImV4cCI6MTYyMzkzMTE0Nn0.UE24tT-_Zbwfk3VJ1d9-qcC9Z_ixli4B_oR2G-2pxhc",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"text\": \"Check the documentation\",\n    \"question\": {\n        \"id\": 3\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answers/5",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"5"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "upvotes",
+					"item": [
+						{
+							"name": "get",
+							"item": [
+								{
+									"name": "valid",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3010/answers/1/upvotes",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"1",
+												"upvotes"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "count valid",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3010/answers/1/upvotes/count",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"1",
+												"upvotes",
+												"count"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "invalid",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3010/answers/100/upvotes",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"100",
+												"upvotes"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "is upvoted unauth",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3010/answers/1/upvoted",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"1",
+												"upvoted"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "is upvoted",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyNDAzNTk4MSwiZXhwIjoxNjI0MDM5NTgxfQ.7wunlpgxYH9KhVJVq877jAf1Qml8fUDVtphU_UsPztI",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3010/answers/1/upvoted",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answers",
+												"1",
+												"upvoted"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "post",
+							"item": [
+								{
+									"name": "valid",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyNDAzNTk4MSwiZXhwIjoxNjI0MDM5NTgxfQ.7wunlpgxYH9KhVJVq877jAf1Qml8fUDVtphU_UsPztI",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"answer\": {\n        \"id\": 1\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answer-upvotes",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answer-upvotes"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "unauth",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"answer\": {\n        \"id\": 1\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answer-upvotes",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answer-upvotes"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "valid",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEiLCJzdWIiOjEsImlhdCI6MTYyNDAzNTk4MSwiZXhwIjoxNjI0MDM5NTgxfQ.7wunlpgxYH9KhVJVq877jAf1Qml8fUDVtphU_UsPztI",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"answer\": {\n        \"id\": 1\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3010/answer-upvotes/3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answer-upvotes",
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "invalid",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjozLCJpYXQiOjE2MjM5MzI3NTYsImV4cCI6MTYyMzkzNjM1Nn0.b6xTy4GcFU3DXzoaEB-L8An1JIEHzyJqNCmZ2E-3coM",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3010/answer-upvotes/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answer-upvotes",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "unauth",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF0aGEyIiwic3ViIjozLCJpYXQiOjE2MjM5MzI3NTYsImV4cCI6MTYyMzkzNjM1Nn0.b6xTy4GcFU3DXzoaEB-L8An1JIEHzyJqNCm",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3010/answer-upvotes/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3010",
+											"path": [
+												"answer-upvotes",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "question's answers",
+					"item": [
+						{
+							"name": "invalid question",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3010/questions/1000/answers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3010",
+									"path": [
+										"questions",
+										"1000",
+										"answers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "valid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3010/questions/4/answers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3010",
+									"path": [
+										"questions",
+										"4",
+										"answers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "choreographer",
+			"item": [
+				{
+					"name": "test post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": \"post\",\n    \"object\": {\n        \"id\": 1,\n        \"title\": \"Test question title\",\n        \"text\": \"Test question text\",\n        \"owner\": {\n            \"id\": 1\n        }\n    },\n    \"id\": -1,\n    \"src\": \"dummy\",\n    \"targetEntity\": \"questions\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3013/choreo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3013",
+							"path": [
+								"choreo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "anals-microservice",
+			"item": [
+				{
+					"name": "questions",
+					"item": [
+						{
+							"name": "monthly",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3012/questions/monthly/2021/6?start=1&end=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3012",
+									"path": [
+										"questions",
+										"monthly",
+										"2021",
+										"6"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "1"
+										},
+										{
+											"key": "end",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "yearly",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3012/questions/yearly/2021?start=1&end=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3012",
+									"path": [
+										"questions",
+										"yearly",
+										"2021"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "1"
+										},
+										{
+											"key": "end",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3012/questions?start=1&end=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3012",
+									"path": [
+										"questions"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "1"
+										},
+										{
+											"key": "end",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "keywords",
+					"item": [
+						{
+							"name": "monthly",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3012/keywords/7/questions/monthly/2021/7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3012",
+									"path": [
+										"keywords",
+										"7",
+										"questions",
+										"monthly",
+										"2021",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "yearly",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3012/keywords/4/questions/yearly/2021?start=1&end=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3012",
+									"path": [
+										"keywords",
+										"4",
+										"questions",
+										"yearly",
+										"2021"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "1"
+										},
+										{
+											"key": "end",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3012/keywords/7/questions?start=1&end=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3012",
+									"path": [
+										"keywords",
+										"7",
+										"questions"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "1"
+										},
+										{
+											"key": "end",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "answers",
+					"item": [
+						{
+							"name": "monthly",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3012/answers/monthly/2021/6?start=1&end=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3012",
+									"path": [
+										"answers",
+										"monthly",
+										"2021",
+										"6"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "1"
+										},
+										{
+											"key": "end",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "yearly",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3012/answers/yearly/2021?start=1&end=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3012",
+									"path": [
+										"answers",
+										"yearly",
+										"2021"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "1"
+										},
+										{
+											"key": "end",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3012/answers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3012",
+									"path": [
+										"answers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "answers",
+							"item": [
+								{
+									"name": "monthly",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3012/users/2/answers/monthly/2021/6?start=1&end=3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3012",
+											"path": [
+												"users",
+												"2",
+												"answers",
+												"monthly",
+												"2021",
+												"6"
+											],
+											"query": [
+												{
+													"key": "start",
+													"value": "1"
+												},
+												{
+													"key": "end",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "yearly",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3012/users/2/answers/yearly/2021?start=1&end=3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3012",
+											"path": [
+												"users",
+												"2",
+												"answers",
+												"yearly",
+												"2021"
+											],
+											"query": [
+												{
+													"key": "start",
+													"value": "1"
+												},
+												{
+													"key": "end",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "all",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3012/users/2/answers",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3012",
+											"path": [
+												"users",
+												"2",
+												"answers"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "answered",
+							"item": [
+								{
+									"name": "monthly",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3012/users/2/answered/monthly/2021/6?start=1&end=3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3012",
+											"path": [
+												"users",
+												"2",
+												"answered",
+												"monthly",
+												"2021",
+												"6"
+											],
+											"query": [
+												{
+													"key": "start",
+													"value": "1"
+												},
+												{
+													"key": "end",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "yearly",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3012/users/2/answered/yearly/2021?start=1&end=3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3012",
+											"path": [
+												"users",
+												"2",
+												"answered",
+												"yearly",
+												"2021"
+											],
+											"query": [
+												{
+													"key": "start",
+													"value": "1"
+												},
+												{
+													"key": "end",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "all",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3012/users/2/answered",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3012",
+											"path": [
+												"users",
+												"2",
+												"answered"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "questions",
+							"item": [
+								{
+									"name": "monthly",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3012/users/1/questions/monthly/2021/6?start=1&end=3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3012",
+											"path": [
+												"users",
+												"1",
+												"questions",
+												"monthly",
+												"2021",
+												"6"
+											],
+											"query": [
+												{
+													"key": "start",
+													"value": "1"
+												},
+												{
+													"key": "end",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "yearly",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3012/users/1/questions/yearly/2021?start=1&end=3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3012",
+											"path": [
+												"users",
+												"1",
+												"questions",
+												"yearly",
+												"2021"
+											],
+											"query": [
+												{
+													"key": "start",
+													"value": "1"
+												},
+												{
+													"key": "end",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "all",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3012/users/1/questions?start=1&end=3",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3012",
+											"path": [
+												"users",
+												"1",
+												"questions"
+											],
+											"query": [
+												{
+													"key": "start",
+													"value": "1"
+												},
+												{
+													"key": "end",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "stats-microservice",
+			"item": [
+				{
+					"name": "questions",
+					"item": [
+						{
+							"name": "monthly",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3011/questions/stats/monthly",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3011",
+									"path": [
+										"questions",
+										"stats",
+										"monthly"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "daily",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3011/questions/stats/daily",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3011",
+									"path": [
+										"questions",
+										"stats",
+										"daily"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "keywords",
+					"item": [
+						{
+							"name": "monthly",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3011/keywords/7/stats/monthly",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3011",
+									"path": [
+										"keywords",
+										"7",
+										"stats",
+										"monthly"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "daily",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3011/keywords/4/stats/daily",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3011",
+									"path": [
+										"keywords",
+										"4",
+										"stats",
+										"daily"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "answers",
+					"item": [
+						{
+							"name": "monthly",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3011/answers/stats/monthly",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3011",
+									"path": [
+										"answers",
+										"stats",
+										"monthly"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "daily",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3011/answers/stats/daily",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3011",
+									"path": [
+										"answers",
+										"stats",
+										"daily"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "answers",
+							"item": [
+								{
+									"name": "monthly",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3011/users/2/answers/stats/monthly",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3011",
+											"path": [
+												"users",
+												"2",
+												"answers",
+												"stats",
+												"monthly"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "daily",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3011/users/2/answers/stats/daily",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3011",
+											"path": [
+												"users",
+												"2",
+												"answers",
+												"stats",
+												"daily"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "answered",
+							"item": [
+								{
+									"name": "monthly",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3011/users/2/answered/stats/monthly",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3011",
+											"path": [
+												"users",
+												"2",
+												"answered",
+												"stats",
+												"monthly"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "daily",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3011/users/2/answered/stats/daily",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3011",
+											"path": [
+												"users",
+												"2",
+												"answered",
+												"stats",
+												"daily"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "questions",
+							"item": [
+								{
+									"name": "monthly",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3011/users/1/questions/stats/monthly",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3011",
+											"path": [
+												"users",
+												"1",
+												"questions",
+												"stats",
+												"monthly"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "daily",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3011/users/1/questions/stats/daily",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3011",
+											"path": [
+												"users",
+												"1",
+												"questions",
+												"stats",
+												"daily"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
