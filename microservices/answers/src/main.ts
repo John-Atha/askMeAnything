@@ -2,27 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from "@nestjs/common";
 
+
+export const REDIS_PORT = 6379;
+export const REDIS_HOST = 'localhost';
+export const TotalConnections = 50;
+
+const myPort = 3010;
+const myAddress = `http://localhost:${myPort}`;
+const choreoAddress = `http://localhost:3013`;
+
 async function bootstrap() {
-  const myPort = 3010;
-  const myAddress = `http://localhost:${myPort}`;
-  const choreoAddress = `http://localhost:3013`;
-
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
-  app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      choreoAddress,
-      'http://localhost:3008',
-      'http://localhost:3009',
-      'http://localhost:3011',
-      'http://localhost:3012',
-    ],
-  });
-
-  const REDIS_PORT = 6379;
-  const REDIS_HOST = 'localhost';
-  const TotalConnections = 20
 
   const pool = require('redis-connection-pool')('myRedisPool', {
     host: REDIS_HOST,
@@ -47,6 +36,19 @@ async function bootstrap() {
       console.log('Already subscribed.');
     }
   })
+
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      choreoAddress,
+      'http://localhost:3008',
+      'http://localhost:3009',
+      'http://localhost:3011',
+      'http://localhost:3012',
+    ],
+  });
   
   await app.listen(myPort);
 }

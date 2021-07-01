@@ -1,6 +1,9 @@
 import { BadRequestException, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { isLogged } from 'async_calls/async_calls';
 import { getOneUser } from 'async_calls/async_calls';
+import { ChoreoObjectDto } from 'src/choreoObject.dto';
+import { User } from 'src/user/entities/user.entity';
+import { EntityManager } from 'typeorm';
 export const validateParams = (params) => {
   if (params.start !== undefined) {
     if (!parseInt(params.start)) {
@@ -75,4 +78,27 @@ export const getToken = (req: any) => {
   });
   //console.log(`token: ${token}`);
   return token;
+}
+
+export async function handleChoreoMessage(body: ChoreoObjectDto, manager: EntityManager): Promise<any> {
+  const { action, object, entryId, targetEntity } = body;
+  console.log('--->>Choreographer passed me the:');
+  console.log(body);
+  if (targetEntity !== 'user') return 'OK';
+  console.log('* I am interested in it.');
+  if (action === 'post') {
+    const newUser = await manager.create(User, object);
+    const res = await manager.save(newUser);
+    console.log(`* New user with id: ${res.id} is saved.`);
+  }
+  else if (action === 'delete') {
+    const user = await manager.findOne(User, { id: entryId });
+    if (!user) {
+      console.log(`* I did not find user with id: ${entryId}, never mind it was going to be deleted anyway.`);
+      return 'OK';
+    }
+    const res = await manager.delete(User, { id: entryId });
+    console.log(`* User with id: ${entryId} was deleted successfully.`);
+  }
+  return 'OK';
 }

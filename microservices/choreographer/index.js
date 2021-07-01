@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const REDIS_PORT = 6379;
 const REDIS_HOST = 'localhost';
-const TotalConnections = 20;
+const TotalConnections = 50;
 
 const urls = {
     authMicro: 'http://localhost:3008',

@@ -1,6 +1,10 @@
 import { BadRequestException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { getOneQuestion, isLogged } from 'async_calls/async_calls';
 import { getOneUser } from 'async_calls/async_calls';
+import { ChoreoObjectDto } from 'src/choreoObject.dto';
+import { Question } from 'src/question/entities/question.entity';
+import { User } from 'src/user/entities/user.entity';
+import { EntityManager } from 'typeorm';
 
 export const validateParams = (params) => {
   if (params.start !== undefined) {
@@ -87,4 +91,37 @@ export const getToken = (req: any) => {
   });
   //console.log(`token: ${token}`);
   return token;
+}
+
+export async function handleChoreoMessage(body: ChoreoObjectDto, manager: EntityManager): Promise<any> {
+  const { action, object, entryId, targetEntity } = body;
+  console.log('--->>Choreographer passed me the:');
+  console.log(body);
+  let entity = null;
+  if (targetEntity === 'user') entity = User;
+  else if (targetEntity === 'question') entity = Question;
+  else return 'OK';
+  console.log('* I am interested in it.');
+  if (action === 'post') {
+    const target = await manager.create(entity, object);
+    const res = await manager.save(target);
+    console.log(`* New ${targetEntity} with id '${res['id']}' is saved.`);
+  }
+  else if (action === 'delete') {
+    const target = await manager.findOne(entity, { id: entryId });
+    if (!target) {
+      console.log(`* I did not find ${targetEntity} with id '${entryId}', never mind it was going to be deleted anyway.`);
+      return 'OK';
+    }
+    const res = await manager.delete(entity, { id: entryId });
+    console.log(`* ${targetEntity} with id '${entryId}' was deleted successfully.`);
+  }
+  else if (action==='patch') {
+    const target = await manager.findOne(entity, { id: entryId });
+    if (!target) throw new NotFoundException(`${targetEntity} '${entryId}' not found.`);
+    const newObject = await manager.merge(entity, target, object);
+    const res = await manager.save(newObject);
+    console.log(`${targetEntity} with id '${res['id']}' updated successfully.`);
+  }
+  return 'OK';
 }
