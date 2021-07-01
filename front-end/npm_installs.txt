@@ -1,4 +1,4 @@
 npm i react-bootstrap bootstrap
 npm i react-router-dom
-npm i eslint-plugin-react-hooks
 npm i axios
+npm i react-notifications-component

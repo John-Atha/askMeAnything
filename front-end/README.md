@@ -1,3 +1,17 @@
+## FRONT-END
+
+### Directories structure
+* There are two main directories, `public` and `src`
+* The components written by me are in the `src` directory
+* The installed packages are in the `npm_installs.txt` and are the:
+    * [react-bootstrap](https://react-bootstrap.github.io)
+    * [react-router](https://reactrouter.com)
+    * [axios](https://axios-http.com)
+    * [react-notifications-component](https://www.npmjs.com/package/react-notifications-component)
+
+* To run the project locally, assuming you have already installed `npm`, cd into the `front-end` directory, run `npm install` and all the packages (following the dependencies of the `package.json` file) will be installed. 
+* In the same directory, run `npm start` to get the server running.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
