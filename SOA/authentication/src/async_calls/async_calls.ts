@@ -19,7 +19,7 @@ export const updateUser = (id: number, updateUserDto: UpdateUserDto) => {
 }
 
 export const deleteUser = (id: number) => {
-    return axios.delete(dataLayerUrl+`users/${id}`);
+    return axios.delete(dataLayerUrl+`/users/${id}`);
 }
 
 export const createUser = (createUserDto: CreateUserDto) => {

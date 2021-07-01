@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -15,10 +16,16 @@ export class UserService {
   constructor(@InjectEntityManager() private manager: EntityManager) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-      const user = await this.manager.create(User, createUserDto);
+    return this.manager.transaction( async (manager) => {
+      const same_username = await manager.findOne(User, { username: createUserDto.username });
+      const same_email = await manager.findOne(User, { email: createUserDto.email });
+      if (same_username) throw new BadRequestException(`Username already exists.`);
+      if (same_email) throw new BadRequestException(`Email already exists.`);
+      const user = await manager.create(User, createUserDto);
       const hash = bcrypt.hashSync(user.password, saltRounds);
       user.password = hash;
-      return this.manager.save(user);
+      return manager.save(user);  
+    })
   }
 
   async findAll(): Promise<User[]> {
@@ -54,14 +61,23 @@ export class UserService {
   
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     return this.manager.transaction(async (manager) => {
+      const same_username = await manager.findOne(User, { username: updateUserDto.username });
+      const same_email = await manager.findOne(User, { email: updateUserDto.email });
+      if (same_username && same_username.id !== id) throw new BadRequestException(`Username already exists.`);
+      if (same_email && same_email.id !== id) throw new BadRequestException(`Email already exists.`);
       const user = await manager.findOne(User, id);
+      if (!user) throw new BadRequestException(`User '${id}' not found.`);
       const newUser = await manager.merge(User, user, updateUserDto);
       return manager.save(newUser);
     });
   }
 
   async remove(id: number): Promise<any> {
-    return this.manager.delete(User, id);
+    return this.manager.transaction( async (manager) => {
+      const user = await manager.findOne(User, id);
+      if (!user) throw new BadRequestException(`User '${id}' not found.`);
+      return this.manager.delete(User, id);
+    })
   }
 
   async findAnswered(id: number, params: any): Promise<any> {
