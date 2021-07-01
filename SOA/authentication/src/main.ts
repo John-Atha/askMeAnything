@@ -16,7 +16,7 @@ async function bootstrap() {
   /* config redis connection with ESB */
   const REDIS_PORT = 6379;
   const REDIS_HOST = 'localhost';
-  const TotalConnections = 20
+  const TotalConnections = 50;
 
   const pool = require('redis-connection-pool')('myRedisPool', {
     host: REDIS_HOST,

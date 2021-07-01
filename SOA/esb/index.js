@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 const REDIS_PORT = 6379;
 const REDIS_HOST = 'localhost';
-const TotalConnections = 20
+const TotalConnections = 50
 
 
 const urls = {
