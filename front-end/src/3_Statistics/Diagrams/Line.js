@@ -9,7 +9,7 @@ function Pie(props) {
         animationDuration: 2000,
         backgroundColor: 'white',
         title: {
-            text: `Monthly ${props.extraTitle}`,
+            text: props.title ? props.title : `Monthly ${props.extraTitle}`,
             fontColor: 'black',
         },
         axisX: {

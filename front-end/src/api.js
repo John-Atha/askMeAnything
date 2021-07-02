@@ -494,3 +494,14 @@ export const updateUser = (obj, id) => {
         { params, headers }
     );
 }
+
+export const getKeywordStats = () => {
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + `/keywords/stats`;
+    const params = {
+        url: using_SOA_Back_end() ? requestUrl : null,
+    };
+    return axios.get(
+        using_SOA_Back_end() ? esbUrl : requestUrl,
+        { params }
+    );
+}

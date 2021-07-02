@@ -7,7 +7,7 @@ function Pie(props) {
         animationEnabled: true,
         exportEnabled: true,
         title: {
-            text: `Daily ${props.extraTitle}`,
+            text: props.title ? props.title : `Daily ${props.extraTitle}`,
             fontColor: "black",
         },
         legend: {

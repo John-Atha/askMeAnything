@@ -4,7 +4,7 @@ import AnswerQuestion from './AnswerQuestion';
 import AskQuestion from './AskQuestion';
 import PeriodQuestions from './PeriodQuestions';
 import KeywordQuestions from './KeywordQuestions';
-import Carousel from 'react-bootstrap/Carousel';
+import KeywordsPie from '../3_Statistics/Pages/KeywordsPie';
 import StatsCarousel from '../4_Profile/StatsCarousel';
 
 function MainHome() {
@@ -23,7 +23,7 @@ function MainHome() {
                 <KeywordQuestions />
             </div>
             <div className='margin-top' />
-            <StatsCarousel case='questions-gen' />
+            <StatsCarousel case='home-page' />
         </div>
     )
 }

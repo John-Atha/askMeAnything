@@ -11,7 +11,7 @@ function MonthlyStats(props) {
     const [statsList, setStatsList] = useState([]);
     const [err, setErr] = useState(false);
     const key = (props.case === 'answers-user') ? 'answers' : 'questions';
-
+    
     const fixData = (res) => {
         const stats = [];
         res.forEach((obj) => {
@@ -70,7 +70,12 @@ function MonthlyStats(props) {
     return(
         <div className="main-page margin-top-small flex-item">
             {!err &&
-                    <Line data={statsList} extraTitle={key} />
+                    <Line data={statsList}
+                          title={
+                              props.case==='answers-user' ? `${props.username ? props.username+"'s" : 'Your'} monthly answers` : 
+                              (props.case==='questions-user' ? `${props.username ? props.username+"'s" : 'Your'} monthly questions` : 'Monthly questions')
+                          } 
+                    />
             }
             { err &&
                 <div className="error-message margin-top">

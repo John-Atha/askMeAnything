@@ -52,20 +52,20 @@ function StatsPage(props) {
                     }
                     {(props.case==='questions-gen'||props.case==='questions-user') &&
                         <div className="flex-layout">
-                            <DailyStats case={props.case} id={props.id}/>
-                            <MonthlyStats case={props.case} id={props.id}/>
+                            <DailyStats case={props.case} id={props.id} username={username} />
+                            <MonthlyStats case={props.case} id={props.id} username={username} />
                         </div>
                     }
                     {props.case==='all-user' &&
                         <div className="flex-layout">
-                            <DailyStats case='questions-user' id={props.id}/>
-                            <MonthlyStats case='questions-user' id={props.id}/>
+                            <DailyStats case='questions-user' id={props.id} username={username} />
+                            <MonthlyStats case='questions-user' id={props.id} username={username} />
                         </div>
                     }
                     {props.case==='all-user' &&
                         <div className="flex-layout">
-                            <DailyStats case='answers-user' id={props.id}/>
-                            <MonthlyStats case='answers-user' id={props.id}/>
+                            <DailyStats case='answers-user' id={props.id} username={username} />
+                            <MonthlyStats case='answers-user' id={props.id} username={username} />
                         </div>
                     }
                     { err &&

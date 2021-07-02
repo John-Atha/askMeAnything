@@ -72,7 +72,12 @@ function DailyStats(props) {
     return(
         <div className="main-page margin-top-small flex-item">
             {!err &&
-                    <Pie data={statsList} extraTitle={key} />
+                    <Pie data={statsList} 
+                    title={
+                        props.case==='answers-user' ? `${props.username ? props.username+"'s" : 'Your'} daily answers` : 
+                        (props.case==='questions-user' ? `${props.username ? props.username+"'s" : 'Your'} daily questions` : 'Daily questions')
+                    } 
+              />
             }
             { err &&
                 <div className="error-message margin-top">
