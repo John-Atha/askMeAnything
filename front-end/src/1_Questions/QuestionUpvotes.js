@@ -11,6 +11,20 @@ function QuestionUpvotes(props) {
     const [upvotes, setUpvotes] = useState(props.upvotes);
     const [isUpvoted, setIsUpvoted] = useState(false);
     const [upvoteId, setUpvoteId] = useState(null);
+    const [id, setId] = useState(props.id);
+    useEffect(()=>{
+        setId(props.id);
+        checkUpvoted();
+    }, [props.id])
+    useEffect(() => {
+        setUpvotes(props.upvotes);
+    }, [props.upvotes]);
+    useEffect(() => {
+        setIsUpvoted(props.isUpvoted);
+    }, [props.isUpvoted]);
+    useEffect(() => {
+        setUpvoteId(props.upvoteId);
+    }, [props.upvoteId]);
 
     const checkUpvoted = () => {
         questionIsUpvoted(props.id)
@@ -26,7 +40,7 @@ function QuestionUpvotes(props) {
     
     const upvote = () => {
         console.log("I am upvoting it.");
-        questionUpvote(props.id)
+        questionUpvote(id)
         .then(response => {
             //console.log(response);
             getOneQuestion(props.id)
@@ -64,10 +78,6 @@ function QuestionUpvotes(props) {
         })
     }
     
-    useEffect(()=>{
-        checkUpvoted();
-    }, [props.id])
-
     const updUpvote = () => {
         if (props.userId) {
             if (isUpvoted) {

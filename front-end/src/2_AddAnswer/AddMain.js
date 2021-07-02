@@ -14,6 +14,10 @@ function AddMain(props) {
     const [userId, setUserId] = useState(null);
 
     useEffect(() => {
+        setId(props.id);
+    }, [props.id])
+
+    useEffect(() => {
         console.log(`I will answer question ${id}.`);
         getOneQuestion(id)
         .then(response => {
@@ -47,13 +51,13 @@ function AddMain(props) {
         <div className="margin-top-small container-width" style={{'padding': '10px', 'marginBottom': '200px', 'position': 'relative'}}>
             <OneQuestion title={title}
                          text={text}
-                         id={id}
+                         id={parseInt(id)}
                          owner={owner}
                          date={date}
                          upvotes={upvotes}
                          answerChoice={false}
                          userId={userId} />
-            <AnswerField id={id} userId={userId} />
+            <AnswerField id={parseInt(id)} userId={userId} />
         </div>
     )
 }

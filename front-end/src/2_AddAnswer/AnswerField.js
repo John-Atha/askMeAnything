@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { isLogged, Answer } from '../api';
 import { createNotification } from '../createNotification'; 
@@ -8,18 +8,28 @@ import './styles.css';
 
 function AnswerField(props) {
     const [text, setText] = useState("");
+    const [questionId, setQuestionId] = useState(props.id);
+    const [userId, setUserId] = useState(props.userId);
+
+    useEffect(() => {
+        setQuestionId(props.id);
+    }, [props.id])
+
+    useEffect(() => {
+        setUserId(props.userId);
+    }, [props.userId])
 
     const submit = () => {
         if (!text.length) {
             createNotification('danger', 'Sorry,', 'You cannot post an empty answer.');
         }
         else {
-            if (props.userId) {
-                Answer(text, props.id)
+            if (userId) {
+                Answer(text, questionId)
                 .then(response => {
                     console.log(response);
                     createNotification('success', 'Hello,', 'Answer posted successfully.');
-                    setTimeout(()=>{window.location.href=`/questions/${props.id}`}, 500);
+                    setTimeout(()=>{window.location.href=`/questions/${questionId}`}, 500);
                 })
                 .catch(err => {
                     console.log(err);

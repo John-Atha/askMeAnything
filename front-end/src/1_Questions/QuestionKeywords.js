@@ -8,18 +8,23 @@ function QuestionKeywords(props) {
     const [id, setId] = useState(props.id);
     const [keywords, setKeywords] = useState([]);
 
-    useEffect(()=> {
-        //console.log(`I am asking for my keywords.`);
-        getQuestionKeywords(id)
-        .then(response => {
+    useEffect(() => {
+        setId(props.id);
+        getKeywords();
+    }, [props.id])
+
+    const getKeywords = () => {
+        getQuestionKeywords(props.id)
+        .then(async (response) => {
             //console.log(response);
+            await setKeywords([]);
             setKeywords(response.data)
         })
         .catch(err => {
             console.log(err);
             setKeywords([]);
         })
-    }, [])
+    }
 
     return(
         <div className="margin-top-smaller">

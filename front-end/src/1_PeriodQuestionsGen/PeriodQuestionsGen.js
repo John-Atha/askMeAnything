@@ -143,7 +143,8 @@ function PeriodQuestionsGen(props) {
                         style={{'fontSize': '1.5rem', 'marginTop': '-4px'}}>
                             {props.username}
                     </a>
-                    <h4> has answered</h4>
+                    <h4> has </h4>
+                    <h4> answered</h4>
                 </div>    
             }
             {props.case==='general' &&

@@ -6,7 +6,7 @@ import './styles.css';
 import Button from 'react-bootstrap/Button';
 
 function Answers (props) {
-    //const [questionId, setQuestionId] = useState(props.id);
+    const [questionId, setQuestionId] = useState(props.id);
     const [answers, setAnswers] = useState([]);
     const [start, setStart] = useState(1);
     const [end, setEnd] = useState(5);
@@ -14,18 +14,42 @@ function Answers (props) {
     const [userId, setUserId] = useState(props.userId);
 
     useEffect(() => {
+        console.log('I update question id');
+        setQuestionId(props.id);
+    }, [props.id])
+
+    useEffect(() => {
         setUserId(props.userId);
     }, [props.userId])
 
+    useEffect(() => {
+        console.log('I empty answers and update start, end');
+        setStart(1);
+        setEnd(5);
+        console.log('I am asking answers-2');
+        getAnswers();
+    }, [questionId])
+
     useEffect(()=> {
-        getQuestionAnswers(props.id, start, end)
-        .then(response=> {
-            //console.log(response);
+        console.log('I am asking answers');
+        getAnswers();
+    }, [start, end])
+
+    const getAnswers = () => {
+        getQuestionAnswers(questionId, start, end)
+        .then(response => {
+            console.log(`for ${questionId}`);
+            console.log(response);
             if (response.data.length) {
-                setAnswers(answers.concat(response.data));
+                if (start===1) {
+                    setAnswers([])
+                    setTimeout(()=>{setAnswers(response.data)}, 200);
+                }
+                else setAnswers(answers.concat(response.data));
                 setNoData(response.data.length<5 ? true : false);
             }
             else {
+                if (start===1) setAnswers([]);
                 setNoData(true);
             }
         })
@@ -33,8 +57,7 @@ function Answers (props) {
             console.log(err);
             setNoData(true);
         })
-    }, [start, end])
-
+    }
     
     if (answers.length) {
         return(

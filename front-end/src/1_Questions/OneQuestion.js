@@ -14,18 +14,36 @@ import './styles.css';
 import Button from 'react-bootstrap/Button';
 
 function OneQuestion(props) {
-    /*const [owner, setOwner] = useState(props.owner);
+    const [owner, setOwner] = useState(props.owner);
     const [date, setDate] = useState(props.date);
     const [title, setTitle] = useState(props.title);
     const [text, setText] = useState(props.text);
     const [upvotes, setUpvotes] = useState(props.upvotes);
-    const [id, setId] = useState(props.id);*/
+    const [id, setId] = useState(props.id);
    
     const [userId, setUserId] = useState(props.userId);
     
     useEffect(() => {
         setUserId(props.userId);
     }, [props.userId])
+    useEffect(() => {
+        setOwner(props.owner);
+    }, [props.owner])
+    useEffect(() => {
+        setDate(props.date);
+    }, [props.date])
+    useEffect(() => {
+        setTitle(props.title);
+    }, [props.title])
+    useEffect(() => {
+        setText(props.text);
+    }, [props.text])
+    useEffect(() => {
+        setUpvotes(props.upvotes);
+    }, [props.upvotes])
+    useEffect(() => {
+        setId(props.id);
+    }, [props.id])
 
     const answer = () => {
         if (props.userId) {
@@ -38,8 +56,8 @@ function OneQuestion(props) {
 
     return(
         <div className="one-question-container flex-layout">
-            <QuestionUpvotes upvotes={props.upvotes} userId={userId} id={props.id} />
-            <QuestionHeader owner={props.owner} date={props.date} title={props.title} userId={userId} />
+            <QuestionUpvotes upvotes={upvotes} userId={userId} id={id} />
+            <QuestionHeader owner={owner} date={date} title={title} userId={userId} />
             <div className="break"></div>
             <div>
                 <hr></hr>
@@ -47,7 +65,7 @@ function OneQuestion(props) {
                 <QuestionKeywords id={props.id} />
             </div>
             <div className="break"></div>
-            <Answers id={props.id} userId={userId} />
+            <Answers id={id} userId={userId} />
             <div className="break"></div>
             {props.answerChoice &&
             <Button variant="outline-primary" 
