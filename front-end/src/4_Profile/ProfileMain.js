@@ -22,6 +22,8 @@ function ProfileMain(props) {
                 <StatsCarousel case='answers' user={props.user} />
             </div>
             <PeriodQuestionsGen case='user' id={props.user.id} username={props.user.username} />
+            <div style={{'marginTop': '-80px'}} />
+            <PeriodQuestionsGen case='user-answered' id={props.user.id} username={props.user.username} />
         </div>
     )
 }
