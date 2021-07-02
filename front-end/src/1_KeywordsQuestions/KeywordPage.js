@@ -22,7 +22,7 @@ function KeywordPage(props) {
         .then(response => {
             setName(response.data.name);
         })
-    }, [])
+    }, [props.id])
 
     return(
         <div className="home-container" style={{'paddingBottom': '100px'}}>

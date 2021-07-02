@@ -8,7 +8,7 @@ function AddSkeleton(props) {
 
     const [id, setId] = useState(parseInt(props.id));
     const [questions, setQuestions] = useState([]);
-    const [activeIndex, setActiveIndex] = useState(null);
+    
     useEffect(() => {
         getQuestions()
         .then(response => {

@@ -67,6 +67,8 @@ function Contact(props) {
                 diff = website !== initWebsite;
                 if (diff) obj['site_url'] = website;
                 break;
+            default:
+                break;
         }
         if (!diff) return;
         updateUser(obj, props.user.id)
@@ -88,6 +90,8 @@ function Contact(props) {
                     setInitWebsite(response.data.site_url);
                     keyword = 'Website';
                     break;
+                default:
+                    break;
             }
             createNotification('success', 'Hello', `${keyword} updated successfully.`);
         })
@@ -103,6 +107,8 @@ function Contact(props) {
                     break;
                 case 'web':
                     setWebsite(initWebsite);
+                    break
+                default:
                     break;
             }
 
@@ -116,7 +122,7 @@ function Contact(props) {
             <tbody>
                 <tr>
                     <td>
-                        <img style={{'height': '30px', 'width': '35px'}} src={email_icon} />
+                        <img style={{'height': '30px', 'width': '35px'}} src={email_icon} alt='email' />
                     </td>
                     <td>
                         <div className='contact-item' style={{'textAlign': 'left'}}>Email</div>
@@ -132,15 +138,15 @@ function Contact(props) {
                     { userId === props.user.id &&
                         <td className='flex-layout' style={{'width': '80px'}}>
                             { !isEdittingEmail &&
-                                <input type='image' onClick={()=>{setIsEdittingEmail(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                                <input type='image' alt='edit' onClick={()=>{setIsEdittingEmail(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ edit_icon } />
                             }
                             { isEdittingEmail &&
-                                <input type='image' onClick={()=>{setIsEdittingEmail(false);update('email');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                                <input type='image' alt='edit' onClick={()=>{setIsEdittingEmail(false);update('email');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ save_icon } />                        
                             }
                             { isEdittingEmail &&
-                                <input type='image' onClick={()=>{setIsEdittingEmail(false);setEmail(initEmail)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
+                                <input type='image' alt='edit' onClick={()=>{setIsEdittingEmail(false);setEmail(initEmail)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
                                 src={ discard_icon } />
                             }
                         </td>            
@@ -148,7 +154,7 @@ function Contact(props) {
                 </tr>
                 <tr>
                     <td>
-                        <img style={{'height': '30px', 'width': '35px', 'textAlign': 'left'}} src={git_icon} />
+                        <img style={{'height': '30px', 'width': '35px', 'textAlign': 'left'}} src={git_icon} alt='github' />
                     </td>
                     <td>
                         <div className='contact-item' style={{'textAlign': 'left'}}>Github</div>                    
@@ -169,15 +175,15 @@ function Contact(props) {
                     { userId === props.user.id &&
                         <td className='flex-layout'>
                             { !isEdittingGithub &&
-                                <input type='image' onClick={()=>{setIsEdittingGithub(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                                <input type='image'alt='edit' onClick={()=>{setIsEdittingGithub(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ edit_icon } />
                             }
                             { isEdittingGithub &&
-                                <input type='image' onClick={()=>{setIsEdittingGithub(false);update('github');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                                <input type='image' alt='edit' onClick={()=>{setIsEdittingGithub(false);update('github');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ save_icon } />                        
                             }
                             { isEdittingGithub &&
-                                <input type='image' onClick={()=>{setIsEdittingGithub(false);setGithub(initGithub)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
+                                <input type='image' alt='edit' onClick={()=>{setIsEdittingGithub(false);setGithub(initGithub)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
                                 src={ discard_icon } />
                             }
                         </td>
@@ -185,7 +191,7 @@ function Contact(props) {
                 </tr>
                 <tr>
                     <td>
-                        <img style={{'height': '25px', 'width': '35px'}} src={web_icon} />
+                        <img style={{'height': '25px', 'width': '35px'}} src={web_icon} alt='web' />
                     </td>
                     <td>
                         <div className='contact-item' style={{'textAlign': 'left'}}>Website</div>
@@ -205,15 +211,15 @@ function Contact(props) {
                     { userId === props.user.id &&
                         <td className='flex-layout'>
                             { !isEdittingWebsite &&
-                                <input type='image' onClick={()=>{setIsEdittingWebsite(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                                <input type='image' alt='edit' onClick={()=>{setIsEdittingWebsite(true)}} style={{ 'border': 'none', 'height': '15px', 'width': '20px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ edit_icon } />
                             }
                             { isEdittingWebsite &&
-                                <input type='image' onClick={()=>{setIsEdittingWebsite(false);update('web');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
+                                <input type='image' alt='edit' onClick={()=>{setIsEdittingWebsite(false);update('web');}} style={{ 'border': 'none', 'height': '30px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px'}} 
                                 src={ save_icon } />                        
                             }
                             { isEdittingWebsite &&
-                                    <input type='image' onClick={()=>{setIsEdittingWebsite(false);setWebsite(initWebsite)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
+                                    <input type='image' alt='edit' onClick={()=>{setIsEdittingWebsite(false);setWebsite(initWebsite)}} style={{ 'border': 'none', 'height': '25px', 'width': '25px', 'textAlign': 'left', 'marginLeft': '10px', 'marginTop': '2px'}} 
                                     src={ discard_icon } />
                             }
                         </td>

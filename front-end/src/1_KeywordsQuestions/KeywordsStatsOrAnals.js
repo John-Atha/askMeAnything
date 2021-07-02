@@ -103,6 +103,9 @@ function KeywordsStatsOrAnals(props) {
                                         </button>
                                     )
                                 }
+                                else {
+                                    return null;
+                                }
                             })}
                         </div>
                     }

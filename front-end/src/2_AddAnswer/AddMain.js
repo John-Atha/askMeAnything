@@ -10,7 +10,6 @@ function AddMain(props) {
     const [owner, setOwner] = useState({username: 'Loading'});
     const [date, setDate] = useState("");
     const [upvotes, setUpvotes] = useState(0);
-    const [questionError, setQuestionError] = useState(false);
     const [userId, setUserId] = useState(null);
 
     useEffect(() => {
@@ -24,14 +23,12 @@ function AddMain(props) {
             console.log(response);
             setTitle(response.data.title);
             setText(response.data.text);
-            setQuestionError(false);
             setOwner(response.data.owner);
             setDate(response.data.created_at);
             setUpvotes(response.data.upvotes);
         })
         .catch(err => {
             console.log(err);
-            setQuestionError(true);
         })
     }, [id])
 

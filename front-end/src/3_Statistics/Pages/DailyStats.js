@@ -51,6 +51,8 @@ function DailyStats(props) {
             case 'keyword':
                 func = getKeywordsStatsDaily;
                 break;
+            default:
+                break;
         }
         //if (props.id!==undefined) {
             func(props.id)
@@ -67,7 +69,8 @@ function DailyStats(props) {
         //else {
         //    setErr(true);
         //}
-    }, [props.id])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.id, props.case])
 
     return(
         <div className="main-page margin-top-small flex-item">

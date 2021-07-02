@@ -8,16 +8,19 @@ import arrow1 from '../images/arrow1 -upvotes.png'
 import arrow1_blue from '../images/arrow1_blue.png'
 
 function QuestionUpvotes(props) {
-    const [upvotes, setUpvotes] = useState(props.upvotes);
+    const [upvotes, setUpvotes] = useState(typeof(props.upvotes)==='string' ? props.upvotes : props.upvotes.length);
     const [isUpvoted, setIsUpvoted] = useState(false);
     const [upvoteId, setUpvoteId] = useState(null);
     const [id, setId] = useState(props.id);
     useEffect(()=>{
         setId(props.id);
-        checkUpvoted();
     }, [props.id])
     useEffect(() => {
-        setUpvotes(props.upvotes);
+        checkUpvoted();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id])
+    useEffect(() => {
+        setUpvotes(typeof(props.upvotes)==='string' ? props.upvotes : props.upvotes.length);
     }, [props.upvotes]);
     useEffect(() => {
         setIsUpvoted(props.isUpvoted);

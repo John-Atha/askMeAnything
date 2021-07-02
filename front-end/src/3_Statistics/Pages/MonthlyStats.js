@@ -48,6 +48,8 @@ function MonthlyStats(props) {
             case 'keyword':
                 func = getKeywordsStatsMonthly;
                 break;
+            default:
+                break;
         }
         //if (props.id!==undefined) {
             console.log(`user_id: ${props.id}`);
@@ -65,7 +67,8 @@ function MonthlyStats(props) {
         //else {
         //    setErr(true);
         //}
-    }, [props.id])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.id, props.case])
 
     return(
         <div className="main-page margin-top-small flex-item">

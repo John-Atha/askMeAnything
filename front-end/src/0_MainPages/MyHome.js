@@ -6,15 +6,17 @@ import AnswerQuestion from './AnswerQuestion';
 import AskQuestion from './AskQuestion';
 import MyQuestions from './MyQuestions';
 import MyContributions from './MyContributions';
-import Carousel from 'react-bootstrap/Carousel';
+//import Carousel from 'react-bootstrap/Carousel';
 import StatsCarousel from '../4_Profile/StatsCarousel';
 
 function MyHome() {
-    const [index, setIndex] = useState(0);
+    //const [index, setIndex] = useState(0);
     const [userId, setUserId] = useState(null);
-    const handleSelect = (selectedIndex, e) => {
-      setIndex(selectedIndex);
-    };
+    
+    //const handleSelect = (selectedIndex, e) => {
+    //  setIndex(selectedIndex);
+    //};
+    
     useEffect(() => {
         isLogged()
         .then(response => {

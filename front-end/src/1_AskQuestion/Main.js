@@ -137,6 +137,7 @@ function Main() {
     }
 
     const submit = async () => {
+        createNotification('success', 'Thanks', 'Wait for us to publish your question')
         return isLogged()
         .then(response => {
             const user = response.data;
@@ -154,11 +155,11 @@ function Main() {
                     for (let i=0; i<picked.length; i++) {
                         const obj = picked[i];
                         if (obj.new) {
-                            const temp = await createKeywordAndAttach(obj, l, index, id);
+                            await createKeywordAndAttach(obj, l, index, id);
                         }
                         else {
                             const keyword_id = obj.id;
-                            const temp = await justAttachKeyword(obj, l, index, id, keyword_id);                            
+                            await justAttachKeyword(obj, l, index, id, keyword_id);                            
                         }
                         index++;
                     }
@@ -226,6 +227,9 @@ function Main() {
                                                 {value.name}
                                         </button>
                                     )
+                                }
+                                else {
+                                    return null;
                                 }
                             })}
                         </div>

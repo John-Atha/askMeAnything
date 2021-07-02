@@ -1,18 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import AnswerQuestion from './AnswerQuestion';
 import AskQuestion from './AskQuestion';
 import PeriodQuestions from './PeriodQuestions';
 import KeywordQuestions from './KeywordQuestions';
-import KeywordsPie from '../3_Statistics/Pages/KeywordsPie';
 import StatsCarousel from '../4_Profile/StatsCarousel';
 
 function MainHome() {
-    const [index, setIndex] = useState(0);
-  
-    const handleSelect = (selectedIndex, e) => {
-      setIndex(selectedIndex);
-    };
 
     return(
         <div className="main-page center-content">

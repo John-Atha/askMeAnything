@@ -48,15 +48,17 @@ function Basics(props) {
                 diff = bio !== initBio;
                 if (diff) obj['bio'] = bio;
                 break;
+            default:
+                break;
         }
         if (Object.keys(obj).length) {
             updateUser(obj, props.user.id)
             .then(response => {
-                if (key=='username') {
+                if (key==='username') {
                     setUsername(response.data.username);
                     setInitUsername(response.data.username);
                 }
-                else if (key=='bio') {
+                else if (key==='bio') {
                     setBio(response.data.bio);
                     setInitBio(response.data.bio);
                 }
@@ -64,7 +66,7 @@ function Basics(props) {
             })
             .catch(err => {
                 console.log(err);
-                if (key=='username') {
+                if (key==='username') {
                     createNotification('danger', 'Sorry', 'Username probably already exists.');
                     setUsername(initUsername);
                 }
@@ -109,7 +111,7 @@ function Basics(props) {
                     </div>
                 }
                 <div style={{'marginLeft': '10px'}} className="flex-layout">
-                    <img style={{'height': '30px', 'marginTop': '10px'}} src={score_icon} />
+                    <img style={{'height': '30px', 'marginTop': '10px'}} src={score_icon} alt='score' />
                     <div style={{'marginTop': '10px', 'fontSize': '20px'}} >{props.user.points}</div>
                 </div>
             </div>

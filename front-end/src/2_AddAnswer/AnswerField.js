@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { isLogged, Answer } from '../api';
+import { Answer } from '../api';
 import { createNotification } from '../createNotification'; 
 
 import Button from 'react-bootstrap/Button';

@@ -38,7 +38,8 @@ function PeriodQuestionsGenSkeleton(props) {
     useEffect(() => {
         if (props.case==='user' || props.case==='user-answered') getUser();
         else if (props.case==='keyword') getKeyword();
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.case])
 
     return(
         <div className="home-container">

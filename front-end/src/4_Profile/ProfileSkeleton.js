@@ -10,6 +10,7 @@ import Footer from '../Footer/Footer';
 function ProfileSkeleton(props) {
     const [user, setUser] = useState({});
     const [userErr, setUserErr] = useState(false);
+    
     useEffect(() => {
         getOneUser(props.id)
         .then(response => {
@@ -19,7 +20,7 @@ function ProfileSkeleton(props) {
         .catch(err => {
             setUserErr(true);
         })
-    }, [])
+    }, [props.id])
 
 
     return(

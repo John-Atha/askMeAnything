@@ -28,11 +28,13 @@ function Answers (props) {
         setEnd(5);
         console.log('I am asking answers-2');
         getAnswers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [questionId])
 
     useEffect(()=> {
         console.log('I am asking answers');
         getAnswers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [start, end])
 
     const getAnswers = () => {

@@ -34,9 +34,11 @@ function OnePeriodQuestionsGen(props) {
             case 'user-answered':
                 func = getUserAnsweredPeriod;
                 break;
+            default:
+                break;
         }
-        console.log(`Asking for questions ${props.id} with start: ${start} and end:${end}`);
-        func(props.id, start, end, props.monthNum, props.year)
+        console.log(`Asking for questions ${id} with start: ${start} and end:${end}`);
+        func(id, start, end, props.monthNum, props.year)
         .then(response => {
             console.log(response);
             if (response.data.length) {
@@ -57,6 +59,7 @@ function OnePeriodQuestionsGen(props) {
 
     useEffect(()=> {
        getAnalytics();
+       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [start, end])
 
 

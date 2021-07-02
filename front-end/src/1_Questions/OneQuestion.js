@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import { isLogged } from '../api';
 import { createNotification } from '../createNotification';
 
 import Answers from '../2_Answers/Answers';
@@ -59,10 +58,10 @@ function OneQuestion(props) {
             <QuestionUpvotes upvotes={upvotes} userId={userId} id={id} />
             <QuestionHeader owner={owner} date={date} title={title} userId={userId} />
             <div className="break"></div>
-            <div>
+            <div style={{'width': '100%'}}>
                 <hr></hr>
-                <QuestionBody text={props.text} />
-                <QuestionKeywords id={props.id} />
+                <QuestionBody text={text} />
+                <QuestionKeywords id={id} />
             </div>
             <div className="break"></div>
             <Answers id={id} userId={userId} />

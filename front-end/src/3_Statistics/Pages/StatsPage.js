@@ -23,7 +23,7 @@ function StatsPage(props) {
                 setErr(true);
             })
         }
-    }, [props.id])
+    }, [props.id, props.case])
 
     return(
         <div className="all-page">

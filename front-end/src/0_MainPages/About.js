@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import '../generalStyles.css';
 import './styles.css';
@@ -8,7 +8,7 @@ import Footer from '../Footer/Footer';
 import Button from 'react-bootstrap/Button';
 
 function AboutText() {
-    const [usingSOA, setUsingSOA] = useState(!localStorage.getItem('api') || localStorage.getItem('api')==='soa');
+    const usingSOA = !localStorage.getItem('api') || localStorage.getItem('api')==='soa';
 
     const updateArch = () => {
         localStorage.clear();
@@ -27,7 +27,7 @@ function AboutText() {
         </p>
         <p>
             I have built a web app like Stack Overflow using two different back-end architectures.<br/>
-            I have used the SOA and the microservices architectures.
+            I have used the SOA and the microservices architecture.
         </p>
         <p>
             { usingSOA && 
@@ -40,7 +40,7 @@ function AboutText() {
                     Right now, you are using the microservices back-end.
                 </p>
             }
-            If you would like to test the { usingSOA ? 'microservices' : 'SOA' } architecture, click on the following button.<br/>
+            If you would like to test the { usingSOA ? 'microservices architecture' : 'SOA' }, click on the following button.<br/>
             Note: <br/>
             The two versions use different databases,<br/>
             so don't expect to find the same questions and answers, or use the same account.

@@ -24,6 +24,7 @@ function RankingMain() {
             console.log(err);
             setNoData(true);
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [start, end])    
 
     return(

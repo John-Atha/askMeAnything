@@ -72,6 +72,8 @@ function PeriodQuestionsGen(props) {
                 break;
             case '12':
                 month = 'December';
+                break
+            default:
                 break;
         }
         return { year, month };
@@ -88,6 +90,8 @@ function PeriodQuestionsGen(props) {
                 break;
             case 'user-answered':
                 func = getUserAnsweredStats;
+                break;
+            default:
                 break;
         }
         //if (props.id!==undefined) {
@@ -115,12 +119,17 @@ function PeriodQuestionsGen(props) {
         if (props.case!=='keyword') {
             getGeneral();
         }
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.case])
 
     useEffect(() => {
-            setId(props.id);
-            getGeneral();
+        setId(props.id);
     }, [props.id])
+
+    useEffect(() => {
+        getGeneral();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id])
     
     return(
         <div className="margin-top-small main-page" style={{'paddingBottom': '100px'}}>

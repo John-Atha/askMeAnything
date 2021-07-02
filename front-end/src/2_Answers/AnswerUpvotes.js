@@ -11,10 +11,11 @@ function AnswerUpvotes(props) {
     const [upvotes, setUpvotes] = useState(props.upvotes);
     const [isUpvoted, setIsUpvoted] = useState(false);
     const [upvoteId, setUpvoteId] = useState(null);
+    const [id, setId] = useState(props.id);
 
     const checkUpvoted = () => {
-        if (props.id !== undefined) {
-            answerIsUpvoted(props.id)
+        if (id !== undefined) {
+            answerIsUpvoted(id)
             .then(response => {
                 //console.log(response);
                 setIsUpvoted(response.data.upvoted);
@@ -33,10 +34,10 @@ function AnswerUpvotes(props) {
     }
 
     const upvote = () => {
-        answerUpvote(props.id)
+        answerUpvote(id)
         .then(response => {
             //console.log(response);
-            getOneAnswer(props.id)
+            getOneAnswer(id)
             .then(response => {
                 console.log(response);
                 setUpvotes(response.data.upvotesCount);
@@ -56,7 +57,7 @@ function AnswerUpvotes(props) {
         answerUnUpvote(upvoteId)
         .then(response => {
             //console.log(response);
-            getOneAnswer(props.id)
+            getOneAnswer(id)
             .then(response => {
                 console.log(response);
                 setUpvotes(response.data.upvotesCount);
@@ -86,9 +87,14 @@ function AnswerUpvotes(props) {
         }
     }
 
+    useEffect(() => {
+        setId(props.id);
+    }, [props.id])
+
     useEffect(()=>{
         checkUpvoted();
-    }, [props.id])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id])
 
     return(
         <div className="center-content">

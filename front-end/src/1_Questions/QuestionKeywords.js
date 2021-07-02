@@ -10,11 +10,15 @@ function QuestionKeywords(props) {
 
     useEffect(() => {
         setId(props.id);
-        getKeywords();
     }, [props.id])
 
+    useEffect(() => {
+        getKeywords();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id])
+
     const getKeywords = () => {
-        getQuestionKeywords(props.id)
+        getQuestionKeywords(id)
         .then(async (response) => {
             //console.log(response);
             await setKeywords([]);
@@ -27,7 +31,7 @@ function QuestionKeywords(props) {
     }
 
     return(
-        <div className="margin-top-smaller">
+        <div className="margin-top-smaller flex-layout">
             {keywords.map((value, index) => {
                 return(
                     <OneKeyword key={index}
