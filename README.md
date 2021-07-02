@@ -17,10 +17,6 @@
 
 * Unauthorized users can:
     * Explore the `latest questions` and their `answers` in the `home page`
-    * Visit another `user's profile page` where they can see
-        * the basic information about the user
-        * `statistics` about his/her questions and answers
-        * `analytics` about his/her questions
     * Visit a page with 
         * all `questions' statistics`
         * all `questions' analytics` organised by their dates
@@ -34,6 +30,10 @@
     * `Upvote` (or remove from their upvoted) `questions` and `answers`, helping other users gaining `points`
     * `Upload questions` with title, text and `attach keywords` to them
     * `Answer questions` to help other users
+        * Visit another `user's profile page` where they can see
+        * the basic information about the user
+        * `statistics` about his/her questions and answers
+        * `analytics` about his/her questions
     * Have their own `profile page` to keep track of their `points`, `questions` and `statistics`
     * Keep track of their `ranking` among all the other users
 
