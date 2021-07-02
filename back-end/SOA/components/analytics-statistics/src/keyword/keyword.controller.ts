@@ -51,4 +51,9 @@ export class KeywordController {
     return this.keywordService.findStatsDaily(id);
   }
 
+  @Get('stats')
+  findKeywordsStats() {
+    return this.keywordService.findStats();
+  }
+
 }

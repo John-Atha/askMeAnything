@@ -101,3 +101,7 @@ export const isLogged = (token: any) => {
     //console.log(`get from ${params.url} with header ${headers.Authorization}`)
     return axios.post(EsbUrl, {}, { params, headers });
 }
+
+export const getKeywordsStats = () => {
+    return axios.get(dataLayerUrl+`/keywords/stats`);
+}

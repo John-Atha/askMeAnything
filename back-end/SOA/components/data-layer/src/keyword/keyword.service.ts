@@ -66,4 +66,19 @@ export class KeywordService {
              GROUP BY day`,
     );
   }
+
+  async findStats(): Promise<any> {
+    const data = await this.manager.query(
+      `SELECT public."keyword"."name",
+              COUNT(public."question_keywords_keyword"."questionId") as questions
+       FROM   public."keyword",
+              public."question_keywords_keyword"
+       WHERE  public."keyword"."id" = public."question_keywords_keyword"."keywordId"
+       GROUP BY public."keyword"."name"`
+    );
+    data.forEach(keyword => {
+      keyword['questions'] = parseInt(keyword['questions']);
+    });
+    return data;
+  }
 }

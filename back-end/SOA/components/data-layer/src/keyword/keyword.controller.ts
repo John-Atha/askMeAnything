@@ -38,4 +38,9 @@ export class KeywordController {
   findKeywordsStatsDaily(@Param('id', ParseIntPipe) id: number) {
     return this.keywordService.findStatsDaily(id);
   }
+
+  @Get('stats')
+  findKeywordsStats() {
+    return this.keywordService.findStats();
+  }
 }

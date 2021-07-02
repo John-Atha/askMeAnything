@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { paginate, daysComplete, monthlyCountsParseInt } from '../../general-methods/methods';
-import { countQuestionsUpvotes, getOneKeyword, getKeywordStatsDaily, getKeywordStatsMonthly } from 'async_calls/async_calls';
+import { countQuestionsUpvotes, getOneKeyword, getKeywordStatsDaily, getKeywordStatsMonthly, getKeywordsStats } from 'async_calls/async_calls';
 
 @Injectable()
 export class KeywordService {
@@ -83,6 +83,11 @@ export class KeywordService {
     }
     const data = await getKeywordStatsDaily(id);
     return daysComplete(data.data, 'questions');
+  }
+
+  async findStats() {
+    const data = await getKeywordsStats();
+    return data.data;
   }
 
 }
