@@ -152,6 +152,14 @@ hr {
     background-color: var(--color2);
 }
 
+.button-as-link-2 {
+    color: blue;
+    border: none;
+    background-color: inherit;
+    margin: 0;
+    padding: 0;
+}
+
 /*--- textarea ----*/
 textarea {
     border: 1px solid;

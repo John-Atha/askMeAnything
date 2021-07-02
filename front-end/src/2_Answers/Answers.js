@@ -11,7 +11,11 @@ function Answers (props) {
     const [start, setStart] = useState(1);
     const [end, setEnd] = useState(5);
     const [noData, setNoData] = useState(false);
+    const [userId, setUserId] = useState(props.userId);
 
+    useEffect(() => {
+        setUserId(props.userId);
+    }, [props.userId])
 
     useEffect(()=> {
         getQuestionAnswers(props.id, start, end)
@@ -43,7 +47,7 @@ function Answers (props) {
                                 text={value.text}
                                 date={value.created_at}
                                 upvotes={value.upvotesCount}
-                                userId={props.userId} />
+                                userId={userId} />
                     )
                 })}
                 { !noData &&
@@ -54,7 +58,7 @@ function Answers (props) {
     }
     else {
         return(
-            <div className="error-message">No answers have been posted yet</div>
+            <div className="error-message margin-top-small">No answers have been posted yet</div>
         )
     }
 }

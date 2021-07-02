@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { isLogged } from '../api';
 import { createNotification } from '../createNotification';
@@ -21,7 +21,12 @@ function OneQuestion(props) {
     const [upvotes, setUpvotes] = useState(props.upvotes);
     const [id, setId] = useState(props.id);*/
    
+    const [userId, setUserId] = useState(props.userId);
     
+    useEffect(() => {
+        setUserId(props.userId);
+    }, [props.userId])
+
     const answer = () => {
         if (props.userId) {
             window.location.href=`/questions/${props.id}`;
@@ -33,8 +38,8 @@ function OneQuestion(props) {
 
     return(
         <div className="one-question-container flex-layout">
-            <QuestionUpvotes upvotes={props.upvotes} userId={props.userId} id={props.id} />
-            <QuestionHeader owner={props.owner} date={props.date} title={props.title} />
+            <QuestionUpvotes upvotes={props.upvotes} userId={userId} id={props.id} />
+            <QuestionHeader owner={props.owner} date={props.date} title={props.title} userId={userId} />
             <div className="break"></div>
             <div>
                 <hr></hr>
@@ -42,7 +47,7 @@ function OneQuestion(props) {
                 <QuestionKeywords id={props.id} />
             </div>
             <div className="break"></div>
-            <Answers id={props.id} userId={props.userId} />
+            <Answers id={props.id} userId={userId} />
             <div className="break"></div>
             {props.answerChoice &&
             <Button variant="outline-primary" 
