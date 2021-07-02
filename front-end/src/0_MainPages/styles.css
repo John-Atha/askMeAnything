@@ -1,23 +1,38 @@
+@media only screen and (max-width: 500px) {
+    .card-image {
+        height: 250px !important;
+        max-width: 500px;
+    }
+    .card-width {
+        height: 250px;
+        width: 500px;
+    }
+}
+@media only screen and (min-width: 500px) {
+    .card-image {
+        height: 230px;
+        max-width: 500px;
+    }
+    .card-width {
+        height: 230px;
+        width: 330px;
+    }
+}
 .card-image {
-    height: 400px !important;
-    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
 }
-.card-width {
-    height: 400px;
-}
 .card-title {
     font-weight: bolder;
-    font-size: 30px;
-    margin-top: 50px;
+    font-size: 25px;
+    margin-top: 10px;
 }
 .card-text {
-    margin-top: 25px;
+    margin-top: 15px;
     font-weight: bold;
     font-size: 20px;
-    width: 90%;
-    margin-left: 5%;
+    width: 100%;
+    margin-left: 0%;
 }
 .card-image {
     opacity: 50%;

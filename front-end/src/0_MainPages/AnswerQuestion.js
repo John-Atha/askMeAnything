@@ -26,8 +26,7 @@ function AnswerQuestion() {
             <Card.ImgOverlay style={{'color': 'black'}}>
                 <Card.Title>Answer a question</Card.Title>
                 <Card.Text>
-                Wanna help others?<br></br>
-                Just try answering a question and contributing to our community.
+                Wanna help others?
                 </Card.Text>
                 <Button variant="primary" onClick={answer} >Find a question to answer</Button>
             </Card.ImgOverlay>

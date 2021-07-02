@@ -12,11 +12,10 @@ function PeriodQuestions(props) {
             <Card.ImgOverlay style={{'color': 'black'}}>
                 <Card.Title>Questions per period</Card.Title>
                 <Card.Text>
-                Want to see the content organised in a more practical way?<br></br>
-                This category suits you.
+                Want to see the content organised in a more practical way?
                 </Card.Text>
-                <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href='/questions'}} >See analytics</Button>
-                <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href=`/questions/stats`}}>See statistics</Button>
+                <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href='/questions'}} >Analytics</Button>
+                <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href=`/questions/stats`}}>Statistics</Button>
             </Card.ImgOverlay>
         </Card>
     )

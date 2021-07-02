@@ -24,9 +24,7 @@ function MyHome() {
             window.location.href='/';
         })
     }, [])
-
-    return(
-        <div className="main-page center-content">
+        /*
             <Carousel activeIndex={index} onSelect={handleSelect} className='carousel' style={{'height': '400px'}}>
                 <Carousel.Item interval={5000}>
                     <AskQuestion />
@@ -41,6 +39,15 @@ function MyHome() {
                     <MyContributions id={userId} />
                 </Carousel.Item>
             </Carousel>
+        */
+    return(
+        <div className="main-page center-content">
+            <div className='flex-layout center-content'>
+                <AskQuestion />
+                <AnswerQuestion />
+                <MyQuestions id={userId} />
+                <MyContributions id={userId} />
+            </div>
             <div className='margin-top' />
             { userId && 
                 <StatsCarousel case='questions' user={ { id: userId } } />            

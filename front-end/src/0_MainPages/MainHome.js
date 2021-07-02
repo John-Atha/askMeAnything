@@ -16,20 +16,12 @@ function MainHome() {
 
     return(
         <div className="main-page center-content">
-            <Carousel activeIndex={index} onSelect={handleSelect} className='carousel' style={{'height': '400px'}}>
-                <Carousel.Item interval={5000}>
-                    <AskQuestion />
-                </Carousel.Item>
-                <Carousel.Item interval={5000}>
-                        <AnswerQuestion />
-                </Carousel.Item>
-                <Carousel.Item interval={5000}>
-                    <PeriodQuestions />
-                </Carousel.Item>
-                <Carousel.Item interval={5000}>
-                    <KeywordQuestions />
-                </Carousel.Item>
-            </Carousel>
+            <div className='flex-layout center-content'>
+                <AskQuestion />
+                <AnswerQuestion />
+                <PeriodQuestions />
+                <KeywordQuestions />
+            </div>
             <div className='margin-top' />
             <StatsCarousel case='questions-gen' />
         </div>

@@ -58,6 +58,7 @@ function About() {
         <div className="home-container">
             <MyNavbar />
             <AboutText />
+            <div style={{'paddingBottom': '100px'}} />
             <Footer />
         </div>
     )

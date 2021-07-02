@@ -26,8 +26,7 @@ function AskQuestion() {
             <Card.ImgOverlay style={{'color': 'black'}}>
                 <Card.Title>Ask a question</Card.Title>
                 <Card.Text>
-                Is there anything you want to know?<br></br>
-                Just post it and our extremely active community will help you really soon.
+                Is there anything you want to know?
                 </Card.Text>
                 <Button variant="primary" onClick={redirect}>Create Question</Button>
             </Card.ImgOverlay>

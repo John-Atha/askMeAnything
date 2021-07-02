@@ -12,11 +12,10 @@ function KeywordQuestions() {
             <Card.ImgOverlay style={{'color': 'black'}}>
                 <Card.Title>Keywords</Card.Title>
                 <Card.Text>
-                Are you looking for a question of a certain category?<br></br>
-                Want to see the trends?
+                Are you looking for something special?
                 </Card.Text>
-                <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href='/keywords/analytics'}}>Questions per keyword</Button>
-                <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href='/keywords/statistics'}}>Keywords statistics</Button>
+                <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href='/keywords/analytics'}}>Analytics</Button>
+                <Button variant="primary" style={{'margin': '2px'}} onClick={()=>{window.location.href='/keywords/statistics'}}>Statistics</Button>
             </Card.ImgOverlay>
         </Card>
 
