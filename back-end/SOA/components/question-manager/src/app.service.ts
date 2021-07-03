@@ -94,7 +94,12 @@ export class AppService {
         url: new RegExp('answers/[0-9]+/upvoted'),
         method: 'get',
         needsAuth: true,
-      }
+      },
+      {
+        url: new RegExp('/'),
+        method: 'get',
+        needsAuth: false,
+      },
     ];
     const urls = [
       {
@@ -176,7 +181,12 @@ export class AppService {
         url: '/answers/[0-9]+/upvoted',
         method: 'get',
         needsAuth: true,
-      }
+      },
+      {
+        url: '/',
+        method: 'get',
+        needsAuth: false,
+      },
     ];
     for (let i=0; i<urlsMatch.length; i++) {
       if (urlsMatch[i].url.test(url) && urlsMatch[i].method===method) {
