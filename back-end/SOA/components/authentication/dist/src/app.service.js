@@ -54,6 +54,11 @@ let AppService = class AppService {
                 method: 'post',
                 needsAuth: true,
             },
+            {
+                url: new RegExp('/'),
+                method: 'get',
+                needsAuth: false,
+            },
         ];
         const urls = [
             {
@@ -90,6 +95,11 @@ let AppService = class AppService {
                 url: '/logged',
                 method: 'post',
                 needsAuth: true,
+            },
+            {
+                url: '/',
+                method: 'get',
+                needsAuth: false,
             },
         ];
         for (let i = 0; i < urlsMatch.length; i++) {

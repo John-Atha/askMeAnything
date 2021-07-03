@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
@@ -50,6 +50,11 @@ export class AppService {
         method: 'post',
         needsAuth: true,
       },
+      {
+        url: new RegExp('/'),
+        method: 'get',
+        needsAuth: false,
+      },
     ];
     const urls = [
       {
@@ -86,6 +91,11 @@ export class AppService {
         url: '/logged',
         method: 'post',
         needsAuth: true,
+      },
+      {
+        url: '/',
+        method: 'get',
+        needsAuth: false,
       },
     ]
 
