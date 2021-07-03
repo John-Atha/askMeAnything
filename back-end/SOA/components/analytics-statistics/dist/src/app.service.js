@@ -149,6 +149,11 @@ let AppService = class AppService {
                 method: 'get',
                 needsAuth: false,
             },
+            {
+                url: new RegExp('/'),
+                method: 'get',
+                needsAuth: false,
+            },
         ];
         const urls = [
             {
@@ -278,6 +283,11 @@ let AppService = class AppService {
             },
             {
                 url: 'keywords/stats',
+                method: 'get',
+                needsAuth: false,
+            },
+            {
+                url: '/',
                 method: 'get',
                 needsAuth: false,
             },
