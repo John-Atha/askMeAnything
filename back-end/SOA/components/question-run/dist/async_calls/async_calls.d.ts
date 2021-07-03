@@ -1,0 +1,16 @@
+import { CreateAnswerDto } from "src/answer/dto/create-answer.dto";
+export declare const getOneUser: (params: any) => any;
+export declare const getOneQuestion: (params: any) => any;
+export declare const createAnswer: (createAnswerDto: CreateAnswerDto, question_id: number, owner_id: number) => any;
+export declare const getOneAnswer: (params: any) => any;
+export declare const updAnswerText: (id: number, text: string) => any;
+export declare const deleteAnswer: (id: number) => any;
+export declare const createAnswerUpvote: (createAnswerUpvoteDto: any) => any;
+export declare const getOneAnswerUpvote: (params: any) => any;
+export declare const deleteAnswerUpvote: (id: number) => any;
+export declare const answerIsUpvoted: (user_id: number, answer_id: number) => any;
+export declare const questionIsUpvoted: (user_id: number, quest_id: number) => any;
+export declare const createQuestionUpvote: (createQuestionUpvoteDto: any) => any;
+export declare const getOneQuestionUpvote: (params: any) => any;
+export declare const deleteQuestionUpvote: (id: number) => any;
+export declare const isLogged: (token: any) => any;

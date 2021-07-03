@@ -2,9 +2,15 @@ import { CreateAnswerUpvoteDto } from "src/answer-upvote/dto/create-answer-upvot
 import { CreateAnswerDto } from "src/answer/dto/create-answer.dto";
 
 const axios = require('axios');
-const dataLayerUrl = 'http://localhost:3006';
-const EsbUrl = 'http://localhost:3007';
-const authUrl = 'http://localhost:3002';
+
+//const dataLayerUrl = 'http://localhost:3006';
+const dataLayerUrl = 'https://askmeanything-soa-data-layer.herokuapp.com';
+
+//const EsbUrl = 'http://localhost:3007';
+const EsbUrl = 'https://askmeanything-soa-esb.herokuapp.com';
+
+//const authUrl = 'http://localhost:3002';
+const authUrl = 'https://askmeanything-soa-authenticate.herokuapp.com';
 
 export const getOneUser = (params: any) => {
     return axios.get(dataLayerUrl+'/users/one', { params });
