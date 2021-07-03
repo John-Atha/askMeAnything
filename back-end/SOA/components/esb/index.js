@@ -5,18 +5,16 @@ const cors = require('cors');
 //const redis = require('redis');
 
 const app = express();
-const port = 3007;
+const port = process.env.PORT || 8080;
 const corsOptions = {
   origin: "*",
 };
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
-const REDIS_PORT = 6379;
-const REDIS_HOST = 'localhost';
-const TotalConnections = 50
 
-
+// ---- development ------------------------
+/*
 const urls = {
   questManUrl: "http://localhost:3001",
   authUrl: "http://localhost:3002",
@@ -24,7 +22,9 @@ const urls = {
   statsAnalsUrl: "http://localhost:3004",
   frontUrl: "http://localhost:3000",
 }
-
+const REDIS_PORT = 6379;
+const REDIS_HOST = 'localhost';
+const TotalConnections = 50
 const pool = require('redis-connection-pool')('myRedisPool', {
   host: REDIS_HOST,
   port: REDIS_PORT,
@@ -33,6 +33,28 @@ const pool = require('redis-connection-pool')('myRedisPool', {
   database: 0,
 });
 console.log('connected to redis');
+*/
+
+// ------ production -----------------------
+
+const urls = {
+  questManUrl: "https://askmeanything-soa-quest-man.herokuapp.com",
+  authUrl: "https://askmeanything-soa-authenticate.herokuapp.com",
+  questRunUrl: "https://askmeanything-soa-quest-run.herokuapp.com",
+  statsAnalsUrl: "https://askmeanything-soa-anals-stats.herokuapp.com",
+  frontUrl: "https://askmeanything52.herokuapp.com",
+}
+
+/* config redis connection with ESB */
+const TotalConnections = 50;
+const pool = require('redis-connection-pool')('myRedisPool', {
+  url: process.env.REDIS_URL,
+  max_clients: TotalConnections,
+  perform_checks: false,
+  database: 0,
+});
+console.log('connected to redis');
+// ---------------------------------------
 
 const getToken = (req) => {
   const headers = req['rawHeaders'];
@@ -167,7 +189,7 @@ async function requestProcess(req, method, res) {
         .then(response => {
           const { exists, needsAuth } = response.data;
           console.log(response.data);
-          if (!exists) res.status(404).send('Service\'s endpoint not found.');
+          if (!exists) return res.status(404).send('Service\'s endpoint not found.');
           sendResponse(method, url, req, res);
         })
         .catch(err => {
@@ -196,5 +218,5 @@ app.patch('/', cors(corsOptions), (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Enterprise Service Bus listening at https://askmeanything-soa-esb.herokuapp.com:${port}`)
 });
