@@ -1,11 +1,11 @@
 module.exports = {
     baseUrl: "http://localhost:3000",
     /* SOA back-end */
-    esbUrl: "http://localhost:3007",
-    questManUrl: "http://localhost:3001",
-    authUrl: "http://localhost:3002",
-    questRunUrl: "http://localhost:3003",
-    statsAnalsUrl: "http://localhost:3004",
+    esbUrl: "https://askmeanything-soa-esb.herokuapp.com",
+    questManUrl: "https://askmeanything-soa-quest-man.herokuapp.com",
+    authUrl: "https://askmeanything-soa-authenticate.herokuapp.com",
+    questRunUrl: "https://askmeanything-soa-quest-run.herokuapp.com",
+    statsAnalsUrl: "https://askmeanything-soa-anals-stats.herokuapp.com",
     /* Microservices back-end*/
     microAuthUrl: "http://localhost:3008",
     microQuestUrl: "http://localhost:3009",
