@@ -2,26 +2,19 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from "@nestjs/common";
 
-declare const module: any;
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
     origin: [
-      'http://localhost:3001',
-      'http://localhost:3002',
-      'http://localhost:3003',
-      'http://localhost:3004',
-      'http://localhost:3005',
+      "https://askmeanything-soa-quest-man.herokuapp.com",
+      "https://askmeanything-soa-authenticate.herokuapp.com",
+      "https://askmeanything-soa-quest-run.herokuapp.com",
+      "https://askmeanything-soa-anals-stats.herokuapp.com",
     ],
   });
-  await app.listen(3006);
-
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
+  //await app.listen(3006);
+  await app.listen(process.env.PORT || 8080);
   
 }
 bootstrap();
