@@ -54,6 +54,11 @@ let AppService = class AppService {
                 method: 'delete',
                 needsAuth: true,
             },
+            {
+                url: new RegExp('/'),
+                method: 'get',
+                needsAuth: false,
+            },
         ];
         const urls = [
             {
@@ -90,6 +95,11 @@ let AppService = class AppService {
                 url: '/question-upvotes/[0-9]+',
                 method: 'delete',
                 needsAuth: true,
+            },
+            {
+                url: '/',
+                method: 'get',
+                needsAuth: false,
             },
         ];
         for (let i = 0; i < urlsMatch.length; i++) {
