@@ -75,12 +75,20 @@ export class QuestionController {
     return this.questionService.findKeywords(id);
   }
 
-  @Post(':quest_id/keywords')
+  @Post(':quest_id/keywords/:keyword_id')
   AttachKeyword(
     @Param('quest_id', ParseIntPipe) quest_id: number,
-    @Body() keywords: any,
+    @Param('keyword_id', ParseIntPipe) keyword_id: number,
   ) {
-    return this.questionService.updKeywords(quest_id, keywords);
+    return this.questionService.updKeywords(quest_id, keyword_id, 'attach');
+  }
+
+  @Delete(':quest_id/keywords/:keyword_id')
+  DeAttachKeyword(
+    @Param('quest_id', ParseIntPipe) quest_id: number,
+    @Param('keyword_id', ParseIntPipe) keyword_id: number,
+  ) {
+    return this.questionService.updKeywords(quest_id, keyword_id, 'deattach');
   }
 
   @Get('/stats/monthly')

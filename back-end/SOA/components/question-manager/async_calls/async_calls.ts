@@ -39,8 +39,12 @@ export const getAllKeywords = () => {
     return axios.get(dataLayerUrl+`/keywords`);
 }
 
-export const updateQuestionKeywords = (question_id: number, keywords: any) => {
-    return axios.post(dataLayerUrl+`/questions/${question_id}/keywords`, keywords);
+export const attachQuestionKeywords = (question_id: number, keyword_id: number) => {
+    return axios.post(dataLayerUrl+`/questions/${question_id}/keywords/${keyword_id}`, {});
+}
+
+export const deAttachQuestionKeywords = (question_id: number, keyword_id: number) => {
+    return axios.delete(dataLayerUrl+`/questions/${question_id}/keywords/${keyword_id}`);
 }
 
 export const questionIsUpvoted = (user_id: number, quest_id: number) => {

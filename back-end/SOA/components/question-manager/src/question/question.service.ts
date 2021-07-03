@@ -7,7 +7,7 @@ import {
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { paginate, verify } from '../../general-methods/methods';
-import { answerCountUpvotes, updateQuestionKeywords, createQuestion, deleteQuestion, getOneKeyword, getOneQuestion, getOneUser, updateQuestion, questionIsUpvoted } from 'async_calls/async_calls';
+import { answerCountUpvotes, attachQuestionKeywords, deAttachQuestionKeywords, createQuestion, deleteQuestion, getOneKeyword, getOneQuestion, getOneUser, updateQuestion, questionIsUpvoted } from 'async_calls/async_calls';
 
 @Injectable()
 export class QuestionService {
@@ -133,7 +133,7 @@ export class QuestionService {
   }
 
   async attachKeyword(req: any, question_id: number, keyword_id: number) {
-    /* validate user, question, keyword */
+    /* validate user, question, ownerhsip */
     const user_id = await verify(req);
     const params = {
       id: question_id,
@@ -149,14 +149,7 @@ export class QuestionService {
       console.log(user_id);
       throw new BadRequestException(`Only the question's owner can modify it.`);
     }
-    const keyword = await getOneKeyword({id: keyword_id});
-    if (!keyword.data) {
-      throw new NotFoundException(`Keyword '${keyword_id} not found.`);
-    }
-    /* push to list and update (update with transaction)*/
-    const old_keywords = question.data.keywords;
-    old_keywords.push(keyword.data);
-    await updateQuestionKeywords(question_id, old_keywords)
+    await attachQuestionKeywords(question_id, keyword_id)
           .then(response => { console.log(response) })
           .catch(err => { throw new BadRequestException(err.response.data.message)});
     const newQuestion = await getOneQuestion(params);
@@ -164,7 +157,7 @@ export class QuestionService {
   }
 
   async detachKeyword(req: any, question_id: number, keyword_id: number) {
-    /* validate user, question, keyword */  
+    /* validate user, question, ownership */  
     const user_id = await verify(req);
     const params = {
       id: question_id,
@@ -180,37 +173,13 @@ export class QuestionService {
     if (question.data.owner.id !== user_id) {
       throw new BadRequestException(`Only the question's owner can modify it.`);
     }
-    const keyword = await getOneKeyword({id: keyword_id});
-    if (!keyword.data) {
-      throw new NotFoundException(`Keyword '${keyword_id} not found.`);
-    }
-    /* remove from list and update with transaction*/
-    const keywordsIds = [];
-    question.data.keywords.forEach((word) => {
-      keywordsIds.push(word.id);
-    });
-    let index = -1;
-    for (let i = 0; i < question.data.keywords.length; i++) {
-      if (question.data.keywords[i].id === keyword.data.id) {
-        index = i;
-        break;
-      }
-    }
-    if (index !== -1) {
-      question.data.keywords = question.data.keywords
-        .slice(0, index)
-        .concat(question.data.keywords.slice(index + 1, question.data.keywords.length));
-        await updateQuestionKeywords(question_id, question.data.keywords)
-        .then(response => { console.log(response) })
-        .catch(err => { throw new BadRequestException(err.response.data.message) });
-        const newQuestion = await getOneQuestion(params);
-        return newQuestion.data;
-    }
-    else {
-      throw new BadRequestException(
-        `Keyword '${keyword_id}' not in question '${question_id}'`,
-      );
-    }
+    /* remove from list with transaction*/
+    await deAttachQuestionKeywords(question_id, keyword_id)
+    .then(response => { console.log(response) })
+    .catch(err => { throw new BadRequestException(err.response.data.message) });
+    const newQuestion = await getOneQuestion(params);
+    return newQuestion.data;
+    
   }
 
   async isUpvoted(req: any, id: number): Promise<any> {

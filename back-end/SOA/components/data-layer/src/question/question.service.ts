@@ -104,11 +104,40 @@ export class QuestionService {
     return question.keywords;
   }
 
-  async updKeywords(question_id: number, keywords: any) {
+  async updKeywords(question_id: number, keyword_id: number, action: string) {
     return this.manager.transaction(async (manager) => {
       const question = await manager.findOne(Question, question_id, { relations: ['owner', 'keywords'] });
       if (!question) throw new BadRequestException(`Question '${question_id}' does not exist.`);
-      question.keywords = keywords;
+      const keyword = await manager.findOne(Keyword, keyword_id);
+      if (!keyword) throw new BadRequestException(`Keyword '${keyword_id}' not found.`);
+      let old_keywords = question.keywords;
+      if (action==='attach') {
+        old_keywords.push(keyword);
+      }
+      else if (action==='deattach') {
+        const keywordsIds = [];
+        old_keywords.forEach((word) => {
+          keywordsIds.push(word.id);
+        });
+        let index = -1;
+        for (let i = 0; i < old_keywords.length; i++) {
+          if (old_keywords[i].id === keyword.id) {
+            index = i;
+            break;
+          }
+        }
+        if (index !== -1) {
+          old_keywords = old_keywords
+            .slice(0, index)
+            .concat(old_keywords.slice(index + 1, old_keywords.length));
+        }
+        else {
+          throw new BadRequestException(
+            `Keyword '${keyword_id}' not in question '${question_id}'`,
+          );
+        }
+      }
+      question.keywords = old_keywords;
       return manager.save(question);
     });
   }
