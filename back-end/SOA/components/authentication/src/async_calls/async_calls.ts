@@ -2,7 +2,9 @@ import { CreateUserDto } from "../user/dto/create-user.dto";
 import { UpdateUserDto } from "../user/dto/update-user.dto";
 
 const axios = require('axios');
-const dataLayerUrl = 'http://localhost:3006';
+
+//const dataLayerUrl = 'http://localhost:3006';
+const dataLayerUrl = 'https://askmeanything-soa-data-layer.herokuapp.com'
 
 export const getAllUsers = () => {
     return axios.get(dataLayerUrl+`/users`);
