@@ -4,11 +4,11 @@ import { questionIsUpvoted, questionUpvote, questionUnUpvote, getOneQuestion } f
 import { createNotification } from '../createNotification';
 
 import './styles.css';
-import arrow1 from '../images/arrow1 -upvotes.png'
-import arrow1_blue from '../images/arrow1_blue.png'
+import arrow1 from '../images/arrow1-big.png'
+import arrow1_blue from '../images/arrow1-big-blue.png'
 
 function QuestionUpvotes(props) {
-    const [upvotes, setUpvotes] = useState(typeof(props.upvotes)==='string' ? props.upvotes : props.upvotes.length);
+    const [upvotes, setUpvotes] = useState(props.upvotes);
     const [isUpvoted, setIsUpvoted] = useState(false);
     const [upvoteId, setUpvoteId] = useState(null);
     const [id, setId] = useState(props.id);
@@ -20,7 +20,7 @@ function QuestionUpvotes(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
     useEffect(() => {
-        setUpvotes(typeof(props.upvotes)==='string' ? props.upvotes : props.upvotes.length);
+        setUpvotes(props.upvotes);
     }, [props.upvotes]);
     useEffect(() => {
         setIsUpvoted(props.isUpvoted);

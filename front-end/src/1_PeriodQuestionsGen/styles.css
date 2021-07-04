@@ -1,19 +1,19 @@
 @keyframes expand-height {
     0% {
         height: 0 !important;
-        opacity: 0%;
+        opacity: 0;
     }
     30% {
         height: 30px !important;
-        opacity: 30%;
+        opacity: 0.3;
     }
     60% {
         height: 130px !important;
-        opacity: 60%;
+        opacity: 0.6;
     }
     100% {
         height: min-content !important;
-        opacity: 100%;
+        opacity: 1;
     }
 }
 

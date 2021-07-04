@@ -198,7 +198,7 @@ function Main() {
             </div>
             <h5 className="question-specs-title container-width margin-top-smaller">Keywords</h5>
             <div className="flex-layout container-width">
-                <Form style={{'width': '50%', 'padding': '10px'}} onSubmit={(event)=>{event.preventDefault(); buttonAdd();}}>
+                <Form style={{'width': '100%', 'padding': '10px'}} onSubmit={(event)=>{event.preventDefault(); buttonAdd();}}>
                     <div className="margin-top-smaller flex-layout">
                         <FormControl 
                             style={{'width': '250px'}}
@@ -236,8 +236,8 @@ function Main() {
                 
                     }
                 </Form>
-                <div style={{'width': '50%'}}>
-                    <h5 className="center-content">Picked keywords</h5>
+                <div style={{'width': '100%'}}>
+                    <h5>Picked keywords</h5>
                     <div className="flex-layout">
                         {picked.map((value, index) => {
                             return(

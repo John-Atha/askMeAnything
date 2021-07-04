@@ -25,7 +25,7 @@ function AddMain(props) {
             setText(response.data.text);
             setOwner(response.data.owner);
             setDate(response.data.created_at);
-            setUpvotes(response.data.upvotes);
+            setUpvotes(response.data.upvotesCount);
         })
         .catch(err => {
             console.log(err);

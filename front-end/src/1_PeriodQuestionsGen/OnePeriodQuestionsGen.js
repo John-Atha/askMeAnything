@@ -4,7 +4,7 @@ import { getKeywordQuestionsPeriod, getGeneralQuestionsPeriod, getUserQuestionsP
 
 import OneQuestion from '../1_Questions/OneQuestion';
 import Button from 'react-bootstrap/Button';
-import arrow_up from '../images/arrow1.png';
+import arrow_up from '../images/arrow1-big.png';
 import arrow_down from '../images/arrow_down.png';
 import './styles.css';
 
