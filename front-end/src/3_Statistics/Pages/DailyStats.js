@@ -11,6 +11,17 @@ function DailyStats(props) {
     const [statsList, setStatsList] = useState([]);
     const [err, setErr] = useState(false);
     const key = (props.case === 'answers-user') ? 'answers' : 'questions';
+    const [title, setTitle] = useState(
+        props.case==='answers-user' ? `${props.username ? props.username+"'s" : 'Your'} daily answers` : 
+        (props.case==='questions-user' ? `${props.username ? props.username+"'s" : 'Your'} daily questions` : 'Daily questions')
+    )
+
+    useEffect(() => {
+        setTitle(
+            props.case==='answers-user' ? `${props.username ? props.username+"'s" : 'Your'} daily answers` : 
+            (props.case==='questions-user' ? `${props.username ? props.username+"'s" : 'Your'} daily questions` : 'Daily questions')
+        );
+    }, [props.case, props.username]);
 
     const fixData = (res) => {
         let sum = 0;
@@ -76,15 +87,12 @@ function DailyStats(props) {
         <div className="main-page margin-top-small flex-item">
             {!err &&
                     <Pie data={statsList} 
-                    title={
-                        props.case==='answers-user' ? `${props.username ? props.username+"'s" : 'Your'} daily answers` : 
-                        (props.case==='questions-user' ? `${props.username ? props.username+"'s" : 'Your'} daily questions` : 'Daily questions')
-                    } 
+                    title={title} 
               />
             }
             { err &&
                 <div className="error-message margin-top">
-                    Sorry, no data found.
+                    Sorry, not enough data found for {title}.
                 </div>
             
             }

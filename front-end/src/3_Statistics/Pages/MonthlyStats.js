@@ -10,8 +10,19 @@ import Line from '../Diagrams/Line';
 function MonthlyStats(props) {
     const [statsList, setStatsList] = useState([]);
     const [err, setErr] = useState(false);
+    const [title, setTitle] = useState( 
+        props.case==='answers-user' ? `${props.username ? props.username+"'s" : 'Your'} monthly answers` : 
+        (props.case==='questions-user' ? `${props.username ? props.username+"'s" : 'Your'} monthly questions` : 'Monthly questions')
+    )
     const key = (props.case === 'answers-user') ? 'answers' : 'questions';
     
+    useEffect(() => {
+        setTitle(
+            props.case==='answers-user' ? `${props.username ? props.username+"'s" : 'Your'} monthly answers` : 
+            (props.case==='questions-user' ? `${props.username ? props.username+"'s" : 'Your'} monthly questions` : 'Monthly questions')    
+        );
+    }, [props.case, props.username])
+   
     const fixData = (res) => {
         const stats = [];
         res.forEach((obj) => {
@@ -74,15 +85,12 @@ function MonthlyStats(props) {
         <div className="main-page margin-top-small flex-item">
             {!err &&
                     <Line data={statsList}
-                          title={
-                              props.case==='answers-user' ? `${props.username ? props.username+"'s" : 'Your'} monthly answers` : 
-                              (props.case==='questions-user' ? `${props.username ? props.username+"'s" : 'Your'} monthly questions` : 'Monthly questions')
-                          } 
+                          title={title} 
                     />
             }
             { err &&
                 <div className="error-message margin-top">
-                    Sorry, no data found.
+                    Sorry, not enough data found for {title}.
                 </div>
             
             }
