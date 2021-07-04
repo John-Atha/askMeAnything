@@ -6,7 +6,7 @@ const create_question_dto_1 = require("../src/question/dto/create-question.dto")
 const update_question_dto_1 = require("../src/question/dto/update-question.dto");
 const axios = require('axios');
 const dataLayerUrl = 'https://askmeanything-soa-data-layer.herokuapp.com';
-const EsbUrl = 'https://askmeanything-soa-esb.com';
+const EsbUrl = 'https://askmeanything-soa-esb.herokuapp.com';
 const authUrl = 'https://askmeanything-soa-authenticate.herokuapp.com';
 const getOneQuestion = (params) => {
     return axios.get(dataLayerUrl + `/questions/one`, { params });

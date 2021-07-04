@@ -1,4 +1,3 @@
-import { CreateAnswerUpvoteDto } from "src/answer-upvote/dto/create-answer-upvote.dto";
 import { CreateAnswerDto } from "src/answer/dto/create-answer.dto";
 
 const axios = require('axios');

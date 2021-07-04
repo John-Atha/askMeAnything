@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isLogged = exports.deleteQuestionUpvote = exports.getOneQuestionUpvote = exports.createQuestionUpvote = exports.questionIsUpvoted = exports.answerIsUpvoted = exports.deleteAnswerUpvote = exports.getOneAnswerUpvote = exports.createAnswerUpvote = exports.deleteAnswer = exports.updAnswerText = exports.getOneAnswer = exports.createAnswer = exports.getOneQuestion = exports.getOneUser = void 0;
-const create_answer_upvote_dto_1 = require("../src/answer-upvote/dto/create-answer-upvote.dto");
 const create_answer_dto_1 = require("../src/answer/dto/create-answer.dto");
 const axios = require('axios');
 const dataLayerUrl = 'https://askmeanything-soa-data-layer.herokuapp.com';

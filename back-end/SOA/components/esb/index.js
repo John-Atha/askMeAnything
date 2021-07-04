@@ -7,7 +7,13 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 8080;
 const corsOptions = {
-  origin: "*",
+  origin: [
+    'https://askmeanything52.herokuapp.com',
+    "https://askmeanything-soa-quest-man.herokuapp.com",
+    "https://askmeanything-soa-authenticate.herokuapp.com",
+    "https://askmeanything-soa-quest-run.herokuapp.com",
+    "https://askmeanything-soa-anals-stats.herokuapp.com",
+  ]
 };
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

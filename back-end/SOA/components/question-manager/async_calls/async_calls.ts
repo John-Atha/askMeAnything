@@ -5,10 +5,10 @@ import { UpdateQuestionDto } from "src/question/dto/update-question.dto";
 const axios = require('axios');
 
 //const dataLayerUrl = 'http://localhost:3006';
-const dataLayerUrl = 'https://askmeanything-soa-data-layer.herokuapp.com'
+const dataLayerUrl = 'https://askmeanything-soa-data-layer.herokuapp.com';
 
 //const EsbUrl = 'http://localhost:3007';
-const EsbUrl = 'https://askmeanything-soa-esb.com';
+const EsbUrl = 'https://askmeanything-soa-esb.herokuapp.com';
 
 //const authUrl = 'http://localhost:3002';
 const authUrl = 'https://askmeanything-soa-authenticate.herokuapp.com';
