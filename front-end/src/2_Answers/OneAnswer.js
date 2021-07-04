@@ -14,7 +14,7 @@ function OneAnswer(props) {
     }, [props.userId])
 
     return(
-        <div className="one-answer-container bordered-input flex-layout padding-bottom break-text">
+        <div className="one-answer-container bordered-input flex-layout padding-bottom">
             <AnswerUpvotes upvotes={props.upvotes} id={props.id} userId={userId} />
             <AnswerHeader owner={props.owner} date={props.date} userId={userId} />
             <div className='break' />

@@ -4,8 +4,8 @@ import { getOneAnswer, answerIsUpvoted, answerUnUpvote, answerUpvote } from '../
 import { createNotification } from '../createNotification';
 
 import './styles.css';
-import arrow1 from '../images/arrow1.png';
-import arrow1_blue from '../images/arrow1_blue.png';
+import arrow1 from '../images/arrow1-small.png';
+import arrow1_blue from '../images/arrow1-small-blue.png';
 
 function AnswerUpvotes(props) {
     const [upvotes, setUpvotes] = useState(props.upvotes);

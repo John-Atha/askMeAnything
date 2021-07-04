@@ -21,6 +21,7 @@
 .card-image {
     margin-left: auto;
     margin-right: auto;
+    opacity: 0.5;
 }
 .card-title {
     font-weight: bolder;
@@ -33,7 +34,4 @@
     font-size: 20px;
     width: 100%;
     margin-left: 0%;
-}
-.card-image {
-    opacity: 50%;
 }

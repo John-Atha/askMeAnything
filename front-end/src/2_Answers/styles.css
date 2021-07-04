@@ -13,11 +13,11 @@
     width: 30px;
 }
 .answers-container {
-    padding: 15px;
     border: none !important;
     background-color: var(--color3) !important;
 }
 .one-answer-container {
     margin-bottom: 5px;
     overflow-wrap: break-word;
+    width: 100% !important;
 }
