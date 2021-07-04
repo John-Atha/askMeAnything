@@ -125,9 +125,6 @@ function Contact(props) {
                         <img style={{'height': '30px', 'width': '35px'}} src={email_icon} alt='email' />
                     </td>
                     <td>
-                        <div className='contact-item' style={{'textAlign': 'left'}}>Email</div>
-                    </td>
-                    <td>
                         { isEdittingEmail &&
                             <input type='text' className='contact-item profile-input' style={{'textAlign': 'left'}} value={email} onChange={(event)=>{setEmail(event.target.value)}} />
                         }
@@ -156,9 +153,6 @@ function Contact(props) {
                     <td>
                         <img style={{'height': '30px', 'width': '35px', 'textAlign': 'left'}} src={git_icon} alt='github' />
                     </td>
-                    <td>
-                        <div className='contact-item' style={{'textAlign': 'left'}}>Github</div>                    
-                    </td>
                     <td style={{'textAlign': 'left'}}>
                         { isEdittingGithub &&
                             <input type='text' className='contact-item profile-input' style={{'textAlign': 'left'}} value={github} onChange={(event)=>{setGithub(event.target.value)}} />
@@ -167,7 +161,7 @@ function Contact(props) {
                             <a className='contact-item'
                                 rel = 'noopener noreferrer'
                                 target='_blank'
-                                href={github? `https://www.github.com/${props.user.github_username}` : '#'}>
+                                href={github? `https://www.github.com/${github}` : '#'}>
                                     {github || '-'}
                             </a>
                         }
@@ -192,9 +186,6 @@ function Contact(props) {
                 <tr>
                     <td>
                         <img style={{'height': '25px', 'width': '35px'}} src={web_icon} alt='web' />
-                    </td>
-                    <td>
-                        <div className='contact-item' style={{'textAlign': 'left'}}>Website</div>
                     </td>
                     <td style={{'textAlign': 'left'}}>
                         { isEdittingWebsite &&
