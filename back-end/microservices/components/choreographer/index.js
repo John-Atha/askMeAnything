@@ -43,11 +43,30 @@ const validateBody = (body, res) => {
     }
 }
 
+const forwardMessage = (newMessage, res) => {
+    pool.hget('choreographer', 'subscribers', (err, data) => {
+        const subscribers = JSON.parse(data) || [];
+        for (let i=0; i<subscribers.length; i++) {
+            if (subscribers[i].startsWith(newMessage.src)) continue;
+            axios.post(`${subscribers[i]}/choreo`, newMessage)
+            .then(response => {
+                console.log(`->I sent the message to ${subscribers[i]}/choreo, and got response:`);
+                console.log(response.data);
+            })
+            .catch(err => {
+                console.log(`->I sent the message to ${subscribers[i]}/choreo, and got the error:`);
+                console.log(err.response);
+            })
+        }
+        return res.send('OK');
+    })
+}
+
 async function requestProcess(req, res) {
     const body = req.body;
     validateBody(body, res);
     console.log('-----------------------');
-    pool.hget('choreographer', 'messages', async (err, data) => {
+    pool.hget('choreographer', 'messages', (err, data) => {
         const currMessages = JSON.parse(data) || [];
         const newMessage = {
             id: currMessages ? currMessages.length+1 : 1,
@@ -63,22 +82,7 @@ async function requestProcess(req, res) {
         currMessages.push(newMessage);
         console.log('I pushed the new message.');
         pool.hset('choreographer', 'messages', JSON.stringify(currMessages), () => {
-            pool.hget('choreographer', 'subscribers', (err, data) => {
-                const subscribers = JSON.parse(data) || [];
-                for (let i=0; i<subscribers.length; i++) {
-                    if (subscribers[i].startsWith(newMessage.src)) continue;
-                    axios.post(`${subscribers[i]}/choreo`, newMessage)
-                    .then(response => {
-                        console.log(`->I sent the message to ${subscribers[i]}/choreo, and got response:`);
-                        console.log(response.data);
-                    })
-                    .catch(err => {
-                        console.log(`->I sent the message to ${subscribers[i]}/choreo, and got the error:`);
-                        console.log(err.response.data);
-                    })
-                }
-                return res.send('OK');
-            })
+            forwardMessage(newMessage, res);
         })
     })
 }
