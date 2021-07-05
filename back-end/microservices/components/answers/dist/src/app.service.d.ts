@@ -3,7 +3,7 @@ import { EntityManager } from 'typeorm';
 export declare class AppService {
     private manager;
     constructor(manager: EntityManager);
-    myAddress: any;
+    myAddress: string;
     pool: any;
     getHello(): string;
     choreoHandle(body: ChoreoObjectDto, fresh: boolean): Promise<any>;

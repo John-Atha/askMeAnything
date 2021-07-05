@@ -19,7 +19,7 @@ export class AppService {
     this.lastMessagesCheck();
   }
 
-  myAddress: any;
+  myAddress: string;
 
   pool: any;
   
