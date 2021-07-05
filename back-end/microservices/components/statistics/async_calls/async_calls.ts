@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const authMicroUrl = 'http://localhost:3008';
+const authMicroUrl = 'https://askmeanything-micro-auth.herokuapp.com';
 
 export const isLogged = (token: any) => {
     const headers = {

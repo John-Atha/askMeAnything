@@ -3,21 +3,23 @@ import { ChoreoObjectDto } from './choreoObject.dto';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { handleChoreoMessage } from 'general_methods/methods';
-import { REDIS_HOST, REDIS_PORT, TotalConnections } from './main';
+import { TotalConnections } from './main';
 
 @Injectable()
 export class AppService {
   constructor(@InjectEntityManager() private manager: EntityManager) {
     console.log(`Statistics service created, I am checking last messages.`);
+    this.myAddress = 'https://askmeanything-micro-statistics.herokuapp.com';
     this.pool = require('redis-connection-pool')('myRedisPool', {
-      host: REDIS_HOST,
-      port: REDIS_PORT,
+      url: process.env.REDIS_URL,
       max_clients: TotalConnections,
       perform_checks: false,
       database: 0,
     });
     this.lastMessagesCheck();
   }
+
+  myAddress: string;
 
   pool: any;
 
@@ -65,7 +67,7 @@ export class AppService {
         })
         for (let newMessage of newMessages) {
           console.error(`I see message ${newMessage.id}`)
-          if (newMessage.src==='http://localhost:3011') {
+          if (newMessage.src===this.myAddress) {
             console.error(`I HANDLED MESSAGE ${newMessage.id}`);
             continue;
           }

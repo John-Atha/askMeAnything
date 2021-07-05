@@ -2,19 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from "@nestjs/common";
 
-const myPort = 3011;
-const myAddress = `http://localhost:${myPort}`;
-const choreoAddress = `http://localhost:3013`;
+const myPort = process.env.PORT || 8080;
+const myAddress = 'https://askmeanything-micro-statistics.herokuapp.com';
+const choreoAddress = 'https://askmeanything-micro-choreo.herokuapp.com';
 
-export const REDIS_PORT = 6379;
-export const REDIS_HOST = 'localhost';
 export const TotalConnections = 50;
 
 async function bootstrap() {
 
   const pool = require('redis-connection-pool')('myRedisPool', {
-    host: REDIS_HOST,
-    port: REDIS_PORT,
+    url: process.env.REDIS_URL,
     max_clients: TotalConnections,
     perform_checks: false,
     database: 0,
@@ -40,12 +37,12 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
     origin: [
-      'http://localhost:3000',
+      'https://askmeanything52.herokuapp.com',
       choreoAddress,
-      'http://localhost:3008',
-      'http://localhost:3009',
-      'http://localhost:3010',
-      'http://localhost:3012',
+      'https://askmeanything-micro-auth.herokuapp.com',
+      'https://askmeanything-micro-questions.herokuapp.com',
+      'https://askmeanything-micro-answers.herokuapp.com',
+      'https://askmeanything-micro-analytics.herokuapp.com',
     ],
   });
   
