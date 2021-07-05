@@ -87,11 +87,19 @@ export const monthlyCountsParseInt = (data, key) => {
   })
 }
 
-export async function handleChoreoMessage(body: ChoreoObjectDto, manager: EntityManager): Promise<any> {
+export async function handleChoreoMessage(body: ChoreoObjectDto, manager: EntityManager, pool: any, fresh:boolean): Promise<any> {
   const { action, object, entryId, targetEntity } = body;
-  console.log('--->>Choreographer passed me the:');
-  console.log(body);
+  console.log(`--->>Choreographer passed me the message ${body.id}`);
   let entity = null;
+  if (fresh) {
+    await pool.hget('statistics_seen', 'messages', async (err, data) => {
+      let seen = JSON.parse(data) || [];
+      seen.push(body.id);
+      await pool.hset('statistics_seen', 'messages', JSON.stringify(seen), () => {
+        console.error(`I added message '${body.id}' to my seen messages.`);
+      });
+    });
+  }
   if (targetEntity === 'user') entity = User;
   else if (targetEntity === 'question') entity = Question;
   else if (targetEntity === 'answer') entity = Answer;
@@ -99,8 +107,10 @@ export async function handleChoreoMessage(body: ChoreoObjectDto, manager: Entity
   else if (targetEntity === 'question-keywords') {
     if (action!=='patch') return 'OK';
     console.log('* I am interested in it.');
+    console.log(entryId);
     const question = await manager.findOne(Question, { id: entryId });
     if (!question) throw new NotFoundException(`Question '${entryId}' not found.`);
+    console.log(object);
     question.keywords = object;
     const res = await manager.save(question);
     console.log(`Keywords of question '${entryId}' were updated.`);
