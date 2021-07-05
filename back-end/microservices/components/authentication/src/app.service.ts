@@ -1,22 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { ChoreoObjectDto } from './choreoObject.dto';
-import { REDIS_HOST, REDIS_PORT, TotalConnections } from './main';
+import { TotalConnections } from './main';
 
 @Injectable()
 export class AppService {
 
   constructor() {
     console.log(`Auth service created, I am checking last messages.`);
+    this.myAddress = 'https://askmeanything-micro-auth.herokuapp.com';
     this.pool = require('redis-connection-pool')('myRedisPool', {
-      host: REDIS_HOST,
-      port: REDIS_PORT,
+      url: process.env.REDIS_URL,
       max_clients: TotalConnections,
       perform_checks: false,
       database: 0,
     });
     this.lastMessagesCheck();
   }
-
+  
+  myAddress: string;
+  
   pool: any;
   
   getHello(): string {
@@ -71,7 +73,7 @@ export class AppService {
           console.log('I updated the seen messages');
         })
         for (let newMessage of newMessages) {
-          if (newMessage.src==='http://localhost:3008') continue;
+          if (newMessage.src===this.myAddress) continue;
           try {
             await this.choreoHandle(newMessage, false);
           }
