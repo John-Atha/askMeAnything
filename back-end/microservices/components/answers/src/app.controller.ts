@@ -18,6 +18,6 @@ export class AppController {
 
   @Post('choreo')
   choreoHandle(@Body() body: ChoreoObjectDto ) {
-    return this.appService.choreoHandle(body);
+    return this.appService.choreoHandle(body, true);
   }
 }

@@ -129,6 +129,11 @@ export class AnswerService {
     answer = await addNestedOwnerToObj(answer, answer.owner.id);
     answer = await addNestedQuestionToObj(answer, answer.question.id);
     //const answer = await getOneAnswer({ id, owner: true });
+    let count = await this.manager.query(
+      `SELECT COUNT(*) FROM public."answer_upvote" WHERE public."answer_upvote"."answerId"=${id}`,
+    );
+    count = await parseInt(count[0]['count']);
+    answer['upvotesCount'] = count;
     return answer;
   }
 

@@ -9,27 +9,29 @@ import { REDIS_HOST, REDIS_PORT, TotalConnections } from './main';
 export class AppService {
   constructor(@InjectEntityManager() private manager: EntityManager) {
     console.log(`Answers service created, I am checking last messages.`);
-    this.lastMessagesCheck();
-  }
-
-  getHello(): string {
-    return 'Hello World!';
-  }
-
-  async choreoHandle(body: ChoreoObjectDto): Promise<any> {
-    return handleChoreoMessage(body, this.manager);
-  }
-
-  async lastMessagesCheck(): Promise<any> {
-    const pool = require('redis-connection-pool')('myRedisPool', {
+    this.pool = require('redis-connection-pool')('myRedisPool', {
       host: REDIS_HOST,
       port: REDIS_PORT,
       max_clients: TotalConnections,
       perform_checks: false,
       database: 0,
     });
+    this.lastMessagesCheck();
+  }
 
-    pool.hget('choreographer', 'messages', async (err, data) => {
+  pool: any;
+  
+  getHello(): string {
+    return 'Hello World!';
+  }
+
+  async choreoHandle(body: ChoreoObjectDto, fresh: boolean): Promise<any> {
+    if (fresh) handleChoreoMessage(body, this.manager, this.pool, fresh);
+    else return handleChoreoMessage(body, this.manager, this.pool, fresh);
+  }
+
+  async lastMessagesCheck(): Promise<any> {
+    await this.pool.hget('choreographer', 'messages', async (err, data) => {
       // keep the last 100 messages
       const currMessages = JSON.parse(data) || [];
       const s = currMessages.length;
@@ -38,31 +40,38 @@ export class AppService {
       else to_be_checked = currMessages;
 
       // get the array with the already seen messages 
-      pool.hget('answers_seen', 'messages', async (err, data) => {
+      await this.pool.hget('answers_seen', 'messages', async (err, data) => {
 
         // keep a set with the already seen messages
-        let seen = new Set();      
-        let res = JSON.parse(data) || [];
-        for (let message of res) seen.add(parseInt(message));
+        let seenSet = new Set();      
+        let seenArray = JSON.parse(data) || [];
+        for (let message of seenArray) seenSet.add(parseInt(message));
 
+        const newMessages = [];
+        const newIDs = [];
         // for each one of the not seen last 100 messages -> handle it
         let has_unseen = false;
         for (let message of to_be_checked) {
-          if (!seen.has(parseInt(message.id))) {
+          if (!seenSet.has(parseInt(message.id))) {
             has_unseen = true;
             console.log(`I haven't handled message ${message.id}`);
-            await this.choreoHandle(message);
-            seen.add(parseInt(message.id));
+            newIDs.push(message.id);
+            newMessages.push(message);
           }
         }
-
-        // if unseen message was handled -> update the array stored at redis 
-        if (has_unseen) {
-          pool.hset('answers_seen', 'messages', JSON.stringify(Array.from(seen)), () => {
-            console.log('I updated my seen messages');
-          })
+        this.pool.hset('answers_seen', 'messages', JSON.stringify(seenArray.concat(newIDs)), async (err, data) => {
+          console.log('I updated the seen messages');
+        })
+        for (let newMessage of newMessages) {
+          if (newMessage.src==='http://localhost:3010') continue;
+          try {
+            await this.choreoHandle(newMessage, false);
+          }
+          catch (error) {
+            console.log(error);
+          }
         }
-        else {
+        if (!has_unseen) {
           console.log('No unseen messages found.');
         }
       })
