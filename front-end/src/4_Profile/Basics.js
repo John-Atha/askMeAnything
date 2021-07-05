@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 
 import { isLogged, updateUser } from '../api';
 import { createNotification } from '../createNotification';
+import { getErrMessageFromObj } from '../getErrMessage';
 
 function Basics(props) {
     const [userId, setUserId] = useState(null);
@@ -67,11 +68,11 @@ function Basics(props) {
             .catch(err => {
                 console.log(err);
                 if (key==='username') {
-                    createNotification('danger', 'Sorry', 'Username probably already exists.');
+                    createNotification('danger', 'Sorry,', getErrMessageFromObj(err.response.data.message));
                     setUsername(initUsername);
                 }
                 else {
-                    createNotification('danger', 'Sorry', 'We could not update your info.');
+                    createNotification('danger', 'Sorry,', getErrMessageFromObj(err.response.data.message));
                     setBio(initBio);
                 }
             })    

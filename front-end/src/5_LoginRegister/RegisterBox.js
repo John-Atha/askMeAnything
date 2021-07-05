@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Register, Login } from '../api';
+import { getErrMessageFromObj } from '../getErrMessage';
 import './styles.css'
 import '../generalStyles.css'
 import Button from 'react-bootstrap/Button';
@@ -54,7 +55,7 @@ function RegisterBox() {
                 .catch(err => {
                     console.log(err);
                     setSuccess(null);
-                    setError("Sorry, username/email probably already exist.");
+                    setError(getErrMessageFromObj(err.response.data.message));
                 })
             }
             else {
@@ -111,7 +112,7 @@ function RegisterBox() {
             <form onSubmit={handleSubmit}>
                 <input placeholder="Enter your username..." className="margin-top-smaller" value={username} typ="text" onChange={(event) => handleUsername(event.target.value)} />
                 <div className="break"></div>
-                <input placeholder="Email" className="margin-top-smaller" value={email} type="text" onChange={(event)=>{setEmail(event.target.value)}} />
+                <input placeholder="Email" className="margin-top-smaller" value={email} type="text" onChange={(event)=>{setEmail(event.target.value);setError(null)}} />
                 <div className="break"></div>
                 <input placeholder="Enter your password..." className="margin-top-smaller" name="password" value={password} type="password" onChange={handlePass} />
                 <div className="break"></div>

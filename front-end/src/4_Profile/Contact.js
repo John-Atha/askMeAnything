@@ -9,6 +9,7 @@ import discard_icon from '../images/error.png';
 
 import { updateUser, isLogged } from '../api';
 import { createNotification } from '../createNotification';
+import { getErrMessageFromObj } from '../getErrMessage';
 
 import './styles.css';
 
@@ -97,7 +98,7 @@ function Contact(props) {
         })
         .catch(err => {
             console.log(err);
-            createNotification('danger', 'Sorry', 'We could not update your info.');
+            createNotification('danger', 'Sorry,', getErrMessageFromObj(err.response.data.message));
             switch(key) {
                 case 'github':
                     setGithub(initGithub);

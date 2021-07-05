@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Answer } from '../api';
 import { createNotification } from '../createNotification'; 
-
+import { getErrMessageFromObj } from '../getErrMessage';
 import Button from 'react-bootstrap/Button';
 import './styles.css';
 
@@ -33,7 +33,7 @@ function AnswerField(props) {
                 })
                 .catch(err => {
                     console.log(err);
-                    createNotification('danger', 'Sorry,', 'We could not post your answer.');
+                    createNotification('danger', 'Sorry,', getErrMessageFromObj(err.response.data.message));
                 })
             }
             else {

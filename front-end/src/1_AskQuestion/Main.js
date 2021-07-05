@@ -2,6 +2,7 @@ import { React, useEffect, useState } from 'react';
 
 import { isLogged, getAllKeywords, postQuestion, attachKeyword, createKeyword } from '../api';
 import { createNotification } from '../createNotification';
+import { getErrMessageFromObj } from '../getErrMessage';
 import './styles.css'
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl'
@@ -94,11 +95,6 @@ function Main() {
             setSuggestions(suggestions.concat(obj));            
         }
         //setTimeout(()=>{suggestionsReOrder()}, 300);
-    }
-
-    const getErrMessageFromObj = (message) => {
-        if (typeof(message)==='string') return message;
-        return message[0];
     }
 
     const checkIfLastKeyword = (l, index, id) => {
