@@ -1,9 +1,9 @@
 const axios = require('axios');
 
-const authMicroUrl = 'http://localhost:3008';
-const questionsMicroUrl = 'http://localhost:3009';
-const myUrl = 'http://localhost:3010';
-const choreoUrl = 'http://localhost:3013';
+const authMicroUrl = 'https://askmeanything-micro-auth.herokuapp.com';
+const questionsMicroUrl = 'https://askmeanything-micro-questions.herokuapp.com';
+const myUrl = 'https://askmeanything-micro-answers.herokuapp.com';
+const choreoUrl = 'https://askmeanything-micro-choreo.herokuapp.com';
 
 export const getOneUser = (id: number) => {
     return axios.get(authMicroUrl+`/users/${id}`);
