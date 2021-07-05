@@ -1,0 +1,25 @@
+{
+  "engines": {
+    "npm": "6.14.4",
+    "node": "10.19.0"
+  },
+  "name": "choreographer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "redis-connection-pool": "^1.7.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "start:prod": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
