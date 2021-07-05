@@ -80,10 +80,21 @@ export const getToken = (req: any) => {
   return token;
 }
 
-export async function handleChoreoMessage(body: ChoreoObjectDto, manager: EntityManager): Promise<any> {
+export async function handleChoreoMessage(body: ChoreoObjectDto, manager: EntityManager, pool: any, fresh: boolean): Promise<any> {
   const { action, object, entryId, targetEntity } = body;
   console.log('--->>Choreographer passed me the:');
   console.log(body);
+  if (fresh) {
+    await pool.hget('questions_seen', 'messages', async (err, data) => {
+      let seen = JSON.parse(data) || [];
+      console.log('I read as seen:');
+      console.log(seen);
+      seen.push(body.id);
+      await pool.hset('questions_seen', 'messages', JSON.stringify(seen), () => {
+        console.log(`I added message '${body.id}' to my seen messages.`);
+      });
+    });
+  }
   if (targetEntity !== 'user') return 'OK';
   console.log('* I am interested in it.');
   if (action === 'post') {
