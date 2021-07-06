@@ -470,7 +470,7 @@ export const getUserAnswersStatsMonthly = (id) => {
 
 export const getUsersRanking = (start, end) => {
     const headers = buildAuthHeader();
-    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microStatsUrl) + '/users/ranking';
+    const requestUrl = (using_SOA_Back_end() ? statsAnalsUrl : microAuthUrl) + '/users/ranking';
     const params = {
         start,
         end,
