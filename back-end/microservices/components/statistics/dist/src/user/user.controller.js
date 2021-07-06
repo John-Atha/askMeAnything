@@ -31,9 +31,6 @@ let UserController = class UserController {
     findUsersAnswersStatsDaily(id) {
         return this.userService.findAnswersStatsDaily(id);
     }
-    findUsersRanking(req, reqParams) {
-        return this.userService.ranking(req, reqParams);
-    }
     findUsersAnsweredStatsMonthly(id) {
         return this.userService.findAnsweredStatsMonthly(id);
     }
@@ -69,14 +66,6 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findUsersAnswersStatsDaily", null);
-__decorate([
-    common_1.Get('ranking'),
-    __param(0, common_1.Request()),
-    __param(1, common_1.Query()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "findUsersRanking", null);
 __decorate([
     common_1.Get(':id/answered/stats/monthly'),
     __param(0, common_1.Param('id', common_1.ParseIntPipe)),

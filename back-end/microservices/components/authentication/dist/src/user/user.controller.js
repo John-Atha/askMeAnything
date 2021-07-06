@@ -45,6 +45,9 @@ let UserController = class UserController {
     identify(req) {
         return this.userService.identify(req);
     }
+    findUsersRanking(req, reqParams) {
+        return this.userService.ranking(req, reqParams);
+    }
 };
 __decorate([
     common_1.Post(),
@@ -102,6 +105,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "identify", null);
+__decorate([
+    common_1.Get('ranking'),
+    __param(0, common_1.Request()), __param(1, common_1.Query()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "findUsersRanking", null);
 UserController = __decorate([
     common_1.Controller('users'),
     common_1.UseInterceptors(common_1.ClassSerializerInterceptor),

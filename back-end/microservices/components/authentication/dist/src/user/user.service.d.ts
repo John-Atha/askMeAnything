@@ -16,4 +16,5 @@ export declare class UserService {
         username: any;
         id: any;
     };
+    ranking(req: any, params: any): Promise<any>;
 }

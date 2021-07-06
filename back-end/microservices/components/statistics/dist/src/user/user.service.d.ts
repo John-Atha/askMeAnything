@@ -6,7 +6,6 @@ export declare class UserService {
     findAnswersStatsMonthly(id: number): Promise<any>;
     findQuestionsStatsDaily(id: number): Promise<any>;
     findAnswersStatsDaily(id: number): Promise<any>;
-    ranking(req: any, params: any): Promise<any>;
     findAnsweredStatsMonthly(id: number): Promise<any>;
     findAnsweredStatsDaily(id: number): Promise<any>;
 }

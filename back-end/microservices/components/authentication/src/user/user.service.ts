@@ -162,4 +162,34 @@ export class UserService {
     };
     //return decoded['sub'];
   }
+
+  async ranking(req: any, params: any): Promise<any> {
+    let user_id = null;
+    let position = null;
+    try {
+      user_id = await verify(req);
+    }
+    catch {
+      ;
+    }
+    const users = await this.manager
+      .createQueryBuilder()
+      .select('user')
+      .from(User, 'user')
+      .orderBy('user.points', 'DESC')
+      .addOrderBy('user.username', 'ASC')
+      .getMany();
+    if (user_id) {
+      for (let i=0; i<users.length; i++) {
+        if (users[i].id===user_id) {
+          position = i+1;
+          break;
+        }
+      }
+    }
+    return {
+      ranking: paginate(users, params),
+      position: position,
+    } 
+  }
 }

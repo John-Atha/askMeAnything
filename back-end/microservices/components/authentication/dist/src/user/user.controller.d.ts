@@ -15,4 +15,5 @@ export declare class UserController {
         username: any;
         id: any;
     };
+    findUsersRanking(req: any, reqParams: any): Promise<any>;
 }

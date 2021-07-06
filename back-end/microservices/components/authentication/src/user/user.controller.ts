@@ -63,4 +63,9 @@ export class UserController {
   identify(@Request() req) {
     return this.userService.identify(req);
   }
+
+  @Get('ranking')
+  findUsersRanking(@Request() req, @Query() reqParams) {
+    return this.userService.ranking(req, reqParams);
+  }
 }

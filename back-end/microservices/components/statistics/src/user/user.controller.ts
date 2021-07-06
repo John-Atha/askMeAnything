@@ -35,11 +35,6 @@ export class UserController {
     return this.userService.findAnswersStatsDaily(id);
   }
 
-  @Get('ranking')
-  findUsersRanking(@Request() req, @Query() reqParams) {
-    return this.userService.ranking(req, reqParams);
-  }
-
   @Get(':id/answered/stats/monthly')
   findUsersAnsweredStatsMonthly(@Param ('id', ParseIntPipe) id: number) {
     return this.userService.findAnsweredStatsMonthly(id);

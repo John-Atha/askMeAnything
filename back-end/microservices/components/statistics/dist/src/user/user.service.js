@@ -78,35 +78,6 @@ let UserService = class UserService {
             return methods_1.daysComplete(data, 'answers');
         });
     }
-    async ranking(req, params) {
-        let user_id = null;
-        let position = null;
-        try {
-            user_id = await methods_1.verify(req);
-        }
-        catch (_a) {
-            ;
-        }
-        const users = await this.manager
-            .createQueryBuilder()
-            .select('user')
-            .from(user_entity_1.User, 'user')
-            .orderBy('user.points', 'DESC')
-            .addOrderBy('user.username', 'ASC')
-            .getMany();
-        if (user_id) {
-            for (let i = 0; i < users.length; i++) {
-                if (users[i].id === user_id) {
-                    position = i + 1;
-                    break;
-                }
-            }
-        }
-        return {
-            ranking: methods_1.paginate(users, params),
-            position: position,
-        };
-    }
     async findAnsweredStatsMonthly(id) {
         return this.manager.transaction(async (manager) => {
             const user = await manager.findOne(user_entity_1.User, id);

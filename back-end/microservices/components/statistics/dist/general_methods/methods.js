@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleChoreoMessage = exports.monthlyCountsParseInt = exports.daysComplete = exports.verify = exports.paginate = exports.validateParams = void 0;
+exports.handleChoreoMessage = exports.monthlyCountsParseInt = exports.daysComplete = exports.validateParams = void 0;
 const common_1 = require("@nestjs/common");
-const async_calls_1 = require("../async_calls/async_calls");
 const answer_entity_1 = require("../src/answer/entities/answer.entity");
 const choreoObject_dto_1 = require("../src/choreoObject.dto");
 const keyword_entity_1 = require("../src/keyword/entities/keyword.entity");
@@ -21,48 +20,6 @@ const validateParams = (params) => {
     }
 };
 exports.validateParams = validateParams;
-const paginate = (res, params) => {
-    exports.validateParams(params);
-    if (!res.length) {
-        return res;
-    }
-    if (params.start > res.length) {
-        return [];
-    }
-    const start = parseInt(params.start) - 1 || 0;
-    const end = parseInt(params.end) || (parseInt(params.end) === 0 ? 0 : res.length);
-    console.log(`start: ${start}`);
-    console.log(`end: ${end}`);
-    if (start >= end || start <= -1 || end === 0) {
-        throw new common_1.BadRequestException('Invalid parameters');
-    }
-    return res.slice(start, end);
-};
-exports.paginate = paginate;
-async function verify(req) {
-    const headers = req['rawHeaders'];
-    let token = '';
-    headers.forEach((header) => {
-        if (header.startsWith('Bearer')) {
-            token = header.slice(7);
-        }
-    });
-    if (!token)
-        throw new common_1.UnauthorizedException();
-    return async_calls_1.isLogged(token)
-        .then(response => {
-        const res = response.data;
-        console.log(res);
-        if (!res)
-            throw new common_1.UnauthorizedException();
-        return res['id'];
-    })
-        .catch(err => {
-        throw new common_1.UnauthorizedException();
-    });
-}
-exports.verify = verify;
-;
 const daysComplete = (data, key) => {
     let flag = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     data.forEach((obj) => {
