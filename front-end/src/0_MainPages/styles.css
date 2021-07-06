@@ -5,7 +5,7 @@
     }
     .card-width {
         height: 250px;
-        width: 500px;
+        /*width: 500px;*/
     }
 }
 @media only screen and (min-width: 500px) {
