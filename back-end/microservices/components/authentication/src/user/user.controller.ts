@@ -31,6 +31,11 @@ export class UserController {
     return this.userService.findAll(reqParam);
   }
 
+  @Get('ranking')
+  findUsersRanking(@Request() req, @Query() reqParams) {
+    return this.userService.ranking(req, reqParams);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findOne(id);
@@ -62,10 +67,5 @@ export class UserController {
   @Post('logged')
   identify(@Request() req) {
     return this.userService.identify(req);
-  }
-
-  @Get('ranking')
-  findUsersRanking(@Request() req, @Query() reqParams) {
-    return this.userService.ranking(req, reqParams);
   }
 }
