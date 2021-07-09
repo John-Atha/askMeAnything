@@ -27,6 +27,7 @@ function KeywordPage(props) {
     return(
         <div className="home-container" style={{'paddingBottom': '100px'}}>
             <MyNavbar />
+            <div style={{'paddingTop': '70px'}} />
             {name &&
                 <div className="margin-top-small">
                     <PeriodQuestionsGen case='keyword' id={props.id} name={name} />

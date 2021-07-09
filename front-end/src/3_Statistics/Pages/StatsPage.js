@@ -28,6 +28,7 @@ function StatsPage(props) {
     return(
         <div className="all-page">
             <MyNavbar />
+            <div style={{'paddingTop': '70px'}} />
                 <div style= {{'paddingBottom': '100px'}}>
                     {props.case==='questions-user' &&
                         <div className="center-content margin-top-small flex-layout with-whitespace">

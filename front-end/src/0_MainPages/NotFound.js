@@ -7,6 +7,7 @@ function NotFound() {
     return(
         <div className='main-page'>
             <MyNavbar />
+            <div style={{'paddingTop': '70px'}} />
             <div className='error-message margin-top center-content'>Sorry, page not found.</div>
             <div style={{'paddingBottom': '100px'}} />
             <Footer />

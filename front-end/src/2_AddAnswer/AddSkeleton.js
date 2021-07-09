@@ -22,6 +22,7 @@ function AddSkeleton(props) {
     return(
         <div className="all-page">
             <MyNavbar />
+            <div style={{'paddingTop': '70px'}} />
             <h4 className="margin-left margin-top-smaller">Answer a question</h4>
             <div className='flex-layout center-content'>
                 <h5 className="margin-left margin-right margin-top-smaller">Select question</h5>

@@ -57,6 +57,7 @@ function About() {
     return(
         <div className="home-container">
             <MyNavbar />
+            <div style={{'paddingTop': '70px'}} />
             <AboutText />
             <div style={{'paddingBottom': '100px'}} />
             <Footer />

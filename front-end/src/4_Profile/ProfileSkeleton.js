@@ -26,6 +26,7 @@ function ProfileSkeleton(props) {
     return(
         <div className="all-page">
             <MyNavbar />
+            <div style={{'paddingTop': '70px'}} />
             {userErr &&
                 <div className="margin-top-small error-message center-content">
                     Sorry, user was not found.

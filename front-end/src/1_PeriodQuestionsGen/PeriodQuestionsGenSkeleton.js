@@ -44,6 +44,7 @@ function PeriodQuestionsGenSkeleton(props) {
     return(
         <div className="home-container">
             <MyNavbar />
+            <div style={{'paddingTop': '70px'}} />
             {err &&
                 <div className="margin-top error-message">
                     {err}

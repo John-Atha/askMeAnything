@@ -38,7 +38,7 @@ function MyNavbar() {
     }
 
     return(
-        <Navbar variant="light" expand="md">
+        <Navbar variant="light" expand="md" fixed='top'>
             <Navbar.Brand href="/">AskMeAnything</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

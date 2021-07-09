@@ -8,6 +8,7 @@ function KeywordsSkeleton(props) {
     return(
         <div className="home-container">
             <MyNavbar />
+            <div style={{'paddingTop': '70px'}} />
             <KeywordsStatsOrAnals case={props.case} />            
             <Footer />
         </div>

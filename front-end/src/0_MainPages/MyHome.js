@@ -47,7 +47,7 @@ function MyHome() {
     else {
         return (
             <div className="main-page center-content">
-                <Carousel activeIndex={index} onSelect={handleSelect} className='carousel' style={{'height': '400px'}}>
+                <Carousel activeIndex={index} onSelect={handleSelect} className='carousel' id='carousel-responsive'>
                     <Carousel.Item interval={5000}>
                         <AskQuestion />
                     </Carousel.Item>

@@ -13,6 +13,7 @@ function Home(props) {
     return(
         <div className="home-container">
             <MyNavbar />
+            <div style={{'paddingTop': '70px'}} />
                 {props.case==="general" &&
                     <h5 className="main-page margin-top-smaller">Welcome to AskMeAnything</h5>        
                 }

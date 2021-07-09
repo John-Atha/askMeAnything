@@ -1,7 +1,7 @@
 import CanvasJSReact from './canvasjs.react.js';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-function Pie(props) {
+function Line(props) {
 
     const options = {
         exportEnabled: true,
@@ -30,4 +30,4 @@ function Pie(props) {
     )
 }
 
-export default Pie;
+export default Line;
