@@ -125,9 +125,9 @@ function Contact(props) {
                     <td>
                         <img style={{'height': '30px', 'width': '35px'}} src={email_icon} alt='email' />
                     </td>
-                    <td>
+                    <td className='contact-text'>
                         { isEdittingEmail &&
-                            <input type='text' className='contact-item profile-input' style={{'textAlign': 'left'}} value={email} onChange={(event)=>{setEmail(event.target.value)}} />
+                            <input type='text' placeholder="Email address" className='contact-item profile-input' style={{'textAlign': 'left'}} value={email} onChange={(event)=>{setEmail(event.target.value)}} />
                         }
                         { !isEdittingEmail &&
                             <div className='contact-item' style={{'textAlign': 'left'}}>{email}</div>
@@ -154,9 +154,9 @@ function Contact(props) {
                     <td>
                         <img style={{'height': '30px', 'width': '35px', 'textAlign': 'left'}} src={git_icon} alt='github' />
                     </td>
-                    <td style={{'textAlign': 'left'}}>
+                    <td style={{'textAlign': 'left'}} className='contact-text'>
                         { isEdittingGithub &&
-                            <input type='text' className='contact-item profile-input' style={{'textAlign': 'left'}} value={github} onChange={(event)=>{setGithub(event.target.value)}} />
+                            <input type='text' placeholder="Github username" className='contact-item profile-input' style={{'textAlign': 'left'}} value={github} onChange={(event)=>{setGithub(event.target.value)}} />
                         }
                         { !isEdittingGithub &&
                             <a className='contact-item'
@@ -188,9 +188,9 @@ function Contact(props) {
                     <td>
                         <img style={{'height': '25px', 'width': '35px'}} src={web_icon} alt='web' />
                     </td>
-                    <td style={{'textAlign': 'left'}}>
+                    <td style={{'textAlign': 'left'}} className='contact-text'>
                         { isEdittingWebsite &&
-                            <input type='text' className='contact-item profile-input' style={{'textAlign': 'left'}} value={website} onChange={(event)=>{setWebsite(event.target.value)}} />
+                            <input type='text' placeholder="Personal website" className='contact-item profile-input' style={{'textAlign': 'left'}} value={website} onChange={(event)=>{setWebsite(event.target.value)}} />
                         }
                         { !isEdittingWebsite &&
                             <a className='contact-item' style={{'textAlign': 'left'}}

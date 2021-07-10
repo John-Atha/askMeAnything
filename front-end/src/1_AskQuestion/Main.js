@@ -181,7 +181,7 @@ function Main() {
     }
 
     return(
-        <div className="margin-top-small bordered-input container-width" style={{'padding': '10px 0px', 'marginBottom': '200px', 'position': 'relative'}}>
+        <div className="margin-top-small bordered-input container-width" style={{'padding': '10px 3px', 'marginBottom': '200px', 'position': 'relative'}}>
             <div className="container-width">
                 <h5 className="question-specs-title" >Title</h5>
                 <div className="question-specs-explanation">You should be as specific as possible to help other devs spot your question.</div>
