@@ -111,14 +111,14 @@ function KeywordsStatsOrAnals(props) {
                     }
                 </div>
             <h3 className="margin-top-small" style={{'textAlign': 'center', 'color': 'blue'}}>{currentName}</h3>
-            {(props.case==='analytics'||props.case==='all') &&
-                <PeriodQuestionsGen case='keyword' id={current} name={currentName} />
-            }
             {(props.case==='statistics'||props.case==='all') &&
                 <div className="flex-layout">
                     <DailyStats case='keyword' id={current} name={currentName} />
                     <MonthlyStats case='keyword' id={current} name={currentName} />
                 </div>
+            }
+            {(props.case==='analytics'||props.case==='all') &&
+                <PeriodQuestionsGen case='keyword' id={current} name={currentName} />
             }
         </div>
     )

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { getOneUser } from '../../api';
+import { getOneUser, isLogged } from '../../api';
 
 import MyNavbar from '../../Navbar/MyNavbar';
 import Footer from '../../Footer/Footer';
@@ -24,6 +24,16 @@ function StatsPage(props) {
             })
         }
     }, [props.id, props.case])
+
+    useEffect(() => {
+        isLogged()
+        .then(() => {
+            if (props.case === 'keyword') ;
+        })
+        .catch(() => {
+            if (props.case === 'keyword') window.location.href = '/';
+        })
+    }, [props.case])
 
     return(
         <div className="all-page">

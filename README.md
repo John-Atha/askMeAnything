@@ -27,10 +27,6 @@
     * Visit a page with 
         * all `questions' statistics`
         * all `questions' analytics` organised by their dates
-    * Visit a `keyword's page` and see:
-        * `statistics` about its questions
-        * `analytics` about its questions
-    * Visit a page where they can `search` for a `keyword`, typing its title in a search bar and see its `statistics` and `analytics`
     
 * `Authorized` users have also the ability to:
     * Keep track of their activity (all of their `questions` and `answered questions`)
@@ -43,7 +39,10 @@
         * `analytics` about his/her questions
     * Have their own `profile page` to keep track of their `points`, `questions` and `statistics`
     * Keep track of their `ranking` among all the other users
-
+        * Visit a `keyword's page` and see:
+        * `statistics` about its questions
+        * `analytics` about its questions
+    * Visit a page where they can `search` for a `keyword`, typing its title in a search bar and see its `statistics` and `analytics`
 
 ### Directories structure:
 * `Back-end` and `front-end` were developed as seperate modules.

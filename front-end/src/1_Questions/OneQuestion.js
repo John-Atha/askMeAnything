@@ -61,7 +61,7 @@ function OneQuestion(props) {
             <div style={{'width': '100%'}}>
                 <hr></hr>
                 <QuestionBody text={text} />
-                <QuestionKeywords id={id} />
+                <QuestionKeywords id={id} userId={userId} />
             </div>
             <div className="break"></div>
             <Answers id={id} userId={userId} />

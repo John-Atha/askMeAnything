@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { getOneKeyword } from '../api';
+import { getOneKeyword, isLogged } from '../api';
 
 import PeriodQuestionsGen from '../1_PeriodQuestionsGen/PeriodQuestionsGen';
 import DailyStats from '../3_Statistics/Pages/DailyStats';
@@ -23,6 +23,16 @@ function KeywordPage(props) {
             setName(response.data.name);
         })
     }, [props.id])
+
+    useEffect(() => {
+        isLogged()
+        .then(() => {
+            ;
+        })
+        .catch(() => {
+            window.location.href='/';
+        })
+    }, [])
 
     return(
         <div className="home-container" style={{'paddingBottom': '100px'}}>

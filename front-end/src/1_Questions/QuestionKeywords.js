@@ -7,6 +7,11 @@ import './styles.css';
 function QuestionKeywords(props) {
     const [id, setId] = useState(props.id);
     const [keywords, setKeywords] = useState([]);
+    const [userId, setUserId] = useState(props.userId);
+
+    useEffect(() => {
+        setUserId(props.userId);
+    }, [props.userId])
 
     useEffect(() => {
         setId(props.id);
@@ -37,6 +42,7 @@ function QuestionKeywords(props) {
                     <OneKeyword key={index}
                                 id={value.id} 
                                 name={value.name}
+                                userId={userId}
                     />
                 )
             })}
