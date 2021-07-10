@@ -12,6 +12,13 @@
 * front-end:
 * * [ReactJs](https://reactjs.org) (with npx create-react-app)
 
+### Deployment
+* Project is deployed on heroku.
+* Try it at: https://askmeanything52.herokuapp.com
+* Each service of the two back-end architectures and the front-end are deployed as seperate apps.
+* When visiting the web app, you might have to wait some short time before the content is displayed and each one of the services is available.
+* That's because it is deployed on [Heroku free dynos](https://devcenter.heroku.com/articles/free-dyno-hours) and after 30 minutes of no usage, all the servers go to sleep mode.
+
 ### Requirements that the project covers
 * Anyone who visits the web app can create an account or continue as an anonymous user
 
