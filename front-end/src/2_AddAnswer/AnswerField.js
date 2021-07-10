@@ -25,6 +25,7 @@ function AnswerField(props) {
         }
         else {
             if (userId) {
+                createNotification('success', 'Hello,', 'Wait for us to publish your answer.');
                 Answer(text, questionId)
                 .then(response => {
                     console.log(response);

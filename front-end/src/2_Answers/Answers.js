@@ -12,6 +12,7 @@ function Answers (props) {
     const [end, setEnd] = useState(5);
     const [noData, setNoData] = useState(false);
     const [userId, setUserId] = useState(props.userId);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         console.log('I update question id');
@@ -64,7 +65,15 @@ function Answers (props) {
     if (answers.length) {
         return(
             <div className="answers-container bordered-input margin-top-smaller">
-                {answers.map((value, index) => {
+                {!show &&
+                    <div className="success-message">
+                        {answers.length%5===0 ? `${answers.length}+` : answers.length} answer{answers.length>1 ? 's' : ''} posted
+                    </div>
+                }
+                {!show &&
+                    <Button className="margin-top-smaller" variant="outline-success" onClick={()=>setShow(true)}>See answers</Button>            
+                }   
+                {show && answers.map((value, index) => {
                     return(
                         <OneAnswer key={index}
                                 id={value.id} 
@@ -75,8 +84,15 @@ function Answers (props) {
                                 userId={userId} />
                     )
                 })}
-                { !noData &&
-                    <Button variant="outline-primary" onClick={()=>{setStart(start+5);setEnd(end+5);}}>See more</Button>            
+                {show && !noData &&
+                    <div className="flex-layout">
+                        <Button className="margin" variant="outline-primary" onClick={()=>{setStart(start+5);setEnd(end+5);}}>See more</Button>            
+                        <Button className="margin" variant="outline-danger" onClick={()=>setShow(false)}>Hide</Button>
+                    </div>
+
+                }
+                {show && noData &&
+                    <Button variant="outline-danger" onClick={()=>setShow(false)}>Hide answers</Button>            
                 }
             </div>
         )    
