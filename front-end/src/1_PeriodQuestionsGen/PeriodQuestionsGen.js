@@ -95,11 +95,10 @@ function PeriodQuestionsGen(props) {
                 break;
         }
         //if (props.id!==undefined) {
-            func(props.id)
+            func(id)
             .then(response => {
                 setStatsList([]);
                 setStatsList(response.data);
-                console.log("AAAAAAAAA");
                 console.log(response.data);
                 setNoData(!response.data.length);
                 sumCompute(response.data);

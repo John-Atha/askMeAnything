@@ -60,7 +60,7 @@ function OnePeriodQuestionsGen(props) {
     useEffect(()=> {
        getAnalytics();
        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [start, end])
+    }, [start, end, id])
 
 
     return(
