@@ -109,10 +109,9 @@ let UserService = class UserService {
                         public."question"."text",
                         public."question"."created_at",
                         public."question"."updated_at",
-                        public."user"."id" as ownerId
+                        public."question"."ownerId" as ownerId
                    FROM  public."answer", public."question", public."user"
                    WHERE public."answer"."ownerId"=${id}
-                     AND public."user"."id"=${id}
                      AND public."question"."id"=public."answer"."questionId"
                      AND to_char(public."answer"."created_at", 'YYYY-MM')='${year}-${month}'`);
             }
@@ -122,10 +121,9 @@ let UserService = class UserService {
                         public."question"."text",
                         public."question"."created_at",
                         public."question"."updated_at",
-                        public."user"."id" as ownerId
+                        public."question"."ownerId" as ownerId
                    FROM  public."answer", public."question", public."user"
                    WHERE public."answer"."ownerId"=${id}
-                     AND public."user"."id"=${id}
                      AND public."question"."id"=public."answer"."questionId"
                      AND to_char(public."answer"."created_at", 'YYYY')='${year}'`);
             }
@@ -135,10 +133,9 @@ let UserService = class UserService {
                         public."question"."text",
                         public."question"."created_at",
                         public."question"."updated_at",
-                        public."user"."id" as ownerId
+                        public."question"."ownerId" as ownerId
                    FROM  public."answer", public."question", public."user"
                    WHERE public."answer"."ownerId"=${id}
-                     AND public."user"."id"=${id}
                      AND public."question"."id"=public."answer"."questionId"`);
             }
             console.log(questions);

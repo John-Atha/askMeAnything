@@ -91,13 +91,14 @@ export class UserService {
                       public."question"."text",
                       public."question"."created_at",
                       public."question"."updated_at",
-                      public."user"."id" as ownerId,
+                      public."question"."ownerId" as ownerId,
+                      public."user"."id",
                       public."user"."email",
                       public."user"."username",
                       public."user"."points"
                  FROM  public."answer", public."question", public."user"
                  WHERE public."answer"."ownerId"=${id}
-                   AND public."user"."id"=${id}
+                   AND public."user"."id"= public."question"."ownerId"
                    AND public."question"."id"=public."answer"."questionId"
                    AND to_char(public."answer"."created_at", 'YYYY-MM')='${params.year}-${params.month}'`,
       );
@@ -109,13 +110,14 @@ export class UserService {
                       public."question"."text",
                       public."question"."created_at",
                       public."question"."updated_at",
-                      public."user"."id" as ownerId,
+                      public."question"."ownerId" as ownerId,
+                      public."user"."id",
                       public."user"."email",
                       public."user"."username",
                       public."user"."points"
                  FROM  public."answer", public."question", public."user"
                  WHERE public."answer"."ownerId"=${id}
-                   AND public."user"."id"=${id}
+                   AND public."user"."id"= public."question"."ownerId"
                    AND public."question"."id"=public."answer"."questionId"
                    AND to_char(public."answer"."created_at", 'YYYY')='${params.year}'`,
         );
@@ -127,13 +129,14 @@ export class UserService {
                       public."question"."text",
                       public."question"."created_at",
                       public."question"."updated_at",
-                      public."user"."id" as ownerId,
+                      public."question"."ownerId" as ownerId,
+                      public."user"."id",
                       public."user"."email",
                       public."user"."username",
                       public."user"."points"
                  FROM  public."answer", public."question", public."user"
                  WHERE public."answer"."ownerId"=${id}
-                   AND public."user"."id"=${id}
+                   AND public."user"."id"= public."question"."ownerId"
                    AND public."question"."id"=public."answer"."questionId"`,
         );
     }
