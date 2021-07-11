@@ -18,7 +18,7 @@ function OneAnswer(props) {
             <AnswerUpvotes upvotes={props.upvotes} id={props.id} userId={userId} />
             <AnswerHeader owner={props.owner} date={props.date} userId={userId} />
             <div className='break' />
-            <div style={{'marginLeft': '10px'}}>
+            <div style={{'marginLeft': '2px', 'width': '100% !important', 'paddingRight': '2px'}}>
                 <hr></hr>
                     <AnswerBody text={props.text} />
             </div>

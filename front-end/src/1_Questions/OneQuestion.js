@@ -58,7 +58,7 @@ function OneQuestion(props) {
             <QuestionUpvotes upvotes={upvotes} userId={userId} id={id} />
             <QuestionHeader owner={owner} date={date} title={title} userId={userId} />
             <div className="break"></div>
-            <div style={{'width': '100%'}}>
+            <div style={{'width': '100% !important'}}>
                 <hr></hr>
                 <QuestionBody text={text} />
                 <QuestionKeywords id={id} userId={userId} />
