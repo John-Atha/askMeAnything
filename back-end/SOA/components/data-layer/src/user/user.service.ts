@@ -92,7 +92,7 @@ export class UserService {
                       public."question"."created_at",
                       public."question"."updated_at",
                       public."question"."ownerId" as ownerId,
-                      public."user"."id",
+                      public."user"."id" as temp_user_id,
                       public."user"."email",
                       public."user"."username",
                       public."user"."points"
@@ -111,7 +111,7 @@ export class UserService {
                       public."question"."created_at",
                       public."question"."updated_at",
                       public."question"."ownerId" as ownerId,
-                      public."user"."id",
+                      public."user"."id" as temp_user_id,
                       public."user"."email",
                       public."user"."username",
                       public."user"."points"
@@ -130,7 +130,7 @@ export class UserService {
                       public."question"."created_at",
                       public."question"."updated_at",
                       public."question"."ownerId" as ownerId,
-                      public."user"."id",
+                      public."user"."id" as temp_user_id,
                       public."user"."email",
                       public."user"."username",
                       public."user"."points"
