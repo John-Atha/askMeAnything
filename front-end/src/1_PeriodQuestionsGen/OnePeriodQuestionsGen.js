@@ -10,17 +10,11 @@ import './styles.css';
 
 function OnePeriodQuestionsGen(props) {
 
-    const [id, setId] = useState(props.id);  
     const [questions, setQuestions] = useState([]);
     const [start, setStart] = useState(1);
-    const [end, setEnd] = useState(1);
+    const [end, setEnd] = useState(3);
     const [noData, setNoData] = useState(false);
     const [showData, setShowData] = useState(true);
-    const [first, setFirst] = useState(true);
-
-    useEffect(() => {
-        setId(props.id);
-    }, [props.id])
 
     const getAnalytics = () => {
         let func = getGeneralQuestionsPeriod;
@@ -37,8 +31,8 @@ function OnePeriodQuestionsGen(props) {
             default:
                 break;
         }
-        console.log(`Asking for questions ${id} with start: ${start} and end:${end}`);
-        func(id, start, end, props.monthNum, props.year)
+        console.log(`Asking for questions ${props.id} with start: ${start} and end:${end}`);
+        func(props.id, start, end, props.monthNum, props.year)
         .then(response => {
             console.log(response);
             if (response.data.length) {
@@ -60,7 +54,7 @@ function OnePeriodQuestionsGen(props) {
     useEffect(()=> {
        getAnalytics();
        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [start, end, id])
+    }, [start])
 
 
     return(
@@ -93,7 +87,7 @@ function OnePeriodQuestionsGen(props) {
                         })}
                         { showData && !noData && questions.length<props.count &&
                             <Button variant="outline-primary"
-                                    onClick={()=>{if (first) {setStart(start+1);setEnd(end+5);setFirst(false)} else {setStart(start+5);setEnd(end+5);}}}>
+                                    onClick={()=>{setStart(start+3);setEnd(end+3);}}>
                                         See more
                             </Button>
                         }

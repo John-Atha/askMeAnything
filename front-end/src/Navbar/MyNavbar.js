@@ -46,7 +46,8 @@ function MyNavbar() {
                     <Nav.Link href="/">Home</Nav.Link>
                     <Nav.Link onClick={()=>redirect('my')}>My AskMeAnything</Nav.Link>
                     <Nav.Link onClick={()=>redirect(`users/${userId}`)}>My Profile</Nav.Link>
-                    <Nav.Link onClick={()=>redirect('ask')}>Ask a question</Nav.Link> 
+                    <Nav.Link onClick={()=>redirect('ask')}>Ask a question</Nav.Link>
+                    <Nav.Link onClick={()=>redirect('keywords')}>Keywords</Nav.Link>
                 </Nav>
                 {!userId &&
                     <Nav>
