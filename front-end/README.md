@@ -14,6 +14,12 @@
 * To run the project locally, assuming you have already installed `npm`, cd into the `front-end` directory, run `npm install` and all the packages (following the dependencies of the `package.json` file) will be installed. 
 * In the same directory, run `npm start` to get the server running.
 
+# Explanation of switching between the two back-end architectures
+* I keep a variable in the localStorage of the browser, indicating the back-end that is being used right now (if the variable is null, I use the SOA back-end by default)
+* As you can see in the `front-end/src/api.js` file, I access this variable to determine the async calls that are being made to the back-end
+* This way, according to the value returned by the `using_SOA_Back_end()` method, I modify the target of the api calls
+* Whenever the user updates this variable from the `about page`, I logout the user, by clearing the auth_tokens saved and I start using the other back-end
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

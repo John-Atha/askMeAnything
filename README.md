@@ -4,6 +4,7 @@
 * My project for the 2020-2021 Software As A Service Course of National Technical University of Athens
 * Two versions of the back-end were built, the first one following the Service Oriented Architecture (SOA) and the second one following the Microservices Architecture.
 * By default, the front-end is using the SOA back-end. If you want to try the microservices architecture, navigate to `/about` using the `about` link of the `footer` and just click on the corresponding button.
+* For further explanation about the back-ends switching, see the `front-end/README.md` and the `front-end/src/api.js` file s
 
 ### Technologies used:
 * back-end:
